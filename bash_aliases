@@ -1,4 +1,5 @@
 
+# TODO: fix the tab spacing on github
 export EDITOR=/usr/bin/vim																	# Editor is vim
 
 shopt -s autocd																							# Auto cd for bash
