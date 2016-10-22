@@ -31,19 +31,29 @@
 ;; Activate installed packages
 (package-initialize)
 
-(ensure-package-installed 'evil 'helm 'evil-leader)
+(ensure-package-installed
+ 										'evil
+										'helm
+										'evil-leader
+										'color-theme-sanityinc-solarized
+										'web-mode)
 
 (require 'evil-leader)
-(global-evil-leader-mode) 			;; enable evil-leader... before enabling evil-mode
-(evil-leader/set-leader "<SPC>") 		;; set spacebar as the leader key
-(evil-leader/set-key				;; <leader> "KEY"
+(global-evil-leader-mode)	;; enable evil-leader... before enabling evil-mode
+(evil-leader/set-leader "<SPC>")	;; set spacebar as the leader key
+(evil-leader/set-key		;; <leader> "KEY"
  "e" 'find-file					;; e -open a file
- "b" 'switch-to-buffer 				;; b -buffer switcher
+ "b" 'switch-to-buffer 	;; b -buffer switcher
  "k" 'kill-buffer				;; k -kill buffer
- "w" 'save-buffer)				;; w -save buffer
+ "w" 'save-buffer)			;; w -save buffer
 
 (require 'evil)
-(evil-mode 1)        ;; enable evil-mode
+(setq evil-mode-shift-width 1)
+(evil-mode 1)        		;; enable evil-mode
+
+;; webmode makes writing plain html not all that fun 
+;(require 'web-mode)
+;(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 
 ;; ------------------------------------------------------------------------------
 
@@ -54,14 +64,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(custom-enabled-themes (quote (sanityinc-solarized-dark)))
  '(custom-safe-themes
-   (quote
-    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+	 (quote
+		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(package-selected-packages
-   (quote
-    (mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
+	 (quote
+		(web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
