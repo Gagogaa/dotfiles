@@ -1,11 +1,12 @@
 
+# tabs still broken on git 
 export EDITOR=/usr/bin/vim																	# Editor is vim
 
 shopt -s autocd																							# Auto cd for bash
 
 alias _='sudo'																							# _ is sudo
 alias edit='$EDITOR'																				# Built in edit is depricated
-alias shuddown="sudo shutdown -h now"												# Turn the computer off
+alias shutdown="sudo shutdown -h now"												# Turn the computer off
 
 # -- apt-get commands --
 alias upgrade='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y'
