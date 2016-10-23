@@ -52,16 +52,15 @@
 	"k" 'kill-buffer				;; k -kill buffer
  	"w" 'save-buffer)				;; w -save buffer
 
-;; Vim in EMACS!
-(require 'evil)
-(evil-mode 1)	;; enable evil-mode
-(setq evil-mode-shift-width 1)
-
 ;; Surround vim... it may be a bit broken
 (require 'evil-surround)
 (global-evil-surround-mode 1)
 
-;; webmode makes writing plain html not all that fun 
+;; Vim in EMACS!
+(require 'evil)
+(evil-mode 1)	;; enable evil-mode
+(setq evil-mode-shift-width 1)
+;; webmode makes html colors not that fun 
 ;(require 'web-mode)
 ;(setq web-mode-html-tag-face nil)
 ;(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
@@ -90,15 +89,14 @@
 (quote
 	(minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
 
+(defun on-after-init ()
+  (set-face-background 'default "unspecified-bg" (selected-frame)))
+
+(if (not (window-system)) (add-hook 'window-setup-hook 'on-after-init))
+
 (custom-set-faces
 	;; custom-set-faces was added by Custom.
 	;; If you edit it by hand, you could mess it up, so be careful.
 	;; Your init file should contain only one such instance.
 	;; If there is more than one, they won't work right.
 	)
-
-(defun on-after-init ()
-  (unless (display-graphic-p (selected-frame))
-    (set-face-background 'default "unspecified-bg" (selected-frame))))
-
-(if (not (window-system)) (add-hook 'window-setup-hook 'on-after-init))
