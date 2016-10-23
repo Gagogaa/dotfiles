@@ -126,7 +126,7 @@ set $workspace4		"4:"
 set $workspace5 	"5:THE SHADOW REALM"
 set $workspace6 	"6:"
 set $workspace7		"7:"
-set $workspace8 	"8"
+set $workspace8 	"8:"
 set $workspace9		"9"
 set $workspace10	"10:"
 
@@ -211,12 +211,17 @@ bar {
 	}
 }
 
-# pulse Audio controls
+# i3-gaps
+for_window [class="^.*"] border pixel 0 # deletes borders
+gaps inner 10 # the size of the border between windows and other things
+gaps outer 0 # the size of the border around the edges of the screen
+
+# Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%+ # increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%- # decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master 1+ toggle # mute sound
 
-# sreen brightness controls
+# Sreen brightness controls
 bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5 # decrease screen brightness
 
@@ -226,23 +231,22 @@ bindsym XF86AudioPause exec --no-startup-id playerctl pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
-# startup applications
+# Startup applications
 exec --no-startup-id compton -f -D 5 -c -C -r 20 -l -30 -t -20 -o 0.2 --vsync opengl --glx-use-copysubbuffermesa -b # start the compositor
 exec --no-startup-id xmodmap -e "clear lock" # disable caps lock switch
-exec --no-startup-id xmodmap -e "keysym Caps_Lock = Escape" # set caps_lock as escape
+exec --no-startup-id setxkbmap -layout us -option caps:escape # Set caps lock to escape 
+exec --no-startup-id xmodmap -e "keysym Caps_Lock = Escape" # Only works if keyboard is pluged in at startup
 exec --no-startup-id dropbox start # start dropbox
 exec --no-startup-id xset -dpms # stop auto screen saver
-# exec --no-startup-id feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the wallpaper
 
 # Custom keybindings
 bindsym $mod+shift+x exec --no-startup-id i3lock
-bindsym $mod+q exec --no-startup-id ~/Downloads/git/i3lock-blur/lock.sh
+bindsym $mod+q exec --no-startup-id ~/.config/i3/lock.sh
 bindsym $mod+g exec --no-startup-id rofi -show run
 
-# i3-gaps
-for_window [class="^.*"] border pixel 0 # deletes borders
-gaps inner 10 # the size of the border between windows and other things
-gaps outer 0 # the size of the border around the edges of the screen
-
-# desktop only things
+# Desktop only things
 exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 60 --gamma 1:1:1 --brightness 0.87 && feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the screen settings and set the wallpaper
+
+# Laptop only things
+exec --no-startup-id feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the wallpaper
+
