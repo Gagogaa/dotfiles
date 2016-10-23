@@ -48,14 +48,14 @@
 (evil-leader/set-leader "<SPC>")	;; set spacebar as the leader key
 (evil-leader/set-key			;; <leader> "KEY"
 	"e" 'find-file					;; e -open a file
-	"b" 'switch-to-buffer 	;; b -buffer switcher
+	"b" 'switch-to-buffer		;; b -buffer switcher
 	"k" 'kill-buffer				;; k -kill buffer
  	"w" 'save-buffer)				;; w -save buffer
 
 ;; Vim in EMACS!
 (require 'evil)
+(evil-mode 1)	;; enable evil-mode
 (setq evil-mode-shift-width 1)
-(evil-mode 1)        		;; enable evil-mode
 
 ;; Surround vim... it may be a bit broken
 (require 'evil-surround)
@@ -76,19 +76,29 @@
 
 ;; Color Scheme stuff
 (custom-set-variables
- '(ansi-color-names-vector
-	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
- '(custom-enabled-themes (quote (sanityinc-solarized-dark)))
- '(custom-safe-themes
-	 (quote
-		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(package-selected-packages
-	 (quote
-		(minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
+;; custom-set-variables was added by Custom.
+;; If you edit it by hand, you could mess it up, so be careful.
+;; Your init file should contain only one such instance.
+;; If there is more than one, they won't work right.
+'(ansi-color-names-vector
+["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+'(custom-enabled-themes (quote (sanityinc-solarized-dark)))
+'(custom-safe-themes
+(quote
+	("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+'(package-selected-packages
+(quote
+	(minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
 
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+	;; custom-set-faces was added by Custom.
+	;; If you edit it by hand, you could mess it up, so be careful.
+	;; Your init file should contain only one such instance.
+	;; If there is more than one, they won't work right.
+	)
+
+(defun on-after-init ()
+  (unless (display-graphic-p (selected-frame))
+    (set-face-background 'default "unspecified-bg" (selected-frame))))
+
+(if (not (window-system)) (add-hook 'window-setup-hook 'on-after-init))
