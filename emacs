@@ -4,6 +4,7 @@
 (setq show-paren-delay 0)	;; 0 delay for paren matching 
 (show-paren-mode 1)	;; Show matching parens 
 (scroll-bar-mode -1)	;; No scrollbars 
+(setq-default inhibit-startup-screen t) ;; No startup screen
 
 ;; Pakcage
 (require 'package)
@@ -40,7 +41,9 @@
 								'color-theme-sanityinc-solarized
 								;'web-mode
 								'emmet-mode
-								'evil-surround)
+								'evil-surround
+								'org-bullets
+								'clojure-mode)
 
 ;; <leader> for EVIL mode
 (require 'evil-leader)
@@ -71,23 +74,27 @@
 (add-hook 'html-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
 
+;; Org mode
+(add-hook 'org-mode-hook 'org-bullets-mode)
+
+
 ; ------------------------------------------------------------------------------
 
 ;; Color Scheme stuff
 (custom-set-variables
-;; custom-set-variables was added by Custom.
-;; If you edit it by hand, you could mess it up, so be careful.
-;; Your init file should contain only one such instance.
-;; If there is more than one, they won't work right.
-'(ansi-color-names-vector
-["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
-'(custom-enabled-themes (quote (sanityinc-solarized-dark)))
-'(custom-safe-themes
-(quote
-	("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
-'(package-selected-packages
-(quote
-	(minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(custom-enabled-themes (quote (sanityinc-solarized-dark)))
+ '(custom-safe-themes
+	 (quote
+		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(package-selected-packages
+	 (quote
+		(clojure-mode org-bullets minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
 
 (defun on-after-init ()
   (set-face-background 'default "unspecified-bg" (selected-frame)))
@@ -95,8 +102,57 @@
 (if (not (window-system)) (add-hook 'window-setup-hook 'on-after-init))
 
 (custom-set-faces
-	;; custom-set-faces was added by Custom.
-	;; If you edit it by hand, you could mess it up, so be careful.
-	;; Your init file should contain only one such instance.
-	;; If there is more than one, they won't work right.
-	)
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; A snippet to deal with emacs tab nonsense
+;; http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html
+(defun my-setup-indent (n)
+  ;; java/c/c++
+  (setq-local c-basic-offset n)
+  ;; web development
+  (setq-local coffee-tab-width n) ; coffeescript
+  (setq-local javascript-indent-level n) ; javascript-mode
+  (setq-local js-indent-level n) ; js-mode
+  (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+  (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+  (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
+  (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
+  (setq-local css-indent-offset n) ; css-mode
+  )
+
+(defun my-office-code-style ()
+  (interactive)
+  (message "Office code style!")
+  ;; use tab instead of space
+  (setq-local indent-tabs-mode t)
+  ;; indent 4 spaces width
+  (my-setup-indent 2))
+
+(defun my-personal-code-style ()
+  (interactive)
+  (message "My personal code style!")
+  ;; use space instead of tab
+  (setq indent-tabs-mode nil)
+  ;; indent 2 spaces width
+  (my-setup-indent 2))
+
+(defun my-setup-develop-environment ()
+  (interactive)
+  (let ((proj-dir (file-name-directory (buffer-file-name))))
+    ;; if hobby project path contains string "hobby-proj1"
+    (if (string-match-p "hobby-proj1" proj-dir)
+        (my-personal-code-style))
+
+    ;; if commericial project path contains string "commerical-proj"
+    (if (string-match-p "commerical-proj" proj-dir)
+        (my-office-code-style))))
+
+;; prog-mode-hook requires emacs24+
+(add-hook 'prog-mode-hook 'my-setup-develop-environment)
+;; a few major-modes does NOT inherited from prog-mode
+(add-hook 'lua-mode-hook 'my-setup-develop-environment)
+(add-hook 'web-mode-hook 'my-setup-develop-environment)
