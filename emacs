@@ -8,7 +8,7 @@
 (setq debug-on-error t) ;; Tell emacs to debug on error
 
 ;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-;; (setq backup-directory-alist `(("." . "~/.saves"))) ;; Make a backups directory in ~/saves
+(setq backup-directory-alist `(("." . "~/.saves"))) ;; Make a backups directory in ~/saves
 
 ;; Pakcage
 (require 'package)
