@@ -1,12 +1,16 @@
 
 # tabs still broken on git 
-export EDITOR=/usr/bin/vim																	# Editor is vim
+export EDITOR=/usr/bin/neovim																# Editor is vim
+export PATH=$PATH:~/.bin																		# Add .bin to the path
 
 shopt -s autocd																							# Auto cd for bash
 
 alias _='sudo'																							# _ is sudo
 alias edit='$EDITOR'																				# Built in edit is depricated
 alias shutdown="sudo shutdown -h now"												# Turn the computer off
+alias free="free -h"																				# Show free mem in a human readable form
+alias ll="ls -hl"
+alias l="ls -h"
 
 # -- apt-get commands --
 alias upgrade='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y'

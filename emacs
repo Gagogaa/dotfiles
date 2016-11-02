@@ -8,7 +8,7 @@
 (setq debug-on-error t) ;; Tell emacs to debug on error
 
 ;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-;; (setq backup-directory-alist `(("." . "~/.saves"))) ;; Make a backups directory in ~/saves
+(setq backup-directory-alist `(("." . "~/.saves"))) ;; Make a backups directory in ~/saves
 
 ;; Pakcage
 (require 'package)
@@ -48,7 +48,8 @@
 								;'web-mode
 								'emmet-mode
 								'org-bullets
-								'clojure-mode)
+								'clojure-mode
+								'cider)
 
 ;; <leader> for EVIL mode
 (require 'evil-leader)
@@ -99,7 +100,7 @@
 		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(package-selected-packages
 	 (quote
-		(clojure-mode org-bullets minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
+		(cider clojure-mode org-bullets minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
 
 (defun on-after-init ()
   (set-face-background 'default "unspecified-bg" (selected-frame)))
