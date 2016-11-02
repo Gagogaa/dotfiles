@@ -1,6 +1,6 @@
 
 # tabs still broken on git 
-export EDITOR=/usr/bin/neovim																# Editor is vim
+#export EDITOR=/usr/bin/neovim																# Editor is vim
 export PATH=$PATH:~/.bin																		# Add .bin to the path
 
 shopt -s autocd																							# Auto cd for bash

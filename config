@@ -248,5 +248,6 @@ bindsym $mod+g exec --no-startup-id rofi -show run
 exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 60 --gamma 1:1:1 --brightness 0.87 && feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the screen settings and set the wallpaper
 
 # Laptop only things
+exec --no-startup-id xrandr --output eDP --mode 1366x768 --rate 60
 exec --no-startup-id feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the wallpaper
 
