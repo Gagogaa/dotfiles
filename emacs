@@ -1,25 +1,28 @@
-;; Settings
-(tool-bar-mode -1)	;; Kill toolbar
-(setq-default tab-width 2)	;; Tab width 2
-(setq show-paren-delay 0)	;; 0 delay for paren matching 
-(show-paren-mode 1)	;; Show matching parens 
-(scroll-bar-mode -1)	;; No scrollbars 
-(setq-default inhibit-startup-screen t) ;; No startup screen
-(setq debug-on-error t) ;; Tell emacs to debug on error
+;;; Settings
+(tool-bar-mode -1)	; Kill toolbar
+(setq-default tab-width 2)	; Tab width 2
+(setq show-paren-delay 0)	; 0 delay for paren matching 
+(show-paren-mode 1)	; Show matching parens 
+(scroll-bar-mode -1)	; No scrollbars 
+(setq-default inhibit-startup-screen t) ; No startup screen
+(setq debug-on-error t) ; Tell emacs to debug on error
 
-;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-(setq backup-directory-alist `(("." . "~/.saves"))) ;; Make a backups directory in ~/saves
+;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+(setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/saves
 
-;; Pakcage
+;;; Emacs exec-path
+(add-to-list 'exec-path "~/.bin")
+
+;;; Pakcage
 (require 'package)
 
-;; Add some package servers
+;;; Add some package servers
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
-;; Check to see if packages are installed
+;;; Check to see if packages are installed
 (defun ensure-package-installed (&rest packages)
   "Assure every package is installed, ask for installation if it’s not.
 
@@ -33,11 +36,11 @@
          package)))
    packages))
 
-;; Make sure to have downloaded archive description.
+;;; Make sure to have downloaded archive description.
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
 
-;; Activate installed packages
+;;; Activate installed packages
 (package-initialize)
 (ensure-package-installed
  								'evil
@@ -51,42 +54,42 @@
 								'clojure-mode
 								'cider)
 
-;; <leader> for EVIL mode
-(require 'evil-leader)
-(global-evil-leader-mode)	;; enable evil-leader... before enabling evil-mode
-(evil-leader/set-leader "<SPC>")	;; set spacebar as the leader key
-(evil-leader/set-key			;; <leader> "KEY"
-	"e" 'find-file					;; e -open a file
-	"b" 'switch-to-buffer		;; b -buffer switcher
-	"k" 'kill-buffer				;; k -kill buffer
- 	"w" 'save-buffer)				;; w -save buffer
 
-;; Surround vim... it may be a bit broken
+;;; Fix a bug with cider
+(add-hook 'clojure-mode-hook #'cider-mode)
+
+;;; <leader> for EVIL mode
+(require 'evil-leader)
+(global-evil-leader-mode)	; enable evil-leader... before enabling evil-mode
+(evil-leader/set-leader "<SPC>")	; set spacebar as the leader key
+(evil-leader/set-key			; <leader> "KEY"
+	"e" 'find-file					; e -open a file
+	"b" 'switch-to-buffer		; b -buffer switcher
+	"k" 'kill-buffer				; k -kill buffer
+ 	"w" 'save-buffer)				; w -save buffer
+
+;;; Surround vim... it may be a bit broken
 (require 'evil-surround)
 (global-evil-surround-mode 1)
 
-;; Vim in EMACS!
+;;; Vim in EMACS!
 (require 'evil)
-(evil-mode 1)	;; enable evil-mode
+(evil-mode 1)	; enable evil-mode
 (setq evil-mode-shift-width 1)
-;; webmode makes html colors not that fun 
-;(require 'web-mode)
-;(setq web-mode-html-tag-face nil)
-;(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 
-;; emmet
+;;; emmet
 (require 'emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode) ;; markup langs
+(add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
 (add-hook 'html-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
 
-;; Org mode
+;;; Org mode
 (add-hook 'org-mode-hook 'org-bullets-mode)
 
 
 ; ------------------------------------------------------------------------------
 
-;; Color Scheme stuff
+;;; Color Scheme stuff
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -114,8 +117,8 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; A snippet to deal with emacs tab nonsense
-;; http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html
+;;; A snippet to deal with emacs tab nonsense
+;;; http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html
 (defun my-setup-indent (n)
 	;; java/c/c++
 	(setq-local c-basic-offset n)
@@ -146,8 +149,8 @@
 	;; indent 2 spaces width
 	(my-setup-indent 2))
 
-;; prog-mode-hook requires emacs24+
+;;; prog-mode-hook requires emacs24+
 (add-hook 'prog-mode-hook 'my-personal-code-style)
-;; a few major-modes does NOT inherited from prog-mode
+;;; a few major-modes does NOT inherited from prog-mode
 (add-hook 'lua-mode-hook 'my-personal-code-style)
 (add-hook 'web-mode-hook 'my-personal-code-style)
