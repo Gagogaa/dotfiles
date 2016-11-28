@@ -1,14 +1,18 @@
 
-# tabs still broken on git 
-#export EDITOR=/usr/bin/neovim																# Editor is vim
-export PATH=$PATH:~/.bin																		# Add .bin to the path
+# switch to z-shell
+# TODO: Move most of the contents to another bash config file
+export EDITOR=/usr/bin/nvim                                 # Editor is neovim
+export FCEDIT=/usr/bin/nvim                                 # Fc editor to neovim
+export PATH=$PATH:~/.bin                                    # Add .bin to the path
 
-shopt -s autocd																							# Auto cd for bash
+shopt -s autocd                                             # Auto cd for bash
 
-alias _='sudo'																							# _ is sudo
-alias edit='$EDITOR'																				# Built in edit is depricated
-alias shutdown="sudo shutdown -h now"												# Turn the computer off
-alias free="free -h"																				# Show free mem in a human readable form
+set -o vi                                                   # Make the editing mode vi 
+
+alias _='sudo'                                              # _ is sudo
+alias edit='$EDITOR'                                        # Built in edit is depricated
+alias shutdown="sudo shutdown -h now"                       # Turn the computer off
+alias free="free -h"                                        # Show free mem in a human readable form
 alias ll="ls -hl"
 alias l="ls -h"
 
@@ -22,6 +26,12 @@ alias apt-show='apt-cache show'
 alias apt-search='apt-cache search'
 
 # -- functions --
-trash () { command mv "$@" ~/.local/share/Trash/files; }		# Move a file to the trash bin
-cd () { builtin cd "$@"; ls; }												 			# Display contents of a dir	i cd into
-mcd () { mkdir -p "$1" && cd "$1"; }												# Make a dir and jump inside of it
+trash () { command mv "$@" ~/.local/share/Trash/files; }    # Move a file to the trash bin
+cd () { builtin cd "$@"; ls; }                              # Display contents of a dir i cd into
+mcd () { mkdir -p "$1" && cd "$1"; }                        # Make a dir and jump inside of it
+
+# -- theFuck -- 
+eval "$(thefuck --alias)"
+# You can use whatever you want as an alias, like for Mondays:
+eval "$(thefuck --alias FUCK)"
+
