@@ -4,8 +4,8 @@
 (setq show-paren-delay 0)	; 0 delay for paren matching 
 (show-paren-mode 1)	; Show matching parens 
 (scroll-bar-mode -1)	; No scrollbars 
-(setq-default inhibit-startup-screen t) ; No startup screen
-(setq debug-on-error t) ; Tell emacs to debug on error
+;(setq-default inhibit-startup-screen t) ; No startup screen
+;(setq debug-on-error t) ; Tell emacs to debug on error
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/saves
@@ -21,21 +21,21 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+;; I think ORG MODE was moved to gnu.elpa.org
+;(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 ;;; Check to see if packages are installed
 (defun ensure-package-installed (&rest packages)
   "Assure every package is installed, ask for installation if it’s not.
-
   Return a list of installed packages or nil for every skipped package."
-  (mapcar
-   (lambda (package)
-     (if (package-installed-p package)
-       	 nil
-       (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-           (package-install package)
-         package)))
-   packages))
+  (mapcar 
+    (lambda (package)
+      (if (package-installed-p package)
+	nil
+	(if (y-or-n-p (format "Package %s is missing. Install it? " package))
+	  (package-install package)
+	  package)))
+    packages))
 
 ;;; Make sure to have downloaded archive description.
 (or (file-exists-p package-user-dir)
@@ -44,48 +44,50 @@
 ;;; Activate installed packages
 (package-initialize)
 (ensure-package-installed
- 								'evil
-								'evil-leader
-								'evil-surround
-								'helm
-								'color-theme-sanityinc-solarized
-								;'web-mode
-								'emmet-mode
-								'org-bullets
-								'clojure-mode
-								'cider)
+	;'evil
+	;'evil-leader
+	;'evil-surround
+	'helm
+	'color-theme-sanityinc-solarized
+	;'web-mode
+	;'emmet-mode
+	;'org-bullets
+	;'clojure-mode
+	;'cider
+	)
 
+(require 'helm-config)
 
 ;;; Fix a bug with cider
-(add-hook 'clojure-mode-hook #'cider-mode)
+;(add-hook 'clojure-mode-hook #'cider-mode)
 
 ;;; <leader> for EVIL mode
-(require 'evil-leader)
-(global-evil-leader-mode)	; enable evil-leader... before enabling evil-mode
-(evil-leader/set-leader "<SPC>")	; set spacebar as the leader key
-(evil-leader/set-key			; <leader> "KEY"
-	"e" 'find-file					; e -open a file
-	"b" 'switch-to-buffer		; b -buffer switcher
-	"k" 'kill-buffer				; k -kill buffer
- 	"w" 'save-buffer)				; w -save buffer
+;(require 'evil-leader)
+;(global-evil-leader-mode)	; enable evil-leader... before enabling evil-mode
+;(evil-leader/set-leader "<SPC>")	; set spacebar as the leader key
+;(evil-leader/set-key			; <leader> "KEY"
+;	"e" 'find-file					; e -open a file
+;	"b" 'switch-to-buffer		; b -buffer switcher
+;	"k" 'kill-buffer				; k -kill buffer
+; 	"w" 'save-buffer)				; w -save buffer
 
 ;;; Surround vim... it may be a bit broken
-(require 'evil-surround)
-(global-evil-surround-mode 1)
+;(require 'evil-surround)
+;(global-evil-surround-mode 1)
 
 ;;; Vim in EMACS!
-(require 'evil)
-(evil-mode 1)	; enable evil-mode
-(setq evil-mode-shift-width 1)
+;(require 'evil)
+;(evil-mode 1)	; enable evil-mode
+;(setq evil-mode-shift-width 1)
 
 ;;; emmet
-(require 'emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
-(add-hook 'html-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook 'emmet-mode)
+;(require 'emmet-mode)
+;(add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
+;(add-hook 'html-mode-hook 'emmet-mode)
+;(add-hook 'css-mode-hook 'emmet-mode)
 
 ;;; Org mode
-(add-hook 'org-mode-hook 'org-bullets-mode)
+;(add-hook 'org-mode-hook 'org-bullets-mode)
 
 
 ; ------------------------------------------------------------------------------
@@ -104,7 +106,8 @@
 		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(package-selected-packages
 	 (quote
-		(cider clojure-mode org-bullets minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode))))
+		(cider clojure-mode org-bullets minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode)))
+ '(ring-bell-function (quote ignore)))
 
 (defun on-after-init ()
   (set-face-background 'default "unspecified-bg" (selected-frame)))
