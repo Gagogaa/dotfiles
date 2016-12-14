@@ -8,7 +8,7 @@
 ;(setq debug-on-error t) ; Tell emacs to debug on error
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-(setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/saves
+(setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
 
 ;;; Emacs exec-path
 (add-to-list 'exec-path "~/.bin")
@@ -17,7 +17,7 @@
 (require 'package)
 
 ;;; Add some package servers
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
@@ -44,41 +44,27 @@
 ;;; Activate installed packages
 (package-initialize)
 (ensure-package-installed
-	;'evil
-	;'evil-leader
-	;'evil-surround
 	'helm
 	'color-theme-sanityinc-solarized
 	;'web-mode
 	;'emmet-mode
-	;'org-bullets
+	'org-bullets
 	;'clojure-mode
 	;'cider
+	'smooth-scrolling
+	'control-mode
 	)
+
+(require 'control-mode)
+(control-mode-default-setup)
+
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
 
 (require 'helm-config)
 
 ;;; Fix a bug with cider
 ;(add-hook 'clojure-mode-hook #'cider-mode)
-
-;;; <leader> for EVIL mode
-;(require 'evil-leader)
-;(global-evil-leader-mode)	; enable evil-leader... before enabling evil-mode
-;(evil-leader/set-leader "<SPC>")	; set spacebar as the leader key
-;(evil-leader/set-key			; <leader> "KEY"
-;	"e" 'find-file					; e -open a file
-;	"b" 'switch-to-buffer		; b -buffer switcher
-;	"k" 'kill-buffer				; k -kill buffer
-; 	"w" 'save-buffer)				; w -save buffer
-
-;;; Surround vim... it may be a bit broken
-;(require 'evil-surround)
-;(global-evil-surround-mode 1)
-
-;;; Vim in EMACS!
-;(require 'evil)
-;(evil-mode 1)	; enable evil-mode
-;(setq evil-mode-shift-width 1)
 
 ;;; emmet
 ;(require 'emmet-mode)
@@ -87,8 +73,7 @@
 ;(add-hook 'css-mode-hook 'emmet-mode)
 
 ;;; Org mode
-;(add-hook 'org-mode-hook 'org-bullets-mode)
-
+(add-hook 'org-mode-hook 'org-bullets-mode)
 
 ; ------------------------------------------------------------------------------
 
@@ -104,9 +89,10 @@
  '(custom-safe-themes
 	 (quote
 		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(highlight-current-line-globally t nil (highlight-current-line))
  '(package-selected-packages
 	 (quote
-		(cider clojure-mode org-bullets minimap emmet-mode web-mode mic-paren evil-leader color-theme-sanityinc-solarized ## svg-clock helm evil-visual-mark-mode)))
+		(smooth-scrolling highlight-current-line persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
  '(ring-bell-function (quote ignore)))
 
 (defun on-after-init ()
@@ -119,7 +105,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(highlight-current-line-face ((t (:background "#073642")))))
 
 ;;; A snippet to deal with emacs tab nonsense
 ;;; http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html
