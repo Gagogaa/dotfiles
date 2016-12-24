@@ -4,7 +4,6 @@
 (setq show-paren-delay 0)	; 0 delay for paren matching 
 (show-paren-mode 1)	; Show matching parens 
 (scroll-bar-mode -1)	; No scrollbars 
-;(setq-default inhibit-startup-screen t) ; No startup screen
 ;(setq debug-on-error t) ; Tell emacs to debug on error
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
@@ -17,12 +16,10 @@
 (require 'package)
 
 ;;; Add some package servers
-;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-;; I think ORG MODE was moved to gnu.elpa.org
-;(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 ;;; Check to see if packages are installed
 (defun ensure-package-installed (&rest packages)
@@ -46,17 +43,21 @@
 (ensure-package-installed
 	'helm
 	'color-theme-sanityinc-solarized
-	;'web-mode
 	;'emmet-mode
 	'org-bullets
 	;'clojure-mode
 	;'cider
 	'smooth-scrolling
-	'control-mode
+	'control-lock
+  ;'control-mode
 	)
 
-(require 'control-mode)
-(control-mode-default-setup)
+;(require 'control-mode)
+;(control-mode-default-setup)
+
+;M-p enables and disables control-lock 
+(require 'control-lock)
+(control-lock-keys)
 
 (require 'smooth-scrolling)
 (smooth-scrolling-mode 1)
@@ -75,6 +76,9 @@
 ;;; Org mode
 (add-hook 'org-mode-hook 'org-bullets-mode)
 
+;;; I think its about time for the great rebinding!
+(global-set-key (kbd "<escape>") 'control-lock-toggle)
+
 ; ------------------------------------------------------------------------------
 
 ;;; Color Scheme stuff
@@ -85,14 +89,14 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
 	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(cursor-type (quote box))
  '(custom-enabled-themes (quote (sanityinc-solarized-dark)))
  '(custom-safe-themes
 	 (quote
-		("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(highlight-current-line-globally t nil (highlight-current-line))
+		("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(package-selected-packages
 	 (quote
-		(smooth-scrolling highlight-current-line persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
+		(control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
  '(ring-bell-function (quote ignore)))
 
 (defun on-after-init ()
@@ -144,3 +148,4 @@
 ;;; a few major-modes does NOT inherited from prog-mode
 (add-hook 'lua-mode-hook 'my-personal-code-style)
 (add-hook 'web-mode-hook 'my-personal-code-style)
+
