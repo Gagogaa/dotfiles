@@ -242,7 +242,8 @@ exec --no-startup-id xset -dpms # stop auto screen saver
 # Custom keybindings
 bindsym $mod+shift+x exec --no-startup-id i3lock
 bindsym $mod+q exec --no-startup-id ~/.config/i3/lock.sh
-bindsym $mod+g exec --no-startup-id rofi -show run
+bindsym $mod+d exec --no-startup-id rofi -modi "run" -show run
+bindsym $mod+g exec --no-startup-id rofi -modi "window" -show window
 
 # Desktop only things
 exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 60 --gamma 1:1:1 --brightness 0.87 && feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the screen settings and set the wallpaper
@@ -251,3 +252,6 @@ exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 60 --gamma 1:
 exec --no-startup-id xrandr --output eDP --mode 1366x768 --rate 60
 exec --no-startup-id feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the wallpaper
 
+# Flip screen 
+bindsym $mod+Up exec --no-startup-id xrandr --output LVDS-0 --reflect xy
+bindsym $mod+Down exec --no-startup-id xrandr --output LVDS-0 --reflect normal
