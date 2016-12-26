@@ -158,3 +158,9 @@
 ;;; a few major-modes does NOT inherited from prog-mode
 (add-hook 'lua-mode-hook 'my-personal-code-style)
 (add-hook 'web-mode-hook 'my-personal-code-style)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

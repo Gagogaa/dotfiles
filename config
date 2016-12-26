@@ -40,19 +40,13 @@ bindsym $mod+Shift+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -242,8 +236,8 @@ exec --no-startup-id xset -dpms # stop auto screen saver
 # Custom keybindings
 bindsym $mod+shift+x exec --no-startup-id i3lock
 bindsym $mod+q exec --no-startup-id ~/.config/i3/lock.sh
-bindsym $mod+d exec --no-startup-id rofi -modi "run" -show run
-bindsym $mod+g exec --no-startup-id rofi -modi "window" -show window
+bindsym $mod+d exec --no-startup-id run_rofi
+bindsym $mod+g exec --no-startup-id rofi -modi "run" -show run
 
 # Desktop only things
 exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 60 --gamma 1:1:1 --brightness 0.87 && feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the screen settings and set the wallpaper
