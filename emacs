@@ -1,3 +1,4 @@
+;;; TODO: embed a tweaked version of control lock
 ;;; Settings
 (tool-bar-mode -1)	; Kill toolbar
 (setq-default tab-width 2)	; Tab width 2
@@ -23,6 +24,7 @@
 
 ;;; install packages
 (defun ensure-packages-installed (&rest package-list)
+	;;; TODO write a better docstring
 	"Install missing packages"
 	(mapcar
 	 (lambda (package)
@@ -30,7 +32,6 @@
 			 (package-install package)))
 	 package-list))
 		 
-
 ;;; Make sure to have downloaded archive description.
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
@@ -88,10 +89,60 @@
 ;;; Org mode
 (add-hook 'org-mode-hook 'org-bullets-mode)
 
+;;; Macros
+
 ;;; I think its about time for the great rebinding!
+;;; TODO: make the delete key maps!
+;;; TODO: think about rebinding start and end of file functions 
 (global-set-key (kbd "<escape>") 'control-lock-toggle) ; Toggle control-lock
 
-; Smex keybindings
+(global-set-key (kbd "C-n") help-map)
+(global-set-key (kbd "C-p") 'recenter-top-bottom)
+
+(global-set-key (kbd "C-h") 'backward-word)
+(global-set-key (kbd "C-j") 'next-line)
+(global-set-key (kbd "C-k") 'previous-line)
+(global-set-key (kbd "C-l") 'forward-word)
+
+(global-set-key (kbd "C-S-h") 'backward-char)
+(global-set-key (kbd "C-S-j") 'forward-sentence)
+(global-set-key (kbd "C-S-k") 'backward-sentence)
+(global-set-key (kbd "C-S-l") 'forward-char)
+
+(global-set-key (kbd "M-h") 'move-beginning-of-line)
+(global-set-key (kbd "M-j") (lambda () (interactive) (electric-newline-and-maybe-indent)))
+(global-set-key (kbd "M-k") help-map)
+(global-set-key (kbd "M-l") 'move-end-of-line)
+
+(global-set-key (kbd "C-f") 'kill-word)
+(global-set-key (kbd "M-f") 'kill-line)
+(global-set-key (kbd "C-S-f") 'delete-char)
+
+(global-set-key (kbd "C-a") 'backward-kill-word)
+(global-set-key (kbd "M-a") (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
+(global-set-key (kbd "C-S-a") 'backward-delete-char-untabify)
+
+;;; Define the delete keymap
+(setq delete-map (make-sparse-keymap))
+(define-key delete-map "\C-h" 'backward-kill-word)
+(define-key delete-map "\C-j" nil)
+(define-key delete-map "\C-k" nil)
+(define-key delete-map "\C-l" 'kill-word)
+
+(define-key delete-map "h" 'backwards-delete-char-untabify)
+(define-key delete-map "l" 'delete-char)
+
+(define-key delete-map "" 'nil)
+(define-key delete-map "" 'nil)
+(define-key delete-map "" 'nil)
+(define-key delete-map "" 'nil)
+(define-key delete-map "" 'nil)
+(define-key delete-map "" 'nil)
+(define-key delete-map "" 'nil)
+;(global-set-key (kbd "C-d") delete-map)
+
+
+;;; Smex keybindings
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
