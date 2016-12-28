@@ -88,6 +88,26 @@
 ;;; Org mode
 (add-hook 'org-mode-hook 'org-bullets-mode)
 
+;;; Custom mode for keeping my keybindings
+;;; http://stackoverflow.com/questions/12905017/rebinding-keys-in-orgmode#12905328
+(defvar custom-keys-mode-map (make-keymap) "custom-keys-mode keymap.")
+(define-minor-mode custom-keys-mode
+  "A minor mode so that my key settings override annoying major modes."
+  t " my-keys" 'custom-keys-mode-map)
+(custom-keys-mode 1)
+
+(defun my-minibuffer-setup-hook ()
+  (custom-keys-mode 0))
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
+(defadvice load (after give-my-keybindings-priority)
+  "Try to ensure that my keybindings always have priority."
+  (if (not (eq (car (car minor-mode-map-alist)) 'custom-keys-mode))
+      (let ((mykeys (assq 'custom-keys-mode minor-mode-map-alist)))
+        (assq-delete-all 'custom-keys-mode minor-mode-map-alist)
+        (add-to-list 'minor-mode-map-alist mykeys))))
+(ad-activate 'load)
+
 ;;; Macros
 
 ;;; I think its about time for the great rebinding!
@@ -121,17 +141,23 @@
 	))
 
 ;;; Globaly map key bindings
-(mapcar
- (lambda (key)
-		(global-set-key (kbd (car key)) (cadr key)))
- key-list)
+;; (mapcar
+;;  (lambda (key)
+;; 		(global-set-key (kbd (car key)) (cadr key)))
+;;  key-list)
 
-;;; Map org mode key bindings
-(eval-after-load "org"
-	'(mapcar
-		(lambda (key)
-			(define-key org-mode-map (kbd (car key)) (cadr key)))
-		key-list))
+;; ;;; Map org mode key bindings
+;; (eval-after-load "org"
+;; 	'(mapcar
+;; 		(lambda (key)
+;; 			(define-key org-mode-map (kbd (car key)) (cadr key)))
+;; 		key-list))
+
+(mapcar
+	(lambda (key)
+		(define-key custom-keys-mode-map (kbd (car key)) (cadr key)))
+	key-list)
+
 
 ;;; Smex keybindings
 (global-set-key (kbd "M-x") 'smex)
