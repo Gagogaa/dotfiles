@@ -122,24 +122,35 @@
 (global-set-key (kbd "M-a") (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
 (global-set-key (kbd "C-S-a") 'backward-delete-char-untabify)
 
-;;; Define the delete keymap
-(setq delete-map (make-sparse-keymap))
-(define-key delete-map "\C-h" 'backward-kill-word)
-(define-key delete-map "\C-j" nil)
-(define-key delete-map "\C-k" nil)
-(define-key delete-map "\C-l" 'kill-word)
+;;; Org-mode bindings
+(eval-after-load "org"
+	'(progn
+		 (define-key org-mode-map (kbd "C-n") help-map)
+		 (define-key org-mode-map (kbd "C-p") 'recenter-top-bottom)
 
-(define-key delete-map "h" 'backwards-delete-char-untabify)
-(define-key delete-map "l" 'delete-char)
+		 (define-key org-mode-map (kbd "C-h") 'backward-word)
+		 (define-key org-mode-map (kbd "C-j") 'next-line)
+		 (define-key org-mode-map (kbd "C-k") 'previous-line)
+		 (define-key org-mode-map (kbd "C-l") 'forward-word)
 
-(define-key delete-map "" 'nil)
-(define-key delete-map "" 'nil)
-(define-key delete-map "" 'nil)
-(define-key delete-map "" 'nil)
-(define-key delete-map "" 'nil)
-(define-key delete-map "" 'nil)
-(define-key delete-map "" 'nil)
-;(global-set-key (kbd "C-d") delete-map)
+		 (define-key org-mode-map (kbd "C-S-h") 'backward-char)
+		 (define-key org-mode-map (kbd "C-S-j") 'forward-sentence)
+		 (define-key org-mode-map (kbd "C-S-k") 'backward-sentence)
+		 (define-key org-mode-map (kbd "C-S-l") 'forward-char)
+
+		 (define-key org-mode-map (kbd "M-h") 'move-beginning-of-line)
+		 (define-key org-mode-map (kbd "M-j") (lambda () (interactive) (electric-newline-and-maybe-indent)))
+		 (define-key org-mode-map (kbd "M-k") help-map)
+		 (define-key org-mode-map (kbd "M-l") 'move-end-of-line)
+
+		 (define-key org-mode-map (kbd "C-f") 'kill-word)
+		 (define-key org-mode-map (kbd "M-f") 'kill-line)
+		 (define-key org-mode-map (kbd "C-S-f") 'delete-char)
+
+		 (define-key org-mode-map (kbd "C-a") 'backward-kill-word)
+		 (define-key org-mode-map (kbd "M-a") (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
+		 (define-key org-mode-map (kbd "C-S-a") 'backward-delete-char-untabify)
+		 ))
 
 
 ;;; Smex keybindings
