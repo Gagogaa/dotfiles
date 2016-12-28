@@ -24,14 +24,14 @@
 
 ;;; install packages
 (defun ensure-packages-installed (&rest package-list)
-	;;; TODO write a better docstring
+	;; TODO write a better docstring
 	"Install missing packages"
 	(mapcar
 	 (lambda (package)
 		 (if (package-installed-p package) nil
 			 (package-install package)))
 	 package-list))
-		 
+
 ;;; Make sure to have downloaded archive description.
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
@@ -39,27 +39,27 @@
 ;;; Activate installed packages
 (package-initialize)
 (ensure-packages-installed
-	'helm
-	'color-theme-sanityinc-solarized
-	;'emmet-mode
-	'org-bullets
-	;'clojure-mode
-	;'cider
-	'smooth-scrolling
-	'control-lock
-	'smex
-	'ido
-	)
+ 'helm
+ 'color-theme-sanityinc-solarized
+ ;; 'emmet-mode
+ 'org-bullets
+ ;; 'clojure-mode
+ ;; 'cider
+ 'smooth-scrolling
+ 'control-lock
+ 'smex
+ 'ido
+ )
 
 (require 'smex)
 (smex-initialize)
 
-; // start at the top most Dir "/"
-; M-d Searches sub-Dirs too
-; M-m Creates a new sub directory
-; C-t Toggles RegExp matching 
-; C-p toggles Prefix matching (if on matches by beginning rather that containing)
-; NOTE you can customize a variable with M-x customize-variable RET variable-name-here
+;;; // start at the top most Dir "/"
+;;; M-d Searches sub-Dirs too
+;;; M-m Creates a new sub directory
+;;; C-t Toggles RegExp matching 
+;;; C-p toggles Prefix matching (if on matches by beginning rather that containing)
+;;; NOTE you can customize a variable with M-x customize-variable RET variable-name-here
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
@@ -70,21 +70,20 @@
 (setq ido-file-extensions-order '(".org" ".java" ".emacs")) ; Tells ido to show these file types first
 (setq ido-ignore-extensions t) ; Tells ido to use completion-ignored-extensions variable for a list of file extensions to ignore
 
-
-;M-p enables and disables control-lock 
+;;; M-p enables and disables control-lock 
 (require 'control-lock)
 (control-lock-keys)
 
 (require 'helm-config)
 
 ;;; Fix a bug with cider
-;(add-hook 'clojure-mode-hook #'cider-mode)
+;; (add-hook 'clojure-mode-hook #'cider-mode)
 
 ;;; emmet
-;(require 'emmet-mode)
-;(add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
-;(add-hook 'html-mode-hook 'emmet-mode)
-;(add-hook 'css-mode-hook 'emmet-mode)
+;; (require 'emmet-mode)
+;; (add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
+;; (add-hook 'html-mode-hook 'emmet-mode)
+;; (add-hook 'css-mode-hook 'emmet-mode)
 
 ;;; Org mode
 (add-hook 'org-mode-hook 'org-bullets-mode)
@@ -92,8 +91,10 @@
 ;;; Macros
 
 ;;; I think its about time for the great rebinding!
-;;; TODO: make the delete key maps!
-;;; TODO: think about rebinding start and end of file functions 
+;;; TODO: make the key maps a list of key function pairs
+;;;       the write functions to map the keys
+;;; Something like this maybe
+;;; (mapcar (lambda (key func) (gloabal-set-key (kbd key) func) (car key-list) (cdr key-list)) key-list)
 (global-set-key (kbd "<escape>") 'control-lock-toggle) ; Toggle control-lock
 
 (global-set-key (kbd "C-n") help-map)
@@ -110,8 +111,8 @@
 (global-set-key (kbd "C-S-l") 'forward-char)
 
 (global-set-key (kbd "M-h") 'move-beginning-of-line)
-(global-set-key (kbd "M-j") (lambda () (interactive) (electric-newline-and-maybe-indent)))
-(global-set-key (kbd "M-k") help-map)
+(global-set-key (kbd "M-j") 'end-of-defun) ;(lambda () (interactive) (electric-newline-and-maybe-indent)))
+(global-set-key (kbd "M-k") 'beginning-of-defun)
 (global-set-key (kbd "M-l") 'move-end-of-line)
 
 (global-set-key (kbd "C-f") 'kill-word)
@@ -156,7 +157,6 @@
 ;;; Smex keybindings
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-
 
 ; ------------------------------------------------------------------------------
 
