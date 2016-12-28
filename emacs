@@ -5,7 +5,7 @@
 (setq show-paren-delay 0)	; 0 delay for paren matching 
 (show-paren-mode 1)	; Show matching parens 
 (scroll-bar-mode -1)	; No scrollbars 
-(setq debug-on-error t) ; Tell emacs to debug on error
+;(setq debug-on-error t) ; Tell emacs to debug on error
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
@@ -94,65 +94,44 @@
 ;;; TODO: make the key maps a list of key function pairs
 ;;;       the write functions to map the keys
 ;;; Something like this maybe
-;;; (mapcar (lambda (key func) (gloabal-set-key (kbd key) func) (car key-list) (cdr key-list)) key-list)
-(global-set-key (kbd "<escape>") 'control-lock-toggle) ; Toggle control-lock
 
-(global-set-key (kbd "C-n") help-map)
-(global-set-key (kbd "C-p") 'recenter-top-bottom)
+;;; A possible list for the key bindings
+(setq key-list '(
+	("<escape>" control-lock-toggle) ; Toggle control-lock
+	("C-n" help-map)
+	("C-p" recenter-top-bottom)
+	("C-h" backward-word)
+	("C-j" next-line)
+	("C-k" previous-line)
+	("C-l" forward-word)
+	("C-S-h" backward-char)
+	("C-S-j" forward-sentence)
+	("C-S-k" backward-sentence)
+	("C-S-l" forward-char)
+	("M-h" back-to-indentation) ;'move-beginning-of-line)
+	("M-j" end-of-defun) ;(lambda () (interactive) (electric-newline-and-maybe-indent)))
+	("M-k" beginning-of-defun)
+	("M-l" move-end-of-line)
+	("C-f" kill-word)
+	("M-f" kill-line)
+	("C-S-f" delete-char)
+	("C-a" backward-kill-word)
+	("M-a" (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
+	("C-S-a" backward-delete-char-untabify)
+	))
 
-(global-set-key (kbd "C-h") 'backward-word)
-(global-set-key (kbd "C-j") 'next-line)
-(global-set-key (kbd "C-k") 'previous-line)
-(global-set-key (kbd "C-l") 'forward-word)
+;;; Globaly map key bindings
+(mapcar
+ (lambda (key)
+		(global-set-key (kbd (car key)) (cadr key)))
+ key-list)
 
-(global-set-key (kbd "C-S-h") 'backward-char)
-(global-set-key (kbd "C-S-j") 'forward-sentence)
-(global-set-key (kbd "C-S-k") 'backward-sentence)
-(global-set-key (kbd "C-S-l") 'forward-char)
-
-(global-set-key (kbd "M-h") 'move-beginning-of-line)
-(global-set-key (kbd "M-j") 'end-of-defun) ;(lambda () (interactive) (electric-newline-and-maybe-indent)))
-(global-set-key (kbd "M-k") 'beginning-of-defun)
-(global-set-key (kbd "M-l") 'move-end-of-line)
-
-(global-set-key (kbd "C-f") 'kill-word)
-(global-set-key (kbd "M-f") 'kill-line)
-(global-set-key (kbd "C-S-f") 'delete-char)
-
-(global-set-key (kbd "C-a") 'backward-kill-word)
-(global-set-key (kbd "M-a") (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
-(global-set-key (kbd "C-S-a") 'backward-delete-char-untabify)
-
-;;; Org-mode bindings
+;;; Map org mode key bindings
 (eval-after-load "org"
-	'(progn
-		 (define-key org-mode-map (kbd "C-n") help-map)
-		 (define-key org-mode-map (kbd "C-p") 'recenter-top-bottom)
-
-		 (define-key org-mode-map (kbd "C-h") 'backward-word)
-		 (define-key org-mode-map (kbd "C-j") 'next-line)
-		 (define-key org-mode-map (kbd "C-k") 'previous-line)
-		 (define-key org-mode-map (kbd "C-l") 'forward-word)
-
-		 (define-key org-mode-map (kbd "C-S-h") 'backward-char)
-		 (define-key org-mode-map (kbd "C-S-j") 'forward-sentence)
-		 (define-key org-mode-map (kbd "C-S-k") 'backward-sentence)
-		 (define-key org-mode-map (kbd "C-S-l") 'forward-char)
-
-		 (define-key org-mode-map (kbd "M-h") 'move-beginning-of-line)
-		 (define-key org-mode-map (kbd "M-j") (lambda () (interactive) (electric-newline-and-maybe-indent)))
-		 (define-key org-mode-map (kbd "M-k") help-map)
-		 (define-key org-mode-map (kbd "M-l") 'move-end-of-line)
-
-		 (define-key org-mode-map (kbd "C-f") 'kill-word)
-		 (define-key org-mode-map (kbd "M-f") 'kill-line)
-		 (define-key org-mode-map (kbd "C-S-f") 'delete-char)
-
-		 (define-key org-mode-map (kbd "C-a") 'backward-kill-word)
-		 (define-key org-mode-map (kbd "M-a") (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
-		 (define-key org-mode-map (kbd "C-S-a") 'backward-delete-char-untabify)
-		 ))
-
+	'(mapcar
+		(lambda (key)
+			(define-key org-mode-map (kbd (car key)) (cadr key)))
+		key-list))
 
 ;;; Smex keybindings
 (global-set-key (kbd "M-x") 'smex)
@@ -220,9 +199,4 @@
 ;;; a few major-modes does NOT inherited from prog-mode
 (add-hook 'lua-mode-hook 'my-personal-code-style)
 (add-hook 'web-mode-hook 'my-personal-code-style)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
