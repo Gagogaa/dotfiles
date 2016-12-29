@@ -1,11 +1,15 @@
-;;; TODO: embed a tweaked version of control lock
-;;; Settings
+;;; TODO: Embed a tweaked version of control lock for capital key bindings and better cursor color
+;;; TODO: Consider putting this in ~/.emacs.d/init.el and backing up the whole .emacs.d folder
+;;; TODO: Also consider backing this up with dropbox.
+;;; TODO: Make more readable comments 
+
+;;; Emacs standard settings
 (tool-bar-mode -1)	; Kill toolbar
 (setq-default tab-width 2)	; Tab width 2
 (setq show-paren-delay 0)	; 0 delay for paren matching 
 (show-paren-mode 1)	; Show matching parens 
-(scroll-bar-mode -1)	; No scrollbars 
-;(setq debug-on-error t) ; Tell emacs to debug on error
+(scroll-bar-mode -1)	; No scroll bars 
+;;;(setq debug-on-error t) ; Tell emacs to debug on error
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
@@ -13,7 +17,7 @@
 ;;; Emacs exec-path
 (add-to-list 'exec-path "~/.bin")
 
-;;; Pakcage
+;;; Package
 (require 'package)
 
 ;;; Add some package servers
@@ -24,8 +28,7 @@
 
 ;;; install packages
 (defun ensure-packages-installed (&rest package-list)
-	;; TODO write a better docstring
-	"Install missing packages"
+	"Takes a list of packages and installs all missing packages"
 	(mapcar
 	 (lambda (package)
 		 (if (package-installed-p package) nil
@@ -70,11 +73,11 @@
 (setq ido-file-extensions-order '(".org" ".java" ".emacs")) ; Tells ido to show these file types first
 (setq ido-ignore-extensions t) ; Tells ido to use completion-ignored-extensions variable for a list of file extensions to ignore
 
-;;; M-p enables and disables control-lock 
+;;; M-p by default enables and disables control-lock 
 (require 'control-lock)
 (control-lock-keys)
 
-(require 'helm-config)
+(require 'helm-con-fig)
 
 ;;; Fix a bug with cider
 ;; (add-hook 'clojure-mode-hook #'cider-mode)
@@ -89,6 +92,7 @@
 (add-hook 'org-mode-hook 'org-bullets-mode)
 
 ;;; Custom mode for keeping my keybindings
+;;; TODO: make a version of this that works for key maps such as help-map
 ;;; http://stackoverflow.com/questions/12905017/rebinding-keys-in-orgmode#12905328
 (defvar custom-keys-mode-map (make-keymap) "custom-keys-mode keymap.")
 (define-minor-mode custom-keys-mode
@@ -111,15 +115,12 @@
 ;;; Macros
 
 ;;; I think its about time for the great rebinding!
-;;; TODO: make the key maps a list of key function pairs
-;;;       the write functions to map the keys
-;;; Something like this maybe
-
-;;; A possible list for the key bindings
+;;; Key bindings 
 (setq key-list '(
 	("<escape>" control-lock-toggle) ; Toggle control-lock
-	("C-n" help-map)
+	("C-n" help-map) ; NOTE TODO: This method does not work with the above function 
 	("C-p" recenter-top-bottom)
+	
 	("C-h" backward-word)
 	("C-j" next-line)
 	("C-k" previous-line)
@@ -128,7 +129,7 @@
 	("C-S-j" forward-sentence)
 	("C-S-k" backward-sentence)
 	("C-S-l" forward-char)
-	("M-h" back-to-indentation) ;'move-beginning-of-line)
+	("M-h" back-to-indentation) ; TODO: change this out for the smart indent
 	("M-j" end-of-defun) ;(lambda () (interactive) (electric-newline-and-maybe-indent)))
 	("M-k" beginning-of-defun)
 	("M-l" move-end-of-line)
@@ -138,6 +139,9 @@
 	("C-a" backward-kill-word)
 	("M-a" (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
 	("C-S-a" backward-delete-char-untabify)
+	
+	("M-x" smex) ; activate smex
+	("M-X" smex-major-mode-commands)
 	))
 
 ;;; Globaly map key bindings
@@ -153,17 +157,29 @@
 ;; 			(define-key org-mode-map (kbd (car key)) (cadr key)))
 ;; 		key-list))
 
-(mapcar
-	(lambda (key)
-		(define-key custom-keys-mode-map (kbd (car key)) (cadr key)))
-	key-list)
+(defun make-global-keys () 
+  "This function is suppose to bind all the keys but right now it just
+  crashes emacs with no debug info to speak of..."
+  (mapcar
+ 	 (lambda (key)
+ 		(global-set-key (kbd (car key)) (cadr key)))
+  key-list))
 
+(add-hook 'after-change-major-mode-hook 'make-global-keys)
+
+;;; Keys for every mode map 
+;; (mapcar
+;; 	(lambda (key)
+;; 		(define-key custom-keys-mode-map (kbd (car key)) (cadr key)))
+;; 	key-list)
 
 ;;; Smex keybindings
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; (global-set-key (kbd "M-x") 'smex)
+;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ; ------------------------------------------------------------------------------
+
+;;; TODO: Try making this into human readable code!
 
 ;;; Color Scheme stuff
 (custom-set-variables
@@ -183,12 +199,14 @@
 		(helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
  '(ring-bell-function (quote ignore)))
 
+;;; I think these next two bits we're for a terminal color scheme fix 
 (defun on-after-init ()
   (set-face-background 'default "unspecified-bg" (selected-frame)))
 
 (if (not (window-system)) (add-hook 'window-setup-hook 'on-after-init))
 
 ;;; A snippet to deal with emacs tab nonsense
+;;; TODO: rewrite this for a better understanding of emacs and its tab nonsense
 ;;; http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html
 (defun my-setup-indent (n)
 	;; java/c/c++
