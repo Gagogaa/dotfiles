@@ -2,6 +2,8 @@
 # ~/.bashrc
 #
 
+# consider switching to zshell
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
