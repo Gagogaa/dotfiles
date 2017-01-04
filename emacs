@@ -8,7 +8,8 @@
 (setq-default tab-width 2)	; Tab width 2
 (setq show-paren-delay 0)	; 0 delay for paren matching 
 (show-paren-mode 1)	; Show matching parens 
-(scroll-bar-mode -1)	; No scroll bars 
+(scroll-bar-mode -1)	; No scroll bars
+(toggle-word-wrap 1) ; Better word wraping 
 ;;;(setq debug-on-error t) ; Tell emacs to debug on error
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
@@ -52,7 +53,10 @@
  'control-lock
  'smex
  'ido
+ 'markdown-mode
  )
+
+(require 'markdown-mode)
 
 (require 'smex)
 (smex-initialize)
@@ -77,7 +81,7 @@
 (require 'control-lock)
 (control-lock-keys)
 
-(require 'helm-con-fig)
+(require 'helm-config)
 
 ;;; Fix a bug with cider
 ;; (add-hook 'clojure-mode-hook #'cider-mode)
@@ -189,14 +193,14 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
 	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
- '(cursor-type (quote box))
+ '(cursor-type (quote hollow))
  '(custom-enabled-themes (quote (sanityinc-solarized-light)))
  '(custom-safe-themes
 	 (quote
 		("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(package-selected-packages
 	 (quote
-		(helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
+		(cl-lib markdown-mode helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
  '(ring-bell-function (quote ignore)))
 
 ;;; I think these next two bits we're for a terminal color scheme fix 
@@ -244,3 +248,9 @@
 (add-hook 'lua-mode-hook 'my-personal-code-style)
 (add-hook 'web-mode-hook 'my-personal-code-style)
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
