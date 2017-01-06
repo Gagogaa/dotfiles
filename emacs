@@ -1,16 +1,19 @@
-;;; TODO: Embed a tweaked version of control lock for capital key bindings and better cursor color
+;;; TODO: Embed a tweaked version of control lock for capital key bindings
+;;; TODO: reorganize this file for better loading of plugins
 ;;; TODO: Consider putting this in ~/.emacs.d/init.el and backing up the whole .emacs.d folder
-;;; TODO: Also consider backing this up with dropbox.
-;;; TODO: Make more readable comments 
+;;; TODO: Also consider backing this up with Dropbox.
+;;; TODO: Make comments more readable
 
 ;;; Emacs standard settings
-(tool-bar-mode -1)	; Kill toolbar
-(setq-default tab-width 2)	; Tab width 2
+(tool-bar-mode -1) ; Kill toolbar
+(menu-bar-mode -1) ; Remove menubar
+(setq-default tab-width 2) ; Tab width 2
 (setq show-paren-delay 0)	; 0 delay for paren matching 
-(show-paren-mode 1)	; Show matching parens 
-(scroll-bar-mode -1)	; No scroll bars
-(toggle-word-wrap 1) ; Better word wraping 
-;;;(setq debug-on-error t) ; Tell emacs to debug on error
+(show-paren-mode 1)	; Show matching paren
+(scroll-bar-mode -1) ; No scroll bars
+(toggle-word-wrap 1) ; Better word wrapping 1
+(electric-pair-mode) ; Turn on pair matching for brackets
+;; (setq debug-on-error t) ; Tell emacs to debug on error
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
@@ -45,16 +48,20 @@
 (ensure-packages-installed
  'helm
  'color-theme-sanityinc-solarized
- ;; 'emmet-mode
+ 'emmet-mode
  'org-bullets
  ;; 'clojure-mode
  ;; 'cider
  'smooth-scrolling
- 'control-lock
+ 'control-lock ; it breaks in the termial
  'smex
  'ido
+ ;; 'company
  'markdown-mode
  )
+
+;; (require 'company)
+;; (global-company-mode)
 
 (require 'markdown-mode)
 
@@ -77,9 +84,6 @@
 (setq ido-file-extensions-order '(".org" ".java" ".emacs")) ; Tells ido to show these file types first
 (setq ido-ignore-extensions t) ; Tells ido to use completion-ignored-extensions variable for a list of file extensions to ignore
 
-;;; M-p by default enables and disables control-lock 
-(require 'control-lock)
-(control-lock-keys)
 
 (require 'helm-config)
 
@@ -87,99 +91,20 @@
 ;; (add-hook 'clojure-mode-hook #'cider-mode)
 
 ;;; emmet
-;; (require 'emmet-mode)
-;; (add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
-;; (add-hook 'html-mode-hook 'emmet-mode)
-;; (add-hook 'css-mode-hook 'emmet-mode)
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
+(add-hook 'html-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook 'emmet-mode)
 
 ;;; Org mode
 (add-hook 'org-mode-hook 'org-bullets-mode)
 
-;;; Custom mode for keeping my keybindings
-;;; TODO: make a version of this that works for key maps such as help-map
-;;; http://stackoverflow.com/questions/12905017/rebinding-keys-in-orgmode#12905328
-(defvar custom-keys-mode-map (make-keymap) "custom-keys-mode keymap.")
-(define-minor-mode custom-keys-mode
-  "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" 'custom-keys-mode-map)
-(custom-keys-mode 1)
-
-(defun my-minibuffer-setup-hook ()
-  (custom-keys-mode 0))
-(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-
-(defadvice load (after give-my-keybindings-priority)
-  "Try to ensure that my keybindings always have priority."
-  (if (not (eq (car (car minor-mode-map-alist)) 'custom-keys-mode))
-      (let ((mykeys (assq 'custom-keys-mode minor-mode-map-alist)))
-        (assq-delete-all 'custom-keys-mode minor-mode-map-alist)
-        (add-to-list 'minor-mode-map-alist mykeys))))
-(ad-activate 'load)
-
-;;; Macros
-
-;;; I think its about time for the great rebinding!
-;;; Key bindings 
-(setq key-list '(
-	("<escape>" control-lock-toggle) ; Toggle control-lock
-	("C-n" help-map) ; NOTE TODO: This method does not work with the above function 
-	("C-p" recenter-top-bottom)
-	
-	("C-h" backward-word)
-	("C-j" next-line)
-	("C-k" previous-line)
-	("C-l" forward-word)
-	("C-S-h" backward-char)
-	("C-S-j" forward-sentence)
-	("C-S-k" backward-sentence)
-	("C-S-l" forward-char)
-	("M-h" back-to-indentation) ; TODO: change this out for the smart indent
-	("M-j" end-of-defun) ;(lambda () (interactive) (electric-newline-and-maybe-indent)))
-	("M-k" beginning-of-defun)
-	("M-l" move-end-of-line)
-	("C-f" kill-word)
-	("M-f" kill-line)
-	("C-S-f" delete-char)
-	("C-a" backward-kill-word)
-	("M-a" (lambda () (interactive) (kill-line 0) (indent-according-to-mode)))
-	("C-S-a" backward-delete-char-untabify)
-	
-	("M-x" smex) ; activate smex
-	("M-X" smex-major-mode-commands)
-	))
-
-;;; Globaly map key bindings
-;; (mapcar
-;;  (lambda (key)
-;; 		(global-set-key (kbd (car key)) (cadr key)))
-;;  key-list)
-
-;; ;;; Map org mode key bindings
-;; (eval-after-load "org"
-;; 	'(mapcar
-;; 		(lambda (key)
-;; 			(define-key org-mode-map (kbd (car key)) (cadr key)))
-;; 		key-list))
-
-(defun make-global-keys () 
-  "This function is suppose to bind all the keys but right now it just
-  crashes emacs with no debug info to speak of..."
-  (mapcar
- 	 (lambda (key)
- 		(global-set-key (kbd (car key)) (cadr key)))
-  key-list))
-
-(add-hook 'after-change-major-mode-hook 'make-global-keys)
-
-;;; Keys for every mode map 
-;; (mapcar
-;; 	(lambda (key)
-;; 		(define-key custom-keys-mode-map (kbd (car key)) (cadr key)))
-;; 	key-list)
-
 ;;; Smex keybindings
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+;;; My keybindings 
+(global-set-key (kbd "<escape>") 'control-lock-toggle)
 
 ; ------------------------------------------------------------------------------
 
@@ -200,7 +125,7 @@
 		("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(package-selected-packages
 	 (quote
-		(cl-lib markdown-mode helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
+		(auto-complete company peacock-theme cl-lib markdown-mode helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
  '(ring-bell-function (quote ignore)))
 
 ;;; I think these next two bits we're for a terminal color scheme fix 
@@ -254,3 +179,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;;; M-p by default enables and disables control-lock 
+(require 'control-lock)
+(control-lock-keys)
+(control-lock-toggle)
+
