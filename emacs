@@ -14,7 +14,18 @@
 (scroll-bar-mode -1) ; No scroll bars
 (toggle-word-wrap 1) ; Better word wrapping 1
 (electric-pair-mode) ; Turn on pair matching for brackets
+(desktop-save-mode 1) ; save emacs sessions
+(global-hl-line-mode 1) ; Highlight the current line
+(setq desktop-auto-save-timeout nil) ; dont autosave files
+(winner-mode 1) ; Lets you undo and redo window layout commands with C-x left/right
+(windmove-default-keybindings) ; Lets you move around windows with SHIFT+up/right/down/left
 ;; (setq debug-on-error t) ; Tell emacs to debug on error
+
+(setq ido-mode-enable-flex-matching t) ; Flexable matching
+(setq ido-everywhere t) ; Makes ido active everywhere
+(ido-mode 1) ; activate ido-mode
+
+(defalias 'list-buffers 'ibuffer) ; switch list-buffers to a cooler ibuffer
 
 ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
@@ -31,37 +42,109 @@
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
 
-;;; install packages
-(defun ensure-packages-installed (&rest package-list)
-	"Takes a list of packages and installs all missing packages"
-	(mapcar
-	 (lambda (package)
-		 (if (package-installed-p package) nil
-			 (package-install package)))
-	 package-list))
+;; ;;; install packages
+;; (defun ensure-packages-installed (&rest package-list)
+;; 	"Takes a list of packages and installs all missing packages"
+;; 	(mapcar
+;; 	 (lambda (package)
+;; 		 (if (package-installed-p package) nil
+;; 			 (package-install package)))
+;; 	 package-list))
 
-;;; Make sure to have downloaded archive description.
-(or (file-exists-p package-user-dir)
-    (package-refresh-contents))
+;; ;;; Make sure to have downloaded archive description.
+;; (or (file-exists-p package-user-dir)
+;;     (package-refresh-contents))
 
-;;; Activate installed packages
 (package-initialize)
-(ensure-packages-installed
- 'helm
- 'color-theme-sanityinc-solarized
- 'emmet-mode
- 'org-bullets
- ;; 'clojure-mode
- ;; 'cider
- ;; 'smooth-scrolling
- ;; TODO: make my own version of control lock 
- 'control-lock ; it breaks in the termial
- 'smex
- 'ido
- ;; 'company
- ;; 'markdown-mode
- ;; 'flycheck
- )
+(setq package-enable-at-startup nil)
+
+;;; Ensure that use-package is installed
+(unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
+
+;;; Try lets you use packages without actually installing them
+(use-package try
+	:ensure t)
+
+;;; init loads things before the package loads
+;;; config loads things after the package is loaded
+;;; You can use
+;;;   :init
+;;;   (progn (more) (lisp) (forms))
+;;; to execute different things on package load
+
+;;; Creates a help window for keymaps (such as C-x)
+(use-package which-key
+	:ensure t
+	:config
+	(which-key-mode))
+
+(use-package lorem-ipsum
+	:ensure t
+	:config
+	(lorem-ipsum-use-default-bindings))
+
+(use-package org-bullets
+	:ensure t
+	:config
+	(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package counsel
+	:ensure t)
+
+;;; TODO: see if swiper/ivy has a color configuration for fitting in with the color scheme
+(use-package swiper
+	:ensure t
+	:config
+	(progn (ivy-mode 1)
+				 (setq ivy-use-virtual-buffers t)
+				 ;; (setq ivy-display-style 'fancy)
+				 (global-set-key "\C-s" 'swiper)
+				 (global-set-key (kbd "C-c C-r") 'ivy-resume)
+				 (global-set-key (kbd "<f6>") 'ivy-resume)
+				 (global-set-key (kbd "M-x") 'counsel-M-x)
+				 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+				 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+				 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+				 (global-set-key (kbd "<f1> l") 'counsel-find-library)
+				 (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+				 (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+				 (global-set-key (kbd "C-c g") 'counsel-git)
+				 (global-set-key (kbd "C-c j") 'counsel-git-grep)
+				 (global-set-key (kbd "C-c k") 'counsel-ag)
+				 (global-set-key (kbd "C-x l") 'counsel-locate)
+				 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+				 (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
+
+;;; TODO: see if avy has color configuration
+(use-package avy
+	:ensure t
+	:bind ("M-s" . avy-goto-char))
+
+;; ;;; Activate installed packages
+;; (ensure-packages-installed
+;;  ;; 'helm
+;;  'color-theme-sanityinc-solarized
+;;  'emmet-mode
+;;  'org-bullets
+;;  ;; 'clojure-mode
+;;  ;; 'cider
+;;  ;; 'smooth-scrolling
+;;  ;; TODO: make my own version of control lock 
+;;  'control-lock ; it breaks in the termial
+;;  'lorem-ipsum
+;;  ;; 'smex
+;;  ;; 'ido
+;;  ;; 'company
+;;  ;; 'auto-complete
+;;  ;; 'markdown-mode
+;;  ;; 'flycheck
+;;  ;; 'ivy
+;;  ;; 'swiper
+;;  )
+
+;; (lorem-ipsum-use-default-bindings) 
 
 ;; TODO: look more into flycheck
 ;; Dont forget ot install eslint via npm 
@@ -70,10 +153,10 @@
 ;; (require 'company)
 ;; (global-company-mode)
 
-(require 'markdown-mode)
+;; (require 'markdown-mode)
 
-(require 'smex)
-(smex-initialize)
+;; (require 'smex)
+;; (smex-initialize)
 
 ;;; // start at the top most Dir "/"
 ;;; M-d Searches sub-Dirs too
@@ -81,37 +164,34 @@
 ;;; C-t Toggles RegExp matching 
 ;;; C-p toggles Prefix matching (if on matches by beginning rather that containing)
 ;;; NOTE you can customize a variable with M-x customize-variable RET variable-name-here
-(require 'ido)
-(ido-mode t)
-(setq ido-enable-flex-matching t)
-(setq ido-enable-regexp t)
-(setq ido-everywhere t)
-(setq ido-use-filename-at-point 'guess) ; Uses point to ge tcontext for file search
-(setq ido-create-new-buffer 'always) ; Lets ido create new buffers without propmting
-(setq ido-file-extensions-order '(".org" ".java" ".emacs")) ; Tells ido to show these file types first
-(setq ido-ignore-extensions t) ; Tells ido to use completion-ignored-extensions variable for a list of file extensions to ignore
+;; (require 'ido)
+;; (ido-mode t)
+;; (setq ido-enable-flex-matching t)
+;; (setq ido-enable-regexp t)
+;; (setq ido-everywhere t)
+;; (setq ido-use-filename-at-point 'guess) ; Uses point to ge tcontext for file search
+;; (setq ido-create-new-buffer 'always) ; Lets ido create new buffers without propmting
+;; (setq ido-file-extensions-order '(".org" ".java" ".emacs")) ; Tells ido to show these file types first
+;; (setq ido-ignore-extensions t) ; Tells ido to use completion-ignored-extensions variable for a list of file extensions to ignore
 
-
-(require 'helm-config)
+;; (require 'helm-config)
 
 ;;; Fix a bug with cider
 ;; (add-hook 'clojure-mode-hook #'cider-mode)
 
-;;; emmet
-(require 'emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
-(add-hook 'html-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook 'emmet-mode)
+;; ;;; emmet
+;; (require 'emmet-mode)
+;; (add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
+;; (add-hook 'html-mode-hook 'emmet-mode)
+;; (add-hook 'css-mode-hook 'emmet-mode)
 
-;;; Org mode
-(add-hook 'org-mode-hook 'org-bullets-mode)
-
-;;; Smex keybindings
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; ;;; Smex keybindings
+;; (global-set-key (kbd "M-x") 'smex)
+;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;;; My keybindings 
-(global-set-key (kbd "<escape>") 'control-lock-toggle)
+;; (global-set-key (kbd "<escape>") 'control-lock-toggle)
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ; ------------------------------------------------------------------------------
 
@@ -136,7 +216,7 @@
  '(hl-sexp-background-color "#1c1f26")
  '(package-selected-packages
 	 (quote
-		(material-theme flycheck auto-complete company peacock-theme cl-lib markdown-mode helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
+		(avy counsel ace-window tabbar which-key 2048-game try use-package lorem-ipsum swiper ivy material-theme flycheck auto-complete company peacock-theme cl-lib markdown-mode helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
  '(ring-bell-function (quote ignore))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
