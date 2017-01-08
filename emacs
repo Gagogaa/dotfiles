@@ -3,12 +3,13 @@
 ;;; TODO: Consider putting this in ~/.emacs.d/init.el and backing up the whole .emacs.d folder
 ;;; TODO: Also consider backing this up with Dropbox.
 ;;; TODO: Make comments more readable
+;;; TODO: Add clipboard-yank keybinding
 
 ;;; Emacs standard settings
 (tool-bar-mode -1) ; Kill toolbar
-(menu-bar-mode -1) ; Remove menubar
+;; (menu-bar-mode -1) ; Remove menubar
 (setq-default tab-width 2) ; Tab width 2
-(setq show-paren-delay 0)	; 0 delay for paren matching 
+(setq show-paren-delay 0)	; 0 delay for paren matching
 (show-paren-mode 1)	; Show matching paren
 (scroll-bar-mode -1) ; No scroll bars
 (toggle-word-wrap 1) ; Better word wrapping 1
@@ -52,13 +53,19 @@
  'org-bullets
  ;; 'clojure-mode
  ;; 'cider
- 'smooth-scrolling
+ ;; 'smooth-scrolling
+ ;; TODO: make my own version of control lock 
  'control-lock ; it breaks in the termial
  'smex
  'ido
  ;; 'company
- 'markdown-mode
+ ;; 'markdown-mode
+ ;; 'flycheck
  )
+
+;; TODO: look more into flycheck
+;; Dont forget ot install eslint via npm 
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; (require 'company)
 ;; (global-company-mode)
@@ -116,17 +123,43 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+	 [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
 	 ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(cursor-type (quote hollow))
  '(custom-enabled-themes (quote (sanityinc-solarized-light)))
  '(custom-safe-themes
 	 (quote
-		("4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+		("5dc0ae2d193460de979a463b907b4b2c6d2c9c4657b2e9e66b8898d2592e3de5" "98cc377af705c0f2133bb6d340bf0becd08944a588804ee655809da5d8140de6" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(fci-rule-color "#37474f")
+ '(hl-sexp-background-color "#1c1f26")
  '(package-selected-packages
 	 (quote
-		(auto-complete company peacock-theme cl-lib markdown-mode helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
- '(ring-bell-function (quote ignore)))
+		(material-theme flycheck auto-complete company peacock-theme cl-lib markdown-mode helm-smex smex control-lock hc-zenburn-theme gruvbox-theme grandshell-theme gotham-theme flatland-theme smooth-scrolling persistent-soft org-bullets mic-paren color-theme-sanityinc-solarized ## helm)))
+ '(ring-bell-function (quote ignore))
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+	 (quote
+		((20 . "#f36c60")
+		 (40 . "#ff9800")
+		 (60 . "#fff59d")
+		 (80 . "#8bc34a")
+		 (100 . "#81d4fa")
+		 (120 . "#4dd0e1")
+		 (140 . "#b39ddb")
+		 (160 . "#f36c60")
+		 (180 . "#ff9800")
+		 (200 . "#fff59d")
+		 (220 . "#8bc34a")
+		 (240 . "#81d4fa")
+		 (260 . "#4dd0e1")
+		 (280 . "#b39ddb")
+		 (300 . "#f36c60")
+		 (320 . "#ff9800")
+		 (340 . "#fff59d")
+		 (360 . "#8bc34a"))))
+ '(vc-annotate-very-old-color nil))
 
 ;;; I think these next two bits we're for a terminal color scheme fix 
 (defun on-after-init ()
