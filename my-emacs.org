@@ -14,7 +14,9 @@
 	- check out occur
 	- Bind C-, to control-lock-toggle in org mode
 	- find a perminate setting for the the change in font size 
-  - Consiter installing keyfreq for key logging in emacs 
+  - Consiter installing keyfreq for key logging in emacs
+	- Change (org-babel-load-file (expand-file-name ".my-emacs.org")) to a keybinding like <f12>
+		and just load the .my-emacs.el file from the the init to save on load time 
 * Custom Vars
 ** =Ido=
 	 #+BEGIN_SRC emacs-lisp

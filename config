@@ -198,7 +198,7 @@ bar {
 
 		# color-class 		border		background	text
        		focused_workspace  	$back3-c 	$back3-c 	$hl-c
-       		active_workspace   	$red-c		$red-c		$red-c
+       		active_workspace   	$red-c		$redn-c		$red-c
         	inactive_workspace 	$back3-c	$back3-c	$base01-c
       		urgent_workspace  	$back3-c	$back3-c	$red-c
    		    binding_mode       	$back3-c 	$back3-c	$violet-c
@@ -227,9 +227,16 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 # Startup applications
 exec --no-startup-id compton -f -D 5 -c -C -r 20 -l -30 -t -20 -o 0.2 --vsync opengl --glx-use-copysubbuffermesa -b # start the compositor
-exec --no-startup-id xmodmap -e "clear lock" # disable caps lock switch
-exec --no-startup-id setxkbmap -layout us -option caps:escape # Set caps lock to escape 
-exec --no-startup-id xmodmap -e "keysym Caps_Lock = Escape" # Only works if keyboard is pluged in at startup
+# exec --no-startup-id xmodmap -e "clear lock" # disable caps lock switch
+# exec --no-startup-id setxkbmap -layout us -option caps:escape # Set caps lock to escape 
+# exec --no-startup-id xmodmap -e "keysym Caps_Lock = Escape" # Only works if keyboard is pluged in at startup
+exec --no-startup-id xmodmap -e "remove Lock = Caps_Lock"
+exec --no-startup-id xmodmap -e "keysym Caps_Lock = Control_L" # Only works if keyboard is pluged in at startup
+
+# figure out witch one does the trick
+exec --no-startup-id xmodmap -e "add Lock = Caps_Lock"
+exec --no-startup-id xmodmap -e "add Control = Control_L"
+
 exec --no-startup-id dropbox start # start dropbox
 exec --no-startup-id xset -dpms # stop auto screen saver
 
