@@ -29,7 +29,7 @@
  '(compilation-message-face (quote default))
  '(custom-safe-themes
 	 (quote
-		("c7a9a68bd07e38620a5508fef62ec079d274475c8f92d75ed0c33c45fbe306bc" default)))
+		("1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "c7a9a68bd07e38620a5508fef62ec079d274475c8f92d75ed0c33c45fbe306bc" default)))
  '(fci-rule-color "#3C3D37")
  '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
  '(highlight-tail-colors
@@ -45,7 +45,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
 	 (quote
-		(markdown-mode eshell-manual 2048-game ac-emmet auto-complete org-bullets counsel swiper avy lorem-ipsum control-lock try monokai-theme use-package)))
+		(ample-zen-theme solarized-theme git-gutter flycheck markdown-mode eshell-manual 2048-game ac-emmet auto-complete org-bullets counsel swiper avy lorem-ipsum control-lock try monokai-theme use-package)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(ring-bell-function (quote ignore))
@@ -100,3 +100,4 @@
  '(popup-scroll-bar-background-face ((t (:inherit highlight))))
  '(popup-scroll-bar-foreground-face ((t (:inherit lazy-highlight)))))
 
+(put 'narrow-to-region 'disabled nil)

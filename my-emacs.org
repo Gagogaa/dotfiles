@@ -6,18 +6,24 @@
 	- Make comments more readable
 	- Add clipboard-yank keybinding
 	- Lookup the mark ring maybe rebind mark pop
-	- check out magit and flycheck
-	- move all this TODO garbage to an org file
+	- Check out magit and flycheck
+	- Move all this TODO garbage to an org file
 	- Look into yasnippets
 	- Check out Abbrevs package
-	- consiter rebinding capslock to CRTL for emacs
-	- check out occur
+	- Consiter rebinding capslock to CRTL for emacs
+	- Check out occur
 	- Bind C-, to control-lock-toggle in org mode
-	- find a perminate setting for the the change in font size 
+	- Find a perminate setting for the the change in font size 
   - Consiter installing keyfreq for key logging in emacs
 	- Change (org-babel-load-file (expand-file-name ".my-emacs.org")) to a keybinding like <f12>
-		and just load the .my-emacs.el file from the the init to save on load time 
-* Custom Vars
+		and just load the .my-emacs.el file from the the init to save on load time
+	- Change lazy highlight so it has an underline of color #FF9632 and a style of Line
+	- Take a look at git gutter, gittimemachine, smerge
+	- Add ac-html-bootstrap after learning boostrap jQuery
+	- Look into newlines not working on github
+	- Also make this file more usable for other people
+	- Redo packages so the source blocks had only code (no comments)
+* Vars
 ** =Ido=
 	 #+BEGIN_SRC emacs-lisp
      ;;; Currently using swiper... rip ido
@@ -34,7 +40,7 @@
      ;; (setq ido-mode-enable-flex-matching t) ; Flexable matching
      ;; (setq ido-enable-regexp t)
      ;; (setq ido-everywhere t)
-     ;; (setq ido-use-filename-at-point 'guess) ; Uses point to ge tcontext for file search
+     ;; (setq ido-use-filename-at-point 'guess) ; Uses point to get context for file search
      ;; (setq ido-create-new-buffer 'always) ; Lets ido create new buffers without propmting
      ;; (setq ido-file-extensions-order '(".org" ".java" ".emacs")) ; Tells ido to show these file types first
      ;; (setq ido-ignore-extensions t) ; Tells ido to use completion-ignored-extensions variable for a list of file extensions to ignore
@@ -154,7 +160,7 @@
 	 #+END_SRC
 ** Avy
 *** TODO change avy faces to be colorful for monokai
-*** Temp
+
 	 This package provides a generic completion method based on building
 	 a balanced decision tree with each candidate being a leaf.  To
 	 traverse the tree from the root to a desired leaf, typically a
@@ -165,20 +171,20 @@
 	 this completion method works only for things that you can see on
 	 your screen, all at once:
 
-1. character positions
-2. word or subword start positions
-3. line beginning positions
-4. link positions
-5. window positions
+- character positions
+- word or subword start positions
+- line beginning positions
+- link positions
+- window positions
 	
-	 If you're familiar with the popular `ace-jump-mode' package, this
-	 package does all that and more, without the implementation headache.
-	 #+BEGIN_SRC emacs-lisp 
-      ;;; TODO: see how to cancel control-lock when active
-     (use-package avy
-       :ensure t
-       :bind ("M-s" . avy-goto-word-1))
-	 #+END_SRC
+	If you're familiar with the popular `ace-jump-mode' package, this
+	package does all that and more, without the implementation headache.
+	#+BEGIN_SRC emacs-lisp 
+		 ;;; TODO: see how to cancel control-lock when active
+    (use-package avy
+      :ensure t
+      :bind ("M-s" . avy-goto-word-1))
+	#+END_SRC
 ** Swiper
 	 This package gives an overview of the current regex search
 	 candidates.  The search regex can be split into groups with a
@@ -214,18 +220,18 @@
 	 the corresponding thing using `ivy'.
 	 
 	 Currently available:
-1. Symbol completion for Elisp, Common Lisp, Python and Clojure.
-2. Describe fuctions for Elisp: function, variable, library, command, bindings, theme.
-3. Navigation functions: imenu, ace-line, semantic, outline
-4. Git utilities: git-files, git-grep, git-log, git-stash.
-5. Grep utitilies: grep, ag, pt, recoll.
-6. System utilities: process list, rhythmbox, linux-app.
-7. Many more.
-		#+BEGIN_SRC emacs-lisp 
-       ;;; required for swiper
-			(use-package counsel
-				:ensure t)
-		#+END_SRC
+- Symbol completion for Elisp, Common Lisp, Python and Clojure.
+- Describe fuctions for Elisp: function, variable, library, command, bindings, theme.
+- Navigation functions: imenu, ace-line, semantic, outline
+- Git utilities: git-files, git-grep, git-log, git-stash.
+- Grep utitilies: grep, ag, pt, recoll.
+- System utilities: process list, rhythmbox, linux-app.
+- Many more.
+	 #+BEGIN_SRC emacs-lisp 
+      ;;; required for swiper
+		 (use-package counsel
+			 :ensure t)
+	 #+END_SRC
 ** Org-bullets
 	 Show bullets in org-mode as UTF-8 characters
 	 #+BEGIN_SRC emacs-lisp 
@@ -296,7 +302,7 @@
          (add-hook 'html-mode-hook 'emmet-mode)
          (add-hook 'css-mode-hook 'emmet-mode)))
 	 #+END_SRC
-,** Ac-emmet
+** Ac-emmet
 	 Auto complete sources for emmet
 	 #+BEGIN_SRC emacs-lisp 
       ;;; Enable snippets for emmet
@@ -390,4 +396,4 @@
   (global-set-key (kbd "C-,") 'control-lock-toggle)
   (define-key global-map (kbd "RET") 'newline-and-indent)
 	 #+END_SRC
-	 
+
