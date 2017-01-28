@@ -21,6 +21,7 @@ PS1='$(tput setaf 2)\h$(tput setaf 12)|$(tput setaf 4)\W $(tput setaf 12)\$> '
 BROWSER=/usr/bin/chromium
 EDITOR=/usr/bin/nvim
 TRASH=/.local/share/Trash/files
+VISUAL=emacsclient
 
 alias l='ls -F --color=auto'
 alias ls='ls -F --color=auto'

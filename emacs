@@ -45,7 +45,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
 	 (quote
-		(ample-zen-theme solarized-theme git-gutter flycheck markdown-mode eshell-manual 2048-game ac-emmet auto-complete org-bullets counsel swiper avy lorem-ipsum control-lock try monokai-theme use-package)))
+		(w3 engine-mode hl-todo ample-zen-theme solarized-theme git-gutter flycheck markdown-mode eshell-manual 2048-game ac-emmet auto-complete org-bullets counsel swiper avy lorem-ipsum control-lock try monokai-theme use-package)))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")
  '(ring-bell-function (quote ignore))

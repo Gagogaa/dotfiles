@@ -16,13 +16,7 @@
 	- Find a perminate setting for the the change in font size 
   - Consiter installing keyfreq for key logging in emacs
 	- Change (org-babel-load-file (expand-file-name ".my-emacs.org")) to a keybinding like <f12>
-		and just load the .my-emacs.el file from the the init to save on load time
-	- Change lazy highlight so it has an underline of color #FF9632 and a style of Line
-	- Take a look at git gutter, gittimemachine, smerge
-	- Add ac-html-bootstrap after learning boostrap jQuery
-	- Look into newlines not working on github
-	- Also make this file more usable for other people
-	- Redo packages so the source blocks had only code (no comments)
+		
 * Vars
 ** =Ido=
 	 #+BEGIN_SRC emacs-lisp
@@ -74,11 +68,13 @@
     ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
     (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
 
+    (server-start) ; start the emacs server for the terminal
+
     ;;; Emacs exec-path
     (add-to-list 'exec-path "~/.bin")
     ;; (add-to-list 'load-path "~/.emacs.d/") ; Where emacs looks for files to load
 	#+END_SRC
-* Pakcages
+* Packages
 ** TODO Remember these packages
 	 ;; (ensure-packages-installed
 	 ;; 'helm
@@ -185,6 +181,18 @@
       :ensure t
       :bind ("M-s" . avy-goto-word-1))
 	#+END_SRC
+** Engine-mode
+	 The [[https://github.com/hrs/engine-mode][Github]] Github page has some nice examples. 
+	 The prefix key is C-x / <keybinding>
+	 #+BEGIN_SRC emacs-lisp
+     (use-package engine-mode
+       :ensure t
+       :config 
+       (defengine duckduckgo
+         "https://duckduckgo.com/?q=%s"
+         :keybinding "d"))
+        
+	 #+END_SRC
 ** Swiper
 	 This package gives an overview of the current regex search
 	 candidates.  The search regex can be split into groups with a
