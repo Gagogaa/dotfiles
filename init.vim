@@ -5,7 +5,6 @@ set softtabstop=4
 set smarttab
 set nowrap
 
-
 filetype plugin indent on
 
 " open split panes to the bottom right 

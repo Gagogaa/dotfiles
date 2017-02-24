@@ -7,21 +7,28 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source .xinitrc
+#source .xinitrc
 
 # Shell options 
-# Set the default edit mode to emacs
+# Set the default edit mode to emacs for now
 set -o emacs 
 
 shopt -s autocd
 shopt -s cdable_vars
+shopt -s cdspell
+shopt -s dirspell
 
-PS1='$(tput setaf 2)\h$(tput setaf 12)|$(tput setaf 4)\W $(tput setaf 12)\$> '
+PS1='\[$(tput setaf 2)\]\h'
+PS1+='\[$(tput setaf 12)\]|'
+PS1+='\[$(tput setaf 4)\]\W '
+PS1+='\[$(tput setaf 12)\]\$> '
+PS1+='\[$(tput sgr0)\]'
+export PS1
 
 BROWSER=/usr/bin/chromium
 EDITOR=/usr/bin/nvim
 TRASH=/.local/share/Trash/files
-VISUAL=emacsclient
+VISUAL=/usr/bin/nvim
 
 alias l='ls -F --color=auto'
 alias ls='ls -F --color=auto'
@@ -35,19 +42,21 @@ alias edit='$EDITOR'
 alias free='free -h'
 alias shutdown='sudo shutdown -h now'
 alias h='history'
-alias hsi='hs -i'
-alias emacs='emacs -nw'
+# alias hsi='hs -i'
+# alias emacs='emacs -nw'
 alias grep='grep --color=auto'
 alias info='info --vi-keys'
+alias srcx='xrdb ~/.Xresources'
+alias pg='ping google.com'
 
-alias update='sudo pacman -Syu'
-alias install='sudo pacman -S'
-alias remove='sudo pacman -Rnsc'
-alias pacman='sudo pacman'
+# alias update='sudo pacman -Syu'
+# alias install='sudo pacman -S'
+# alias remove='sudo pacman -Rnsc'
+alias pacman='sudo pacman --color=auto'
 
-alias yupdate='yaourt -Syu'
-alias yinstall='yaourt -S'
-alias yremove='yaourt -Rnsc'
+# alias yupdate='yaourt -Syu'
+# alias yinstall='yaourt -S'
+# alias yremove='yaourt -Rnsc'
 
 # Functions 
 trash () { command mv "$@" $TRASH; }
