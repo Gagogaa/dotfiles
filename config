@@ -214,9 +214,19 @@ bar {
 }
 
 # i3-gaps
-for_window [class="^.*"] border pixel 0 # deletes borders
-gaps inner 10 # the size of the border between windows and other things
-gaps outer 0 # the size of the border around the edges of the screen
+#for_window [class="^.*"] border pixel 0 # deletes borders
+#gaps inner 10 # the size of the border between windows and other things
+#gaps outer 0 # the size of the border around the edges of the screen
+
+# class                 border  	backgr. 	text    	indicator 	child_border
+client.focused		$yellow-c	$yellow-c	$base3-c	$blue-c		$yellow-c
+client.focused_inactive $base01-c	$base01-c	$base00-c	$blue-c		$base01-c
+client.unfocused        $back3-c	$back3-c	$base00-c	$blue-c		$back3-c
+
+client.urgent           $red-c		$red-c		$base00-c	$blue-c		$red-c
+client.placeholder      #000000 	#0c0c0c 	#ffffff 	#000000   	#0c0c0c
+
+client.background       $back3-c
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%+ # increase sound volume
@@ -234,16 +244,16 @@ bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 
 # Startup applications
-exec --no-startup-id compton -f -D 5 -c -C -r 20 -l -30 -t -20 -o 0.2 --vsync opengl --glx-use-copysubbuffermesa -b # start the compositor
+# start the compositor and wait to rebind this key because it doesnt acctually rebind it otherwise
+
+#exec --no-startup-id compton -f -D 5 -c -C -r 20 -l -30 -t -20 -o 0.2 --vsync opengl --glx-use-copysubbuffermesa -b && xmodmap -e "keycode 135 = Super_R"
+
+exec --no-startup-id compton -f -C -D 5 -b
 # exec --no-startup-id xmodmap -e "clear lock" # disable caps lock switch
 # exec --no-startup-id setxkbmap -layout us -option caps:escape # Set caps lock to escape 
 # exec --no-startup-id xmodmap -e "keysym Caps_Lock = Escape" # Only works if keyboard is pluged in at startup
 exec --no-startup-id xmodmap -e "remove Lock = Caps_Lock"
 exec --no-startup-id xmodmap -e "keysym Caps_Lock = Control_L" # Only works if keyboard is pluged in at startup
-
-# figure out witch one does the trick
-# exec --no-startup-id xmodmap -e "add Lock = Caps_Lock"
-exec --no-startup-id xmodmap -e "add Control = Control_L"
 
 # maybe these commands will work
 # swap caps-lcok and ctrl
@@ -261,11 +271,20 @@ bindsym $mod+g exec --no-startup-id rofi -modi "run" -show run
 
 # Desktop only things
 exec --no-startup-id xrandr --output HDMI-0 --mode 1440x900 --rate 60 --gamma 1:1:1 --brightness 0.87 && feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the screen settings and set the wallpaper
+exec_always --no-startup-id feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill && xmodmap -e "keycode 135 = Super_R"
+exec --no-startup-id redshift-gtk
 
 # Laptop only things
 # exec --no-startup-id xrandr --output eDP --mode 1366x768 --rate 60
 # exec --no-startup-id feh ~/Pictures/Wallpapers/Wall.jpg --bg-fill # set the wallpaper
 
 # Flip screen 
-# bindsym $mod+Up exec --no-startup-id xrandr --output LVDS-0 --reflect xy
-# bindsym $mod+Down exec --no-startup-id xrandr --output LVDS-0 --reflect normal
+bindsym $mod+Up exec --no-startup-id xrandr --output LVDS1 --reflect xy
+bindsym $mod+Down exec --no-startup-id xrandr --output LVDS1 --reflect normal
+
+# figure out witch one does the trick
+# exec --no-startup-id xmodmap -e "add Lock = Caps_Lock"
+exec --no-startup-id  xmodmap -e "add Control = Control_L"
+#exec --no-startup-id xmodmap -e "keycode 135 = Super_R"
+
+
