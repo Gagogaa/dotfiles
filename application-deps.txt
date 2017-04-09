@@ -1,6 +1,6 @@
-rxvt-unicode,terminus-font,i3-wm,i3lock,i3status,ttf-google-fonts,rofi,arc-icon-theme,arc-solid-gtk-theme,scrot,feh,i3status,compton,acpi,tk,redshift,gtk-theme-numix-solarized
+rxvt-unicode,terminus-font,i3-wm,i3lock,i3status,ttf-google-fonts,rofi,arc-icon-theme,arc-solid-gtk-theme,scrot,feh,i3status,compton,acpi,tk,redshift,ncmpcpp
 
 
-i3blocks,ttf-font-awesome
+i3blocks,ttf-font-awesome,gtk-theme-numix-solarized
 
 # .config/gtk-3.0/settings.ini
