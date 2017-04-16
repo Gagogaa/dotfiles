@@ -1,34 +1,31 @@
 #+STARTIP: overview
 #+RESULTS: output silent
 * TODOS
-	- Embed a tweaked version of control lock for capital key bindings
-	- Consider putting this in ~/.emacs.d/init.el and backing up the whole .emacs.d folder
-	- Make comments more readable
-	- Add clipboard-yank keybinding
-	- Lookup the mark ring maybe rebind mark pop
-	- Check out magit and flycheck
-	- Move all this TODO garbage to an org file
-	- Look into yasnippets
-	- Check out Abbrevs package
-	- Consiter rebinding capslock to CRTL for emacs
-	- Check out occur
-	- Bind C-, to control-lock-toggle in org mode
-	- Find a perminate setting for the the change in font size 
+  - Lookup the mark ring maybe rebind mark pop NOTE: check out helm markring
+  - Check out magit and flycheck
+  - Look into yasnippets
+  - Check out Abbrevs package
+  - Check out occur
+  - Find a perminate setting for the the change in font size 
   - Consiter installing keyfreq for key logging in emacs
-	- Change (org-babel-load-file (expand-file-name ".my-emacs.org")) to a keybinding like <f12>
-		
+  - Change (org-babel-load-file (expand-file-name ".my-emacs.org")) to a keybinding like <f12>
+  - Look into web-mode
+	- Check out the reference cards in /usr/share/emacs/refcards
+    
 * Vars
-** =Ido=
-	 #+BEGIN_SRC emacs-lisp
-     ;;; Currently using swiper... rip ido
-     ;;; TODO: check out occur it may replace swiper
-     ;;; READ this article https://www.masteringemacs.org/article/searching-buffers-occur-mode
-     ;;; // start at the top most Dir "/"
-     ;;; M-d Searches sub-Dirs too
-     ;;; M-m Creates a new sub directory
-     ;;; C-t Toggles RegExp matching 
-     ;;; C-p toggles Prefix matching (if on matches by beginning rather that containing)
-     ;;; NOTE you can customize a variable with M-x customize-variable RET variable-name-here
+	
+** Ido
+   Ido may be replaced by helm
+   TODO: check out occur it may replace swiper
+   READ this article https://www.masteringemacs.org/article/searching-buffers-occur-mode
+   
+   M-d Searches sub-Dirs too
+   M-m Creates a new sub directory
+   C-t Toggles RegExp matching 
+   C-p toggles Prefix matching (if on matches by beginning rather that containing)
+   NOTE you can customize a variable with M-x customize-variable RET variable-name-here
+	 
+   #+BEGIN_SRC emacs-lisp
      ;; (require 'ido)
      ;; (ido-mode t)
      ;; (setq ido-mode-enable-flex-matching t) ; Flexable matching
@@ -38,196 +35,216 @@
      ;; (setq ido-create-new-buffer 'always) ; Lets ido create new buffers without propmting
      ;; (setq ido-file-extensions-order '(".org" ".java" ".emacs")) ; Tells ido to show these file types first
      ;; (setq ido-ignore-extensions t) ; Tells ido to use completion-ignored-extensions variable for a list of file extensions to ignore
-	 #+END_SRC
+
+   #+END_SRC
+   
 ** Interface tweaks
-	#+BEGIN_SRC emacs-lisp
-    ;;; Emacs standard settings
-    ;;; TODO: consider setting a custom-file for the customize groups
-    (tool-bar-mode -1) ; Kill toolbar
-    (menu-bar-mode -1) ; Remove menubar
-    (setq-default tab-width 2) ; Tab width 2
-    (setq show-paren-delay 0) ; 0 delay for paren matching
-    (show-paren-mode 1) ; Show matching paren
-    (scroll-bar-mode -1) ; No scroll bars
-    (toggle-word-wrap 1) ; Better word wrapping 1
-    (electric-pair-mode) ; Turn on pair matching for brackets
-    (desktop-save-mode 1) ; save emacs sessions
-    (global-hl-line-mode 1) ; Highlight the current line
-    (setq desktop-auto-save-timeout nil) ; dont autosave files
-    (setq delete-by-moving-to-trash t) ; Move things to the trash instead of destorying them
-    (tooltip-mode -1) ; Disable tool tips 
-    (setq tooltip-use-echo-area t) ; Show tool tips in the mini buffer
-    (fset 'yes-or-no-p 'y-or-n-p) ; Replace the annoying yes-or-no prompt with y-or-n
-    ;; (global-linum-mode 1) ; Show line numbers
-    ;; (winner-mode 1) ; Lets you undo and redo window layout commands with C-x left/right
-    ;; (windmove-default-keybindings) ; Lets you move around windows with SHIFT+up/right/down/left
-    ;; (setq debug-on-error t) ; Tell emacs to debug on error
+   Emacs standard settings
+   
+*** Remove menus and sidebars
+		
+    #+BEGIN_SRC emacs-lisp
+      ;; Kill toolbar
+      (tool-bar-mode -1)
+      ;; Remove menubar
+      (menu-bar-mode -1)
+      ;; No scroll bars
+      (scroll-bar-mode -1)
+          
+    #+END_SRC
+    
+    
+    #+BEGIN_SRC emacs-lisp
+     ;; two space tabs
+     (setq-default tab-width 2)
+     (setq show-paren-delay 0) ; 0 delay for paren matching
+     (show-paren-mode 1) ; Show matching paren
 
-    (defalias 'list-buffers 'ibuffer) ; switch list-buffers to ibuffer
+     ;; Better word wrapping 1
+     (toggle-word-wrap 1)
 
-    ;;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-    (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
+     ;; Turn on pair matching for brackets
+     (electric-pair-mode)
 
-    (server-start) ; start the emacs server for the terminal
+     ;; save emacs sessions
+     (desktop-save-mode 1)
 
-    ;;; Emacs exec-path
-    (add-to-list 'exec-path "~/.bin")
-    ;; (add-to-list 'load-path "~/.emacs.d/") ; Where emacs looks for files to load
-	#+END_SRC
+     ;; Highlight the current line
+     (global-hl-line-mode 1)
+
+     ;; dont autosave files
+     (setq desktop-auto-save-timeout nil)
+
+     ;; Move things to the trash instead of destorying them
+     (setq delete-by-moving-to-trash t)
+
+     ;; Disable tool tips 
+     (tooltip-mode -1)
+
+     ;; Show tool tips in the mini buffer
+     (setq tooltip-use-echo-area t)
+
+
+     ;; Replace the annoying yes-or-no prompt with y-or-n
+     (fset 'yes-or-no-p 'y-or-n-p)
+
+     ;; (global-linum-mode 1) ; Show line numbers
+     ;; (winner-mode 1) ; Lets you undo and redo window layout commands with C-x left/right
+     ;; (windmove-default-keybindings) ; Lets you move around windows with SHIFT+up/right/down/left
+     ;; (setq debug-on-error t) ; Tell emacs to debug on error
+
+     (defalias 'list-buffers 'ibuffer) ; switch list-buffers to ibuffer
+
+     ;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+     (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
+
+     ;; start the emacsclient -c for the terminal
+     (server-start) 
+
+     ;; Emacs exec-path
+     (add-to-list 'exec-path "~/.bin")
+     ;; (add-to-list 'load-path "~/.emacs.d/") ; Where emacs looks for files to load
+
+    #+END_SRC
+		
+*** Adding languages to org-mode
+		[[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html][python]]
+
+		#+BEGIN_SRC emacs-lisp
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((python . t)))
+
+		#+END_SRC
+		
 * Packages
-** TODO Remember these packages
-	 ;; (ensure-packages-installed
-	 ;; 'helm
-	 ;; 'clojure-mode
-	 ;; 'cider
-	 ;; 'smex
-	 ;; 'company
-	 ;; 'auto-complete
-	 ;; 'markdown-mode
-	 ;; 'flycheck
-	 ;; )
-	 
-	 ;;; Fix a bug with cider
-	 ;; (add-hook 'clojure-mode-hook #'cider-mode)
+	
 ** Use-package
-	:init loads things before the package loads
-	:config loads things after the package is loaded
-	# ** Eshell-manual
-	# 	 Adds a manual for eshell to emacs!
-	# 	 #+BEGIN_SRC emacs-lisp
-	#      (use-package eshell-manual
-	#        :ensure t)
-	# 	 #+END_SRC
-** Color themes
-	 #+BEGIN_SRC emacs-lisp
+   :init loads things before the package loads
+   :config loads things after the package is loaded
+	 
+   # ** Eshell-manual
+   #   Adds a manual for eshell to emacs!
+   #   #+BEGIN_SRC emacs-lisp
+   #      (use-package eshell-manual
+   #        :ensure t)
+   #   #+END_SRC
+	 
+** Themes
+	 
+   #+BEGIN_SRC emacs-lisp
      ;; (use-package color-theme-sanityinc-solarized
-     ;;   :ensure t)
+     ;;   :ensure t
+     ;;   :config
+     ;;   (load-theme 'sanityinc-solarized-dark t))
 
-     (use-package monokai-theme
+     (use-package zenburn-theme
        :ensure t
        :config
-       (load-theme 'monokai t))
-	 #+END_SRC
+       (load-theme 'zenburn t))
+
+     ;; (use-package monokai-theme
+     ;;   :ensure t
+     ;;   :config
+     ;;   (load-theme 'monokai t))
+
+   #+END_SRC
+   
 ** Try
-	 Try is a package that allows you to try out Emacs packages without
-	 installing them. If you pass a URL to a plain text `.el`-file it evaluates
-	 the content, without storing the file.
-	 #+BEGIN_SRC emacs-lisp 
-      ;;; Try lets you use packages withoutn actually installing them
+   Try is a package that allows you to try out Emacs packages without
+   installing them.
+	 
+   #+BEGIN_SRC emacs-lisp 
      (use-package try
        :ensure t)
-	 #+END_SRC
-** Control-lock
-	 Like caps-lock, but for your control key.  Give your pinky a rest!
-	 #+BEGIN_SRC emacs-lisp 
-     ;;; Must be used after loading of color scheme
-     (use-package control-lock
-       :ensure t
-       :bind
-       ("C-." . control-lock-toggle)
-       ("C-," . contorl-lock-toggle))
-	 #+END_SRC
+
+   #+END_SRC
+   
+** =Control-lock=
+   Like caps-lock, but for your control key.  Give your pinky a rest!
+	 
+   #+BEGIN_SRC emacs-lisp 
+     ;; (use-package control-lock
+     ;;   :ensure t
+     ;;   :bind
+     ;;   ("C-." . control-lock-toggle)
+     ;;   ("C-," . contorl-lock-toggle))
+
+   #+END_SRC
+   
 ** Lorem-ipsum
-	 This package provides convenience functions to insert dummy Latin
-	 text into a buffer.
-	 
-	 To install manually, add this file to your `load-path'.  Use the
-	 default keybindings by adding the following to your .emacs file:
-	 
-	 (lorem-ipsum-use-default-bindings)
-	 
-	 This will setup the folling keybindings:
-	 
-	 C-c l p: lorem-ipsum-insert-paragraphs
-	 C-c l s: lorem-ipsum-insert-sentences
-	 C-c l l: lorem-ipsum-insert-list
-	 
-	 If you want a different keybinding, say you want the prefix C-c C-l, use a variation of the
-	 following:
-	 
-	 (global-set-key (kbd "C-c C-l s") 'lorem-ipsum-insert-sentences)
-	 (global-set-key (kbd "C-c C-l p") 'lorem-ipsum-insert-paragraphs)
-	 (global-set-key (kbd "C-c C-l l") 'lorem-ipsum-insert-list)
-	 #+BEGIN_SRC emacs-lisp 
+   This package provides convenience functions to insert dummy Latin
+   text into a buffer.
+   
+   Default keybindings:
+   
+   C-c l p: lorem-ipsum-insert-paragraphs
+   C-c l s: lorem-ipsum-insert-sentences
+   C-c l l: lorem-ipsum-insert-list
+   
+   #+BEGIN_SRC emacs-lisp 
      (use-package lorem-ipsum
        :ensure t
        :config
        (lorem-ipsum-use-default-bindings))
-	 #+END_SRC
-** Avy
-*** TODO change avy faces to be colorful for monokai
 
-	 This package provides a generic completion method based on building
-	 a balanced decision tree with each candidate being a leaf.  To
-	 traverse the tree from the root to a desired leaf, typically a
-	 sequence of `read-key' can be used.
-	 
-	 In order for `read-key' to make sense, the tree needs to be
-	 visualized appropriately, with a character at each branch node.  So
-	 this completion method works only for things that you can see on
-	 your screen, all at once:
-
-- character positions
-- word or subword start positions
-- line beginning positions
-- link positions
-- window positions
-	
-	If you're familiar with the popular `ace-jump-mode' package, this
-	package does all that and more, without the implementation headache.
-	#+BEGIN_SRC emacs-lisp 
-		 ;;; TODO: see how to cancel control-lock when active
-    (use-package avy
-      :ensure t
-      :bind ("M-s" . avy-goto-word-1))
-	#+END_SRC
+   #+END_SRC
+   
 ** Engine-mode
-	 The [[https://github.com/hrs/engine-mode][Github]] Github page has some nice examples. 
-	 The prefix key is C-x / <keybinding>
-	 #+BEGIN_SRC emacs-lisp
+   The [[https://github.com/hrs/engine-mode][Github]] Github page has some nice examples. 
+   The prefix key is C-x / <keybinding>
+	 
+   #+BEGIN_SRC emacs-lisp
      (use-package engine-mode
        :ensure t
        :config 
+       (engine-mode t)
        (defengine duckduckgo
          "https://duckduckgo.com/?q=%s"
          :keybinding "d"))
         
-	 #+END_SRC
-** Swiper
-	 This package gives an overview of the current regex search
-	 candidates.  The search regex can be split into groups with a
-	 space.  Each group is highlighted with a different face.
+   #+END_SRC
+   
+** =Swiper=
+   TODO: think about useing helm for the extra support
+   
+   This package gives an overview of the current regex search
+   candidates.  The search regex can be split into groups with a
+   space.  Each group is highlighted with a different face.
+   
+   It can double as a quick `regex-builder', although only single
+   lines will be matched.
 	 
-	 It can double as a quick `regex-builder', although only single
-	 lines will be matched.
-	 #+BEGIN_SRC emacs-lisp 
-      ;;; link to swiper/ivy docs http://oremacs.com/swiper/
-     (use-package swiper
-       :ensure t
-       :config
-       (progn (ivy-mode 1)
-              (setq ivy-use-virtual-buffers t)
-              ;; (setq ivy-display-style 'fancy)
-              (global-set-key "\C-s" 'swiper)
-              (global-set-key (kbd "C-c C-r") 'ivy-resume)
-              (global-set-key (kbd "<f6>") 'ivy-resume)
-              (global-set-key (kbd "M-x") 'counsel-M-x)
-              (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-              (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-              (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-              (global-set-key (kbd "C-c g") 'counsel-git)
-              (global-set-key (kbd "C-c j") 'counsel-git-grep)
-              (global-set-key (kbd "C-c k") 'counsel-ag)
-              (global-set-key (kbd "C-x l") 'counsel-locate)
-              ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-              (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
-	 #+END_SRC
-** Counsel
-	 NOTE: This is mostly used as a dependancy for swiper
-	 Just call one of the interactive functions in this file to complete
-	 the corresponding thing using `ivy'.
-	 
-	 Currently available:
+   #+BEGIN_SRC emacs-lisp 
+     ;;  ;;; link to swiper/ivy docs http://oremacs.com/swiper/
+     ;; (use-package swiper
+     ;;   :ensure t
+     ;;   :config
+     ;;   (progn (ivy-mode 1)
+     ;;          (setq ivy-use-virtual-buffers t)
+     ;;          ;; (setq ivy-display-style 'fancy)
+     ;;          (global-set-key "\C-s" 'swiper)
+     ;;          (global-set-key (kbd "C-c C-r") 'ivy-resume)
+     ;;          (global-set-key (kbd "<f6>") 'ivy-resume)
+     ;;          (global-set-key (kbd "M-x") 'counsel-M-x)
+     ;;          (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+     ;;          (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+     ;;          (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+     ;;          (global-set-key (kbd "C-c g") 'counsel-git)
+     ;;          (global-set-key (kbd "C-c j") 'counsel-git-grep)
+     ;;          (global-set-key (kbd "C-c k") 'counsel-ag)
+     ;;          (global-set-key (kbd "C-x l") 'counsel-locate)
+     ;;          ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+     ;;          (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
+
+   #+END_SRC
+   
+** =Counsel=
+   NOTE: This is mostly used as a dependancy for swiper
+   Just call one of the interactive functions in this file to complete
+   the corresponding thing using `ivy'.
+   
+   Currently available:
 - Symbol completion for Elisp, Common Lisp, Python and Clojure.
 - Describe fuctions for Elisp: function, variable, library, command, bindings, theme.
 - Navigation functions: imenu, ace-line, semantic, outline
@@ -235,73 +252,40 @@
 - Grep utitilies: grep, ag, pt, recoll.
 - System utilities: process list, rhythmbox, linux-app.
 - Many more.
-	 #+BEGIN_SRC emacs-lisp 
-      ;;; required for swiper
-		 (use-package counsel
-			 :ensure t)
-	 #+END_SRC
+	
+  #+BEGIN_SRC emacs-lisp 
+     ;;  ;;; required for swiper
+     ;; (use-package counsel
+     ;;   :ensure t)
+
+  #+END_SRC
+  
 ** Org-bullets
-	 Show bullets in org-mode as UTF-8 characters
-	 #+BEGIN_SRC emacs-lisp 
+   Show bullets in org-mode as UTF-8 characters
+   
+   #+BEGIN_SRC emacs-lisp 
      (use-package org-bullets
        :ensure t
        :config
        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-	 #+END_SRC
-** Auto-complete
-	 This extension provides a way to complete with popup menu like:
-	 
-   def-!-
-   +-----------------+
-   |defun::::::::::::|
-   |defvar           |
-   |defmacro         |
-   |       ...       |
-   +-----------------+
-	 
-	 You can complete by typing and selecting menu.
-	 
-	 Entire documents are located in doc/ directory.
-	 Take a look for information.
-	 
-	 Enjoy!
-	 #+BEGIN_SRC emacs-lisp 
-      ;;; Please note that the popup menu uses popup-el for its visual interface
-      ;;; https://github.com/auto-complete/popup-el
-     (use-package auto-complete
+
+   #+END_SRC
+   
+** Company-mode
+   A better autocomplete for emacs
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package company
        :ensure t
        :config
-       (ac-config-default)
-       (global-auto-complete-mode t)
-       (setq scroll-bar 1) ; change this to nil or -1 to remove the auto-complete scroll-bar
-       )
-	 #+END_SRC
+       (company-mode))
+
+   #+END_SRC
+   
 ** Emmet-mode
-	 Unfold CSS-selector-like expressions to markup. Intended to be used
-	 with sgml-like languages; xml, html, xhtml, xsl, etc.
-	 
-	 See `emmet-mode' for more information.
-	 
-	 Copy emmet-mode.el to your load-path and add to your .emacs:
-	 
-   (require 'emmet-mode)
-	 
-	 Example setup:
-	 
-   (add-to-list 'load-path "~/Emacs/emmet/")
-   (require 'emmet-mode)
-   (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-   (add-hook 'html-mode-hook 'emmet-mode)
-   (add-hook 'css-mode-hook  'emmet-mode)
-	 
-	 Enable the minor mode with M-x emmet-mode.
-	 
-	 See ``Test cases'' section for a complete set of expression types.
-	 
-	 If you are hacking on this project, eval (emmet-test-cases) to
-	 ensure that your changes have not broken anything. Feel free to add
-	 new test cases if you add new features.
-	 #+BEGIN_SRC emacs-lisp 
+   Make inserting html and css easy
+   
+   #+BEGIN_SRC emacs-lisp 
      (use-package emmet-mode
        :ensure t
        :config
@@ -309,99 +293,176 @@
          (add-hook 'sgml-mode-hook 'emmet-mode) ; markup langs
          (add-hook 'html-mode-hook 'emmet-mode)
          (add-hook 'css-mode-hook 'emmet-mode)))
-	 #+END_SRC
-** Ac-emmet
-	 Auto complete sources for emmet
-	 #+BEGIN_SRC emacs-lisp 
-      ;;; Enable snippets for emmet
-     (use-package ac-emmet
+
+   #+END_SRC
+   
+** Web-mode
+   
+   #+BEGIN_SRC emacs-lisp
+     (use-package web-mode
+       :ensure t)
+       ;; (add-hook 'html-mode-hook 'web-mode)
+
+   #+END_SRC
+   
+** Which-key
+	 
+   #+BEGIN_SRC emacs-lisp
+     ;;; Shows keybind while typeing commands
+     (use-package which-key
        :ensure t
        :config
-       (ac-emmet-css-setup)
-       (ac-emmet-html-setup))
-	 #+END_SRC
+       (which-key-mode))
+
+   #+END_SRC
+   
+** Beacon-mode
+   Never lose my cursor again!
+	 
+   #+BEGIN_SRC emacs-lisp
+     (use-package beacon
+       :ensure t
+       :config
+       (beacon-mode))
+
+   #+END_SRC
+   
+** Powerline
+   information bar eye candy
+	 
+   #+BEGIN_SRC emacs-lisp
+     (use-package powerline
+       :ensure t
+       :config
+       (powerline-default-theme))
+        
+   #+END_SRC
+   
+** Helm
+	 
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm
+       :ensure t
+       :bind
+       ("M-x" . helm-M-x)
+       ("C-x C-f" . helm-find-files))
+        
+   #+END_SRC
+   
+** Swiper-helm
+	 
+   #+BEGIN_SRC emacs-lisp
+     (use-package swiper-helm
+       :ensure t
+       :bind
+       ("C-s" . swiper-helm))
+        
+   #+END_SRC
+   
+** Ace-jump-mode
+	 
+   #+BEGIN_SRC emacs-lisp
+     (use-package ace-jump-mode
+       :ensure t
+       :bind
+       ("M-s" . ace-jump-mode))
+        
+   #+END_SRC
+	 
+** Erlang-mode
+	 (add-hook 'erlang-mode-hook 'flycheck-mode)
+	 
+   #+BEGIN_SRC emacs-lisp
+     (use-package erlang
+       :ensure t)
+        
+   #+END_SRC
+   
 * Custom elisp code
-** TODO break this down into blocks 
-#+BEGIN_SRC emacs-lisp
-  ;;; I think these next two bits we're for a terminal color scheme fix 
-  (defun on-after-init ()
-    (set-face-background 'default "unspecified-bg" (selected-frame)))
+	
+** Fix theming issues in the terminal
+	 
+   #+BEGIN_SRC emacs-lisp
+     (defun on-after-init ()
+       (set-face-background 'default "unspecified-bg" (selected-frame)))
 
-  (if (not (window-system)) (add-hook 'window-setup-hook 'on-after-init))
+     (if (not (window-system)) (add-hook 'window-setup-hook 'on-after-init))
 
-  ;;; A snippet to deal with emacs tab nonsense
-  ;;; TODO: rewrite this for a better understanding of emacs and its tab nonsense
-  ;;; http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html
-  (defun my-setup-indent (n)
-    ;; java/c/c++
-    (setq-local c-basic-offset n)
-    ;; web development
-    (setq-local coffee-tab-width n) ; coffeescript
-    (setq-local javascript-indent-level n) ; javascript-mode
-    (setq-local js-indent-level n) ; js-mode
-    (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
-    (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
-    (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
-    (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
-    (setq-local css-indent-offset n) ; css-mode
-    )
+   #+END_SRC
+   
+** A snippet for dealing with tabs
+	 
+   #+BEGIN_SRC emacs-lisp
+     ;;; http://blog.binchen.org/posts/easy-indentation-setup-in-emacs-for-web-development.html
+     (defun my-setup-indent (n)
+       ;; java/c/c++
+       (setq-local c-basic-offset n)
+       ;; web development
+       (setq-local coffee-tab-width n) ; coffeescript
+       (setq-local javascript-indent-level n) ; javascript-mode
+       (setq-local js-indent-level n) ; js-mode
+       (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+       (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+       (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
+       (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
+       (setq-local css-indent-offset n) ; css-mode
+       )
 
-  (defun my-office-code-style ()
-    (interactive)
-    (message "Office code style!")
-    ;; use tab instead of space
-    (setq-local indent-tabs-mode t)
-    ;; indent 2 spaces width
-    (my-setup-indent 2))
+     (defun my-office-code-style ()
+       (interactive)
+       (message "Office code style!")
+       ;; use tab instead of space
+       (setq-local indent-tabs-mode nil)
+       ;; indent 2 spaces width
+       (my-setup-indent 2))
 
-  (defun my-personal-code-style ()
-    (interactive)
-    (message "My personal code style!")
-    ;; use space instead of tab
-    (setq indent-tabs-mode t)
-    ;; indent 2 spaces width
-    (my-setup-indent 2))
+     (defun my-personal-code-style ()
+       (interactive)
+       (message "My personal code style!")
+       ;; use space instead of tab
+       (setq indent-tabs-mode nil)
+       ;; indent 2 spaces width
+       (my-setup-indent 2))
 
-  ;;; prog-mode-hook requires emacs24+
-  (add-hook 'prog-mode-hook 'my-personal-code-style)
-  ;;; a few major-modes does NOT inherited from prog-mode
-  (add-hook 'lua-mode-hook 'my-personal-code-style)
-  (add-hook 'web-mode-hook 'my-personal-code-style)
-#+END_SRC
+     ;;; prog-mode-hook requires emacs24+
+     (add-hook 'prog-mode-hook 'my-personal-code-style)
+     ;;; a few major-modes does NOT inherited from prog-mode
+     (add-hook 'lua-mode-hook 'my-personal-code-style)
+     (add-hook 'web-mode-hook 'my-personal-code-style)
+
+   #+END_SRC
+   
 * Keybindings 
-** TODO Also break this down into blocks 
-	 #+BEGIN_SRC emacs-lisp
-  ;; ;;; Smex keybindings
-  ;; (global-set-key (kbd "M-x") 'smex)
-  ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  mastering emacs has a great [[https://www.masteringemacs.org/article/mastering-key-bindings-emacs][article on keybindings in emacs]]
+  rebind C-S-<up/down/left/right> to resize windows
+  renind <F1> to eshell
+  note C-<return> is unbound in most modes
+  Consiter swaping C-h, C-p
+  maybe bind revert-buffer to something
+  Super can be refered to in kbd as "s-?" ? being any key (NOTE the s is lowercase)
+  Hyper can be refered to in kbd as "H-?" ^^
+  TODO: bind swiper-all
+  
+  Super and hyper key bindings for windows
+  (setq w32-apps-modifier 'hyper)
+  (setq w32-lwindow-modifier 'super)
+  (setq w32-rwindow-modifier 'hyper)
+  
+  #+BEGIN_SRC emacs-lisp
+     ;;; Smex keybindings
+     ;; (global-set-key (kbd "M-x") 'smex)
+     ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+     ;; (global-set-key (kbd "<escape>") 'control-lock-toggle)
+     (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+     (global-set-key (kbd "M-o") 'other-window)
+     ;; (global-set-key (kbd "C-p") 'help-command)
+     ;; (global-set-key (kbd "C-h") 'previous-line)
+     (global-set-key (kbd "<f1>") 'eshell)
 
-  ;;; My keybindings
-  ;;; see this article for more info https://www.masteringemacs.org/article/mastering-key-bindings-emacs
-  ;;; rebind C-S-<up/down/left/right> to resize windows
-  ;;; renind <F1> to eshell
-  ;;; note C-<return> is unbound in most modes
-  ;;; Consiter swaping C-h, C-p
-  ;;; maybe bind revert-buffer to something
-  ;;; Super can be refered to in kbd as "s-?" ? being any key (NOTE the s is lowercase)
-  ;;; Hyper can be refered to in kbd as "H-?" ^^
-  ;;; TODO: bind swiper-all
+     (global-set-key (kbd "M-p") 'backward-paragraph)
+     (global-set-key (kbd "M-n") 'forward-paragraph)
 
-  ;;; Super and hyper key bindings for windows
-  ;; (setq w32-apps-modifier 'hyper)
-  ;; (setq w32-lwindow-modifier 'super)
-  ;; (setq w32-rwindow-modifier 'hyper)
+     ;(define-key global-map (kbd "RET") 'newline-and-indent)
 
-  ;; (global-set-key (kbd "<escape>") 'control-lock-toggle)
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "M-o") 'other-window)
-  ;; (global-set-key (kbd "C-p") 'help-command)
-  ;; (global-set-key (kbd "C-h") 'previous-line)
-  (global-set-key (kbd "<f1>") 'eshell)
-
-  (global-set-key (kbd "M-p") 'backward-paragraph)
-  (global-set-key (kbd "M-n") 'forward-paragraph)
-
-  (global-set-key (kbd "C-,") 'control-lock-toggle)
-  (define-key global-map (kbd "RET") 'newline-and-indent)
-	 #+END_SRC
+  #+END_SRC
 

@@ -2,8 +2,6 @@
 # ~/.bashrc
 #
 
-# consider switching to zshell
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -18,6 +16,8 @@ shopt -s cdable_vars
 shopt -s cdspell
 shopt -s dirspell
 
+# propmt should look somthing like this 
+# Thinkpad|~ $> 
 PS1='\[$(tput setaf 2)\]\h'
 PS1+='\[$(tput setaf 12)\]|'
 PS1+='\[$(tput setaf 4)\]\W '
@@ -30,46 +30,7 @@ EDITOR=/usr/bin/nvim
 TRASH=/.local/share/Trash/files
 VISUAL=/usr/bin/nvim
 
-alias l='ls -F --color=auto'
-alias ls='ls -F --color=auto'
-alias ll='ls -lF --color=auto'
-alias la='ls -aF --color=auto'
-alias lsa='ls -laF --color=auto'
-alias las='ls -laF --color=auto'
+# lean how to test if these exist before sourcing them
+source .bash_aliases
+source .bash_functions
 
-alias _='sudo'
-alias edit='$EDITOR'
-alias free='free -h'
-alias shutdown='sudo shutdown -h now'
-alias h='history'
-# alias hsi='hs -i'
-# alias emacs='emacs -nw'
-alias grep='grep --color=auto'
-alias info='info --vi-keys'
-alias srcx='xrdb ~/.Xresources'
-alias pg='ping google.com'
-
-# alias update='sudo pacman -Syu'
-# alias install='sudo pacman -S'
-# alias remove='sudo pacman -Rnsc'
-alias pacman='sudo pacman --color=auto'
-
-# alias yupdate='yaourt -Syu'
-# alias yinstall='yaourt -S'
-# alias yremove='yaourt -Rnsc'
-
-# Functions 
-trash () { command mv "$@" $TRASH; }
-cd () { builtin cd "$@"; ls; }
-mcd () { mkdir -p "$1" && cd "$1"; }
-hs () { history | grep $*; }
-
-# Fuck 
-#eval "$(thefuck --alias)"
-#eval "$(thefuck --alias FUCK)"
-
-# Thinkpad nub control
-# xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1
-# xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2
-# xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200
-# xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 6 7 4 5
