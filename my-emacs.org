@@ -11,7 +11,9 @@
   - Change (org-babel-load-file (expand-file-name ".my-emacs.org")) to a keybinding like <f12>
   - Look into web-mode
 	- Check out the reference cards in /usr/share/emacs/refcards
-    
+	- Check out corral
+	- Check out [[http://tuhdo.github.io/helm-intro.html][helm]]
+
 * Vars
 	
 ** Ido
@@ -50,7 +52,7 @@
       (menu-bar-mode -1)
       ;; No scroll bars
       (scroll-bar-mode -1)
-          
+
     #+END_SRC
     
     
@@ -202,7 +204,7 @@
        (defengine duckduckgo
          "https://duckduckgo.com/?q=%s"
          :keybinding "d"))
-        
+
    #+END_SRC
    
 ** =Swiper=
@@ -254,9 +256,9 @@
 - Many more.
 	
   #+BEGIN_SRC emacs-lisp 
-     ;;  ;;; required for swiper
-     ;; (use-package counsel
-     ;;   :ensure t)
+    ;;; required for swiper
+    ;; (use-package counsel
+    ;;   :ensure t)
 
   #+END_SRC
   
@@ -335,7 +337,7 @@
        :ensure t
        :config
        (powerline-default-theme))
-        
+
    #+END_SRC
    
 ** Helm
@@ -346,7 +348,7 @@
        :bind
        ("M-x" . helm-M-x)
        ("C-x C-f" . helm-find-files))
-        
+
    #+END_SRC
    
 ** Swiper-helm
@@ -356,7 +358,7 @@
        :ensure t
        :bind
        ("C-s" . swiper-helm))
-        
+
    #+END_SRC
    
 ** Ace-jump-mode
@@ -366,7 +368,7 @@
        :ensure t
        :bind
        ("M-s" . ace-jump-mode))
-        
+
    #+END_SRC
 	 
 ** Erlang-mode
@@ -375,7 +377,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package erlang
        :ensure t)
-        
+
    #+END_SRC
    
 * Custom elisp code
@@ -434,19 +436,19 @@
    
 * Keybindings 
   mastering emacs has a great [[https://www.masteringemacs.org/article/mastering-key-bindings-emacs][article on keybindings in emacs]]
-  rebind C-S-<up/down/left/right> to resize windows
-  renind <F1> to eshell
-  note C-<return> is unbound in most modes
-  Consiter swaping C-h, C-p
-  maybe bind revert-buffer to something
-  Super can be refered to in kbd as "s-?" ? being any key (NOTE the s is lowercase)
-  Hyper can be refered to in kbd as "H-?" ^^
-  TODO: bind swiper-all
+	rebind C-S-<up/down/left/right> to resize windows
+	renind <F1> to eshell
+	note C-<return> is unbound in most modes
+	Consiter swaping C-h, C-p
+	maybe bind revert-buffer to something
+	Super can be refered to in kbd as "s-?" ? being any key (NOTE the s is lowercase)
+	Hyper can be refered to in kbd as "H-?" ^^
+	TODO: bind swiper-all
   
-  Super and hyper key bindings for windows
-  (setq w32-apps-modifier 'hyper)
-  (setq w32-lwindow-modifier 'super)
-  (setq w32-rwindow-modifier 'hyper)
+	Super and hyper key bindings for windows
+	(setq w32-apps-modifier 'hyper)
+	(setq w32-lwindow-modifier 'super)
+	(setq w32-rwindow-modifier 'hyper)
   
   #+BEGIN_SRC emacs-lisp
      ;;; Smex keybindings
