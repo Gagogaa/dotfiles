@@ -5,4 +5,5 @@ i3blocks,ttf-font-awesome,gtk-theme-numix-solarized
 tldr
 # pip
 cheat
+# check this out for rebinding keys https://superuser.com/questions/116376/can-i-swap-the-ctrl-and-alt-in-kde
 # .config/gtk-3.0/settings.ini

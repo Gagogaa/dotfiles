@@ -25,6 +25,8 @@ alias pm='pacman'
 # alias remove='sudo pacman -Rnsc'
 alias pacman='sudo pacman --color=auto'
 
+alias emacs='emacsclient --alternate-editor="" -c "$@"'
+
 # alias yupdate='yaourt -Syu'
 # alias yinstall='yaourt -S'
 # alias yremove='yaourt -Rnsc'
