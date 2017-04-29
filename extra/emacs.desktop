@@ -1,6 +1,7 @@
+# /usr/share/applications/
 # This is a modification of the desktop entry for emacs
 # it uses emacsclient instead of starting a new emacs session
-# place this in /usr/share/applications/
+
 [Desktop Entry]
 Name=Emacs
 GenericName=Text Editor
