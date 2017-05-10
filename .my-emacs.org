@@ -1,5 +1,5 @@
 #+STARTIP: overview
-#+RESULTS: output silent
+#+results: output silent
 * TODOS
   - Lookup the mark ring maybe rebind mark pop NOTE: check out helm markring
   - Check out magit and flycheck
@@ -10,9 +10,15 @@
   - Consiter installing keyfreq for key logging in emacs
   - Change (org-babel-load-file (expand-file-name ".my-emacs.org")) to a keybinding like <f12>
   - Look into web-mode
-	- Check out the reference cards in /usr/share/emacs/refcards
+  - Check out the reference cards in /usr/share/emacs/refcards
 	- Check out corral
 	- Check out [[http://tuhdo.github.io/helm-intro.html][helm]]
+	- TODO write a better control lock mode!
+	- check out mark-multiple
+	- check out expand-region
+	- check out move-text
+   - Check out ioccur!
+   - Fix the tab flop i just had
 
 * Vars
 	
@@ -55,60 +61,65 @@
 
     #+END_SRC
     
-    
     #+BEGIN_SRC emacs-lisp
-     ;; two space tabs
-     (setq-default tab-width 2)
-     (setq show-paren-delay 0) ; 0 delay for paren matching
-     (show-paren-mode 1) ; Show matching paren
+      ;; calendar weeks start on monday!
+      (setq calendar-week-start 1)
 
-     ;; Better word wrapping 1
-     (toggle-word-wrap 1)
+      ;; two space tabs
+      (setq-default tab-width 2)
+      (setq show-paren-delay 0) ; 0 delay for paren matching
+      (show-paren-mode 1) ; Show matching paren
 
-     ;; Turn on pair matching for brackets
-     (electric-pair-mode)
+      ;; save place in files
+      (save-place-mode 1)
 
-     ;; save emacs sessions
-     (desktop-save-mode 1)
+      ;; Better word wrapping 1
+      (toggle-word-wrap 1)
 
-     ;; Highlight the current line
-     (global-hl-line-mode 1)
+      ;; Turn on pair matching for brackets
+      (electric-pair-mode)
 
-     ;; dont autosave files
-     (setq desktop-auto-save-timeout nil)
+      ;; save emacs sessions
+      (desktop-save-mode 1)
 
-     ;; Move things to the trash instead of destorying them
-     (setq delete-by-moving-to-trash t)
+      ;; Highlight the current line
+      (global-hl-line-mode 1)
 
-     ;; Disable tool tips 
-     (tooltip-mode -1)
+      ;; dont autosave files
+      (setq desktop-auto-save-timeout nil)
 
-     ;; Show tool tips in the mini buffer
-     (setq tooltip-use-echo-area t)
+      ;; Move things to the trash instead of destorying them
+      (setq delete-by-moving-to-trash t)
+
+      ;; Disable tool tips 
+      (tooltip-mode -1)
+
+      ;; Show tool tips in the mini buffer
+      (setq tooltip-use-echo-area t)
 
 
-     ;; Replace the annoying yes-or-no prompt with y-or-n
-     (fset 'yes-or-no-p 'y-or-n-p)
+      ;; Replace the annoying yes-or-no prompt with y-or-n
+      (fset 'yes-or-no-p 'y-or-n-p)
 
-     ;; (global-linum-mode 1) ; Show line numbers
-     ;; (winner-mode 1) ; Lets you undo and redo window layout commands with C-x left/right
-     ;; (windmove-default-keybindings) ; Lets you move around windows with SHIFT+up/right/down/left
-     ;; (setq debug-on-error t) ; Tell emacs to debug on error
+      ;; (global-linum-mode 1) ; Show line numbers
+      ;; (winner-mode 1) ; Lets you undo and redo window layout commands with C-x left/right
+      ;; (windmove-default-keybindings) ; Lets you move around windows with SHIFT+up/right/down/left
+      ;; (setq debug-on-error t) ; Tell emacs to debug on error
 
-     (defalias 'list-buffers 'ibuffer) ; switch list-buffers to ibuffer
+      (defalias 'list-buffers 'ibuffer) ; switch list-buffers to ibuffer
 
-     ;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-     (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
+      ;; http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+      (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
 
-     ;; start the emacsclient -c for the terminal
-     (server-start) 
+      ;; start the emacsclient -c for the terminal
+      (server-start) 
 
-     ;; Emacs exec-path
-     (add-to-list 'exec-path "~/.bin")
-     ;; (add-to-list 'load-path "~/.emacs.d/") ; Where emacs looks for files to load
+      ;; Emacs exec-path
+      (add-to-list 'exec-path "~/.bin")
+      ;; (add-to-list 'load-path "~/.emacs.d/") ; Where emacs looks for files to load
 
     #+END_SRC
-		
+
 *** Adding languages to org-mode
 		[[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html][python]]
 
@@ -170,7 +181,7 @@
      ;;   :ensure t
      ;;   :bind
      ;;   ("C-." . control-lock-toggle)
-     ;;   ("C-," . contorl-lock-toggle))
+     ;;   ("C-," . control-lock-toggle))
 
    #+END_SRC
    
@@ -193,7 +204,7 @@
    #+END_SRC
    
 ** Engine-mode
-   The [[https://github.com/hrs/engine-mode][Github]] Github page has some nice examples. 
+   The [[https://github.com/hrs/engine-mode][Github]] page has some nice examples. 
    The prefix key is C-x / <keybinding>
 	 
    #+BEGIN_SRC emacs-lisp
@@ -206,7 +217,7 @@
          :keybinding "d"))
 
    #+END_SRC
-   
+
 ** =Swiper=
    TODO: think about useing helm for the extra support
    
@@ -349,8 +360,13 @@
        ("M-x" . helm-M-x)
        ("C-x C-f" . helm-find-files))
 
+     (with-eval-after-load "Ibuffer" 
+       (defalias 'ibuffer-find-file 'helm-find-files))
+
+     (defalias 'execute-extended-command 'helm-M-x)
+
    #+END_SRC
-   
+
 ** Swiper-helm
 	 
    #+BEGIN_SRC emacs-lisp
@@ -379,7 +395,16 @@
        :ensure t)
 
    #+END_SRC
-   
+
+** Markdown-Mode
+
+*** TODO ensure that this loads with markdown files!
+	 
+	 #+BEGIN_SRC emacs-lisp
+     (use-package markdown-mode
+       :ensure t)
+        
+	 #+END_SRC
 * Custom elisp code
 	
 ** Fix theming issues in the terminal
@@ -434,7 +459,8 @@
 
    #+END_SRC
    
-* Keybindings 
+* Keybindings
+
   mastering emacs has a great [[https://www.masteringemacs.org/article/mastering-key-bindings-emacs][article on keybindings in emacs]]
 	rebind C-S-<up/down/left/right> to resize windows
 	renind <F1> to eshell
@@ -451,20 +477,257 @@
 	(setq w32-rwindow-modifier 'hyper)
   
   #+BEGIN_SRC emacs-lisp
-     ;;; Smex keybindings
-     ;; (global-set-key (kbd "M-x") 'smex)
-     ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-     ;; (global-set-key (kbd "<escape>") 'control-lock-toggle)
-     (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-     (global-set-key (kbd "M-o") 'other-window)
-     ;; (global-set-key (kbd "C-p") 'help-command)
-     ;; (global-set-key (kbd "C-h") 'previous-line)
-     (global-set-key (kbd "<f1>") 'eshell)
+    ;;; Smex keybindings
+    ;; (global-set-key (kbd "M-x") 'smex)
+    ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+    ;; (global-set-key (kbd "<escape>") 'control-lock-toggle)
+    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+    (global-set-key (kbd "M-o") 'other-window)
+    ;; (global-set-key (kbd "C-p") 'help-command)
+    ;; (global-set-key (kbd "C-h") 'previous-line)
+    (global-set-key (kbd "<f1>") 'eshell)
 
-     (global-set-key (kbd "M-p") 'backward-paragraph)
-     (global-set-key (kbd "M-n") 'forward-paragraph)
+    (global-set-key (kbd "M-p") 'backward-paragraph)
+    (global-set-key (kbd "M-n") 'forward-paragraph)
 
-     ;(define-key global-map (kbd "RET") 'newline-and-indent)
+    (global-set-key (kbd "C-x C-c") 'delete-frame)
+
+    ;(define-key global-map (kbd "RET") 'newline-and-indent)
 
   #+END_SRC
+
+* Notes to self
+
+	C-x i: insert file at cursor location!
+	C-x C-v: open alternative file
+	C-x C-w: save file as
+	tip: use refill-mode to keep text from 'wraping'
+	or use auto-fill-mode
+	M-q: fill-paragraph
+	C-_ or C-x u: undo
+	also try fill-region
+	look into :repeate:
+	M-{ or M-}: move by paragraph
+	M-a or M-e: move by sentence
+	C-x [ or C-x ]: move by page
+	   -needs a page-delimiter
+	C-q: quoted insert
+	   -C-l: insert formfeed (page break)
+	M-*n*: where *n* is a number that dictates how many times the command will be ran
+	C-u: universal argument... by default its 4 times... if you do C-u C-u its 16 times!
+	C-x C-x: swap point and mark
+	M-h: mark paragraph
+	C-x h: mark whole buffer
+	C-x C-p: mark page
+	edit the kill-ring-max var to set the max size of the kill ring to something other than 30
+	C-t: transpose chracters
+	M-t: transpose words
+	C-x C-t: transpose lines
+	M-c, M-l, M-u: cap, lowercase, upcase
+	<insert>: enter overwrite-mode
+	M-z: zap to character
+	check out isearch and isearch-occur
+	check out abbrev-mode (page 73 of the emacs book)
+	commands prefixed with C-x 4 are for the other window
+	commands prefixed with C-x 5 are for the other frame
+	look at pages 90-93 for information on emacs buffer list
+	C-x +: make windows equal size
+	check out compare-windows
+	C-x C--: resize font
+	C-x r m: set a bookmark
+	C-x r b: jump to bookmark
+	c-x r l: list bookmarks
+	   -other useful commands might be bookmark-rename, bookmark-delete, or just check out the bookmark-* commnds
+	M-h: mark paragraph
+	M-!: run command in shell
+	M-|: shell command on region
+	C-u M-!: run command and put output into buffer
+	make a open shell command that opens a new shell and runs rename-uniquely on it
+	think about editing the shell-file-name variable, or setting the env variables ESHELL and SHELL
+	  -(setq shell-file-name "/bin/bash")
+	  -- the startup file is .emacs_<shell name> aka .emacs_bash in my case (check out page 107)
+	check out the variable dired-garbage-files-regexp (page 115) (see page 117 for a large list of commands)
+	check out more on the calendar on page 125
+	look at page 130 for more diary commands like showing the diary at startup! (also check to see if you can change the location of the file)
+
+* Isearch/ commands!
+
+Isearch Mode Bindings:
+key             binding
+---             -------
+
+TAB .. C-j			isearch-printing-char
+SPC .. ~				isearch-printing-char
+
+C-g							isearch-abort
+C-h							Prefix Command
+RET							isearch-exit
+C-q							isearch-quote-char
+C-r							isearch-repeat-backward
+C-s							isearch-repeat-forward
+C-w							isearch-yank-word-or-char
+C-x							Prefix Command
+C-y							isearch-yank-kill
+ESC							Prefix Command
+C-\							isearch-toggle-input-method
+C-^							isearch-toggle-specified-input-method
+DEL							isearch-delete-char
+S-SPC						isearch-printing-char
+<f1>						Prefix Command
+<help>					Prefix Command
+<mouse-2>				isearch-mouse-2
+<return>				isearch-exit
+<xterm-paste>		isearch-xterm-paste
+
+C-h C-h					isearch-help-for-help
+C-h ?						isearch-help-for-help
+C-h b						isearch-describe-bindings
+C-h k						isearch-describe-key
+C-h m						isearch-describe-mode
+C-h q						help-quit
+C-h <f1>				isearch-help-for-help
+C-h <help>			isearch-help-for-help
+
+C-x 8						Prefix Command
+
+C-M-i						isearch-complete
+C-M-r						isearch-repeat-backward
+C-M-s						isearch-repeat-forward
+C-M-w						isearch-del-char
+C-M-y						isearch-yank-char
+ESC ESC					Prefix Command
+M-%							isearch-query-replace
+M-c							isearch-toggle-case-fold
+M-e							isearch-edit-string
+M-n							isearch-ring-advance
+M-p							isearch-ring-retreat
+M-r							isearch-toggle-regexp
+M-s							Prefix Command
+M-y							isearch-yank-pop
+C-M-%						isearch-query-replace-regexp
+
+M-ESC ESC				isearch-cancel
+
+M-s C-e					isearch-yank-line
+M-s SPC					isearch-toggle-lax-whitespace
+M-s '						isearch-toggle-char-fold
+M-s _						isearch-toggle-symbol
+M-s c						isearch-toggle-case-fold
+M-s e						isearch-edit-string
+M-s h						Prefix Command
+M-s i						isearch-toggle-invisible
+M-s o						isearch-occur
+M-s r						isearch-toggle-regexp
+M-s w						isearch-toggle-word
+
+<f1> C-h				isearch-help-for-help
+<f1> ?					isearch-help-for-help
+<f1> b					isearch-describe-bindings
+<f1> k					isearch-describe-key
+<f1> m					isearch-describe-mode
+<f1> q					help-quit
+<f1> <f1>				isearch-help-for-help
+<f1> <help>			isearch-help-for-help
+
+<help> C-h			isearch-help-for-help
+<help> ?				isearch-help-for-help
+<help> b				isearch-describe-bindings
+<help> k				isearch-describe-key
+<help> m				isearch-describe-mode
+<help> q				help-quit
+<help> <f1>			isearch-help-for-help
+<help> <help>		isearch-help-for-help
+
+C-x 8 RET				isearch-char-by-name
+
+M-s h r					isearch-highlight-regexp
+Isearch Mode Bindings:
+key             binding
+---             -------
+
+TAB .. C-j			isearch-printing-char
+SPC .. ~				isearch-printing-char
+
+C-g							isearch-abort
+C-h							Prefix Command
+RET							isearch-exit
+C-q							isearch-quote-char
+C-r							isearch-repeat-backward
+C-s							isearch-repeat-forward
+C-w							isearch-yank-word-or-char
+C-x							Prefix Command
+C-y							isearch-yank-kill
+ESC							Prefix Command
+C-\							isearch-toggle-input-method
+C-^							isearch-toggle-specified-input-method
+DEL							isearch-delete-char
+S-SPC						isearch-printing-char
+<f1>						Prefix Command
+<help>					Prefix Command
+<mouse-2>				isearch-mouse-2
+<return>				isearch-exit
+<xterm-paste>		isearch-xterm-paste
+
+C-h C-h					isearch-help-for-help
+C-h ?						isearch-help-for-help
+C-h b						isearch-describe-bindings
+C-h k						isearch-describe-key
+C-h m						isearch-describe-mode
+C-h q						help-quit
+C-h <f1>				isearch-help-for-help
+C-h <help>			isearch-help-for-help
+
+C-x 8						Prefix Command
+
+C-M-i						isearch-complete
+C-M-r						isearch-repeat-backward
+C-M-s						isearch-repeat-forward
+C-M-w						isearch-del-char
+C-M-y						isearch-yank-char
+ESC ESC					Prefix Command
+M-%							isearch-query-replace
+M-c							isearch-toggle-case-fold
+M-e							isearch-edit-string
+M-n							isearch-ring-advance
+M-p							isearch-ring-retreat
+M-r							isearch-toggle-regexp
+M-s							Prefix Command
+M-y							isearch-yank-pop
+C-M-%						isearch-query-replace-regexp
+
+M-ESC ESC				isearch-cancel
+
+M-s C-e					isearch-yank-line
+M-s SPC					isearch-toggle-lax-whitespace
+M-s '						isearch-toggle-char-fold
+M-s _						isearch-toggle-symbol
+M-s c						isearch-toggle-case-fold
+M-s e						isearch-edit-string
+M-s h						Prefix Command
+M-s i						isearch-toggle-invisible
+M-s o						isearch-occur
+M-s r						isearch-toggle-regexp
+M-s w						isearch-toggle-word
+
+<f1> C-h				isearch-help-for-help
+<f1> ?					isearch-help-for-help
+<f1> b					isearch-describe-bindings
+<f1> k					isearch-describe-key
+<f1> m					isearch-describe-mode
+<f1> q					help-quit
+<f1> <f1>				isearch-help-for-help
+<f1> <help>			isearch-help-for-help
+
+<help> C-h			isearch-help-for-help
+<help> ?				isearch-help-for-help
+<help> b				isearch-describe-bindings
+<help> k				isearch-describe-key
+<help> m				isearch-describe-mode
+<help> q				help-quit
+<help> <f1>			isearch-help-for-help
+<help> <help>		isearch-help-for-help
+
+C-x 8 RET				isearch-char-by-name
+
+M-s h r					isearch-highlight-regexp
 
