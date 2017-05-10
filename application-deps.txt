@@ -1,6 +1,6 @@
-rxvt-unicode,terminus-font,i3-wm,i3lock,i3status,ttf-google-fonts,rofi,arc-icon-theme,arc-solid-gtk-theme,scrot,feh,i3status,compton,acpi,tk,redshift,tmux,mps-youtube,youtube-dl,gksu,viewnior,gnome-screenshot,evince,pandoc,gimp,inkscape,noto-fonts-emoji,glade,ispell
+rxvt-unicode,terminus-font,i3-wm,i3lock,i3status,ttf-google-fonts,rofi,arc-icon-theme,arc-solid-gtk-theme,scrot,feh,i3status,compton,acpi,tk,redshift,tmux,mps-youtube,youtube-dl,gksu,viewnior,gnome-screenshot,evince,pandoc,gimp,inkscape,noto-fonts-emoji,glade,ispell,artwiz-fonts
 # yaourt
-i3blocks,ttf-font-awesome,gtk-theme-numix-solarized
+i3blocks,ttf-font-awesome,gtk-theme-numix-solarized,ohsnap,ttf-mononoki
 # npm 
 tldr
 # pip
