@@ -79,43 +79,43 @@ bindsym $mod+space focus mode_toggle
 
 # colors
 # TODO(Gregory): these color names make no sense... change them!!!
-set $base03-c	#002b36
-set $base02-c	#073642
-set $base01-c	#586e75
-set $base00-c	#657b83
-set $base0-c 	#839496
-set $base1-c	#93a1a1
-set $base2-c	#eee8d5
-set $base3-c	#fdf6e3
-set $yellow-c	#b58900
-set $orange-c 	#cb4b16
-set $red-c 	#dc322f
-set $magenta-c 	#d33682
-set $violet-c  	#6c71c4
-set $blue-c 	#268bd2
-set $cyan-c 	#2aa198
-set $green-c 	#859900
+set $base03-c   #002b36
+set $base02-c   #073642
+set $base01-c   #586e75
+set $base00-c   #657b83
+set $base0-c    #839496
+set $base1-c    #93a1a1
+set $base2-c    #eee8d5
+set $base3-c    #fdf6e3
+set $yellow-c   #b58900
+set $orange-c   #cb4b16
+set $red-c      #dc322f
+set $magenta-c  #d33682
+set $violet-c   #6c71c4
+set $blue-c     #268bd2
+set $cyan-c     #2aa198
+set $green-c    #859900
 # light colors
-#set $back2-c	#eee8d5
-#set $back3-c	#fdf6e3
-#set $hl-c	#268bd2
+#set $back2-c   #eee8d5
+#set $back3-c   #fdf6e3
+#set $hl-c      #268bd2
 # dark colors
-set $back2-c	#073642
-set $back3-c	#002b36
-set $hl-c	#859900
+set $back2-c    #073642
+set $back3-c    #002b36
+set $hl-c       #859900
 
 # workspace names
 # TODO(Gregory): get some new workspace names
-set $workspace1 	"1:"
-set $workspace2		"2:"
-set $workspace3		"3:"
-set $workspace4		"4:"
-set $workspace5 	"5:THE SHADOW REALM"
-set $workspace6 	"6:"
-set $workspace7		"7:"
-set $workspace8 	"8:"
-set $workspace9		"9"
-set $workspace10	"10:"
+set $workspace1         "1:"
+set $workspace2         "2:"
+set $workspace3         "3:"
+set $workspace4         "4:"
+set $workspace5         "5:THE SHADOW REALM"
+set $workspace6         "6:"
+set $workspace7         "7:"
+set $workspace8         "8:"
+set $workspace9         "9"
+set $workspace10        "10:"
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -164,38 +164,38 @@ bindsym $mod+Right resize grow width 10 px or 10 ppt
 # finds out, if available)
 # TODO(Greogry): think about switching to polybar
 bar {
-		# TODO(Gregory): configure the fonts!
-		# Get raleway and fontawsome working together
-		font pango:Roboto Mono 10
-		status_command i3blocks
-		mode dock
-		separator_symbol "|"
-		workspace_buttons yes
-		strip_workspace_numbers no
-#       tray_output primary
-				tray_output none
-				position top
-				id bar-0
-
-				colors {
-							 # color-class 	color
-							 background				$back3-c
-							 statusline			$base1-c
-							 separator				$base01-c
-
-							 # color-class				border			background	text
-							 focused_workspace  	$back3-c 	$back3-c 	$hl-c
-							 active_workspace   	$back3-c		$back3-c		$base01-c
-							 inactive_workspace 	$back3-c		$back3-c		$base01-c
-							 urgent_workspace  		$back3-c		$back3-c		$red-c
-							 binding_mode       	$back3-c 	$back3-c		$violet-c
-				}
+    # TODO(Gregory): configure the fonts!
+    # Get raleway and fontawsome working together
+    font pango:Roboto Mono 10
+    status_command i3blocks
+    mode dock
+    separator_symbol "|"
+    workspace_buttons yes
+    strip_workspace_numbers no
+    # tray_output primary
+    tray_output none
+    position top
+    id bar-0
+    
+    colors {
+        # color-class  color
+    	background     $back3-c
+    	statusline     $base1-c
+    	separator      $base01-c
+    	
+    	# color-class	       border          background      text
+    	focused_workspace      $back3-c        $back3-c        $hl-c
+    	active_workspace       $back3-c        $back3-c	       $base01-c
+    	inactive_workspace     $back3-c        $back3-c        $base01-c
+    	urgent_workspace       $back3-c        $back3-c        $red-c
+    	binding_mode           $back3-c        $back3-c        $violet-c
+    }
 }
 
 # TODO(Gregory): Think about making a bottom bar for the status tray and other things?
 # bar {
-# 		id bar-1
-# 		position bottom
+#               id bar-1
+#               position bottom
 # }
 
 # i3-gaps
@@ -206,14 +206,12 @@ bar {
 # make the current window borderless
 # bindsym $mod+Shift+u exec i3-msg border none
 
-# class                 border  	  backgr. 		text    	 	indicator 	child_border
-client.focused					$yellow-c	$yellow-c	$base3-c		$blue-c		$yellow-c
-client.focused_inactive $base01-c	$base01-c	$base00-c	$blue-c		$base01-c
-client.unfocused        $back3-c		$back3-c		$base00-c	$blue-c		$back3-c
-
-client.urgent           $red-c			$red-c			$base00-c	$blue-c		$red-c
-client.placeholder 		#000000 	#0c0c0c 	#ffffff 	#000000   	#0c0c0c
-
+# class                 border            backgr.         text            indicator       child_border
+client.focused          $yellow-c         $yellow-c       $base3-c        $blue-c         $yellow-c
+client.focused_inactive $base01-c         $base01-c       $base00-c       $blue-c         $base01-c
+client.unfocused        $back3-c          $back3-c        $base00-c       $blue-c         $back3-c
+client.urgent           $red-c            $red-c          $base00-c       $blue-c         $red-c
+client.placeholder      #000000           #0c0c0c         #ffffff         #000000         #0c0c0c
 client.background       $back3-c
 
 # pulse Audio controls
