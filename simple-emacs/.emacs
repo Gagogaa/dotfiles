@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Built-in Customizations ;;;;
+;;;; Built-In Customizations ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Only insert spaces
@@ -20,6 +20,7 @@
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
+
 (setq ring-bell-function 'ignore)
 
 (tool-bar-mode -1)
@@ -58,22 +59,6 @@
 ;;; (start-server)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Keybindings ;;;;
-;;;;;;;;;;;;;;;;;;;;;
-
-;;; Better bindings for recording macros
-(global-set-key '[(f1)]          'call-last-kbd-macro)
-(global-set-key '[(shift f1)]    'toggle-kbd-macro-recording-on)
-
-(global-set-key (kbd "M-o") 'other-window)
-
-;;; These keybindings are used by expand region right now
-;;; (global-set-key (kbd "M-p") 'backward-paragraph)
-;;; (global-set-key (kbd "M-n") 'forward-paragraph)
-
-(global-set-key (kbd "C-x C-c") 'delete-frame)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -91,9 +76,39 @@
     'toggle-kbd-macro-recording-on)
   (end-kbd-macro))
 
+;; TODO(Gregory): rename this to something else 
+(defun global-key-set (pair)
+  (global-set-key (kbd (car pair)) (car (cddr pair))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Downloaded packages ;;;;
+;;;; Keybindings ;;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+(setq global-keybindings '(
+                           ;;; Better bindings for recording macros
+                           ("<f1>" . 'call-last-kbd-macro)
+                           ("S-<f1>" . 'toggle-kbd-macro-recording-on)
+                           ("<f2>" . 'shell)
+                           ("M-o" . 'other-window)
+                           ("C-x C-c" . 'delete-frame)
+                           ))
+
+(mapcar #'global-key-set global-keybindings)
+
+;; (global-set-key (kbd "<f2>") 'eshell)
+
+;; (global-set-key (kbd "M-o") 'other-window)
+
+;;; These keybindings are used by expand region right now
+;;; (global-set-key (kbd "M-p") 'backward-paragraph)
+;;; (global-set-key (kbd "M-n") 'forward-paragraph)
+
+;; (global-set-key (kbd "C-x C-c") 'delete-frame)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Downloaded Packages ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (package-initialize)
 
 ;;; Add package archives
@@ -128,30 +143,30 @@
   :config
   (powerline-default-theme))
 
-;;; hl-todo-mode keywords
-;;; HOLD
-;;; TODO
-;;; NEXT
-;;; THEM
-;;; PROG
-;;; OKAY
-;;; DONT
-;;; FAIL
-;;; DONE
-;;; NOTE
-;;; KLUDGE
-;;; HACK
-;;; FIXME
-;;; XXX
-;;; XXXX
-;;; ???
-
 ;;; TODO(Gregory): Think about binding these functions
 ;;; hl-todo-previous
 ;;; hl-todo-next
 ;;; hl-todo-occur
 
 (use-package hl-todo
+  ;; hl-todo-mode keywords
+  ;; HOLD
+  ;; TODO
+  ;; NEXT
+  ;; THEM
+  ;; PROG
+  ;; OKAY
+  ;; DONT
+  ;; FAIL
+  ;; DONE
+  ;; NOTE
+  ;; KLUDGE
+  ;; HACK
+  ;; FIXME
+  ;; XXX
+  ;; XXXX
+  ;; ???
+
   :ensure t
   :config
   (global-hl-todo-mode))
@@ -173,7 +188,7 @@
 ;; (define-key global-map (kbd "C-x m") 'ace-jump-word-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Auto Generated code ;;;;
+;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
