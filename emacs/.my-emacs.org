@@ -121,14 +121,14 @@
     #+END_SRC
 
 *** Adding languages to org-mode
-		[[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html][python]]
-
-		#+BEGIN_SRC emacs-lisp
+    [[http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html][python]]
+    
+    #+BEGIN_SRC emacs-lisp
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((python . t)))
 
-		#+END_SRC
+    #+END_SRC
 		
 * Packages
 	

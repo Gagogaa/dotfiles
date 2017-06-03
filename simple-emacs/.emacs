@@ -2,22 +2,60 @@
 ;;;; Built-in Customizations ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;; Only insert spaces
+(setq indent-tabs-mode nil)
+;;; TODO(Gregory): set this by major-mode
+(setq tab-width 2)
+
+;;; Get rid of the bell bacause omg is it bad
+(setq ring-bell-function 'ignore)
+
 ;;; Disable word wraping
 (set-default 'truncate-lines t)
 
-;;; Only insert spaces
-(setq indent-tabs-mode nil)
-(setq tab-width 2)
+(setq show-paren-delay 0)
+(show-paren-mode t)
 
-;; Disable the bell
+(require 'ido)
+(ido-mode t)
+(ido-everywhere t)
+(setq ido-use-filename-at-point 'guess)
 (setq ring-bell-function 'ignore)
+
+(tool-bar-mode -1)
+;;; (menu-bar-mode nil)
+(scroll-bar-mode -1)
+
+(save-place-mode)
+
+(electric-pair-mode)
+
+(setq delete-by-moving-to-trash t)
+
+;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;;; I'm going to try using list-buffers for a bit
+;;; (defalias 'list-buffers 'ibuffer)
+
+(setq debug-on-error t)
+
+;;; Make a backups directory in ~/.saves
+(setq backup-directory-alist `(("." . "~/.saves")))
+
+;;; Auto follow sym-links
+(setq vc-follow-symlinks t)
 
 ;;; Use an extra sharp font
 ;;;(add-to-list 'default-frame-alist '(font . "xos4 Terminus-14" ))
 ;;;(set-face-attribute 'default t :font "xos4 Terminus-14" )
-;;; Set the lisp variable
 
+;;; For common lisp mode
+;;; Don't forget to M-x slime when working with clisp
+;;; TODO(Gregory): Install and use slime!!!
 (setq inferior-lisp-program "clisp")
+
+;;; (start-server)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
@@ -26,6 +64,14 @@
 ;;; Better bindings for recording macros
 (global-set-key '[(f1)]          'call-last-kbd-macro)
 (global-set-key '[(shift f1)]    'toggle-kbd-macro-recording-on)
+
+(global-set-key (kbd "M-o") 'other-window)
+
+;;; These keybindings are used by expand region right now
+;;; (global-set-key (kbd "M-p") 'backward-paragraph)
+;;; (global-set-key (kbd "M-n") 'forward-paragraph)
+
+(global-set-key (kbd "C-x C-c") 'delete-frame)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
@@ -77,6 +123,39 @@
   ("M-n" . er/expand-region)
   ("M-p" . er/contract-region))
 
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme))
+
+;;; hl-todo-mode keywords
+;;; HOLD
+;;; TODO
+;;; NEXT
+;;; THEM
+;;; PROG
+;;; OKAY
+;;; DONT
+;;; FAIL
+;;; DONE
+;;; NOTE
+;;; KLUDGE
+;;; HACK
+;;; FIXME
+;;; XXX
+;;; XXXX
+;;; ???
+
+;;; TODO(Gregory): Think about binding these functions
+;;; hl-todo-previous
+;;; hl-todo-next
+;;; hl-todo-occur
+
+(use-package hl-todo
+  :ensure t
+  :config
+  (global-hl-todo-mode))
+
 (use-package ace-jump-mode
   :ensure t
   :bind
@@ -93,7 +172,9 @@
 ;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 ;; (define-key global-map (kbd "C-x m") 'ace-jump-word-mode)
 
-;;; ---Auto Generated code---
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Auto Generated code ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -102,7 +183,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (expand-region ace-jump-mode which-key zenburn-theme))))
+    (magit hl-todo fic-ext-mode powerline zenburn-theme which-key use-package expand-region ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
