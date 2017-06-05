@@ -388,7 +388,7 @@
    #+END_SRC
 	 
 ** Erlang-mode
-	 (add-hook 'erlang-mode-hook 'flycheck-mode)
+   (add-hook 'erlang-mode-hook 'flycheck-mode)
 	 
    #+BEGIN_SRC emacs-lisp
      (use-package erlang

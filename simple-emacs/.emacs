@@ -3,58 +3,40 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Only insert spaces
-(setq indent-tabs-mode nil)
 ;;; TODO(Gregory): set this by major-mode
+(setq indent-tabs-mode nil)
 (setq tab-width 2)
 
-;;; Get rid of the bell bacause omg is it bad
+(setq ring-bell-function 'ignore)	; Get rid of the bell bacause omg is it bad
+(setq delete-by-moving-to-trash t)
+(setq inferior-lisp-program "clisp")
+(setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
+(setq vc-follow-symlinks t)		; Auto follow sym-links
 (setq ring-bell-function 'ignore)
-
-;;; Disable word wraping
-(set-default 'truncate-lines t)
+(set-default 'truncate-lines t)		; Disable word wraping
+;;; (setq debug-on-error t)
 
 (setq show-paren-delay 0)
 (show-paren-mode t)
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(save-place-mode)
+(electric-pair-mode)
+
+;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
+(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'split-window-below 'split-window-right)
+;;; (defalias 'list-buffers 'ibuffer)	; I'm going to try using list-buffers for a bit
+
+(add-to-list 'default-frame-alist '(font . "xos4 Terminus-12" ))
+(set-face-attribute 'default t :font "xos4 Terminus-12" )
 
 (require 'ido)
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
-
-(setq ring-bell-function 'ignore)
-
-(tool-bar-mode -1)
-;;; (menu-bar-mode nil)
-(scroll-bar-mode -1)
-
-(save-place-mode)
-
-(electric-pair-mode)
-
-(setq delete-by-moving-to-trash t)
-
-;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;;; I'm going to try using list-buffers for a bit
-;;; (defalias 'list-buffers 'ibuffer)
-
-(setq debug-on-error t)
-
-;;; Make a backups directory in ~/.saves
-(setq backup-directory-alist `(("." . "~/.saves")))
-
-;;; Auto follow sym-links
-(setq vc-follow-symlinks t)
-
-;;; Use an extra sharp font
-;;;(add-to-list 'default-frame-alist '(font . "xos4 Terminus-14" ))
-;;;(set-face-attribute 'default t :font "xos4 Terminus-14" )
-
-;;; For common lisp mode
-;;; Don't forget to M-x slime when working with clisp
-;;; TODO(Gregory): Install and use slime!!!
-(setq inferior-lisp-program "clisp")
 
 ;;; (start-server)
 
@@ -76,34 +58,25 @@
     'toggle-kbd-macro-recording-on)
   (end-kbd-macro))
 
-;; TODO(Gregory): rename this to something else 
-(defun global-key-set (pair)
-  (global-set-key (kbd (car pair)) (car (cddr pair))))
+(defun set-key (keymap pair)
+  "Binds a key:function pair too a keymap;
+An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
+  (define-key keymap (kbd (car pair)) (cdr pair)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-(setq global-keybindings '(
-                           ;;; Better bindings for recording macros
-                           ("<f1>" . 'call-last-kbd-macro)
-                           ("S-<f1>" . 'toggle-kbd-macro-recording-on)
-                           ("<f2>" . 'shell)
-                           ("M-o" . 'other-window)
-                           ("C-x C-c" . 'delete-frame)
-                           ))
-
-(mapcar #'global-key-set global-keybindings)
-
-;; (global-set-key (kbd "<f2>") 'eshell)
-
-;; (global-set-key (kbd "M-o") 'other-window)
-
-;;; These keybindings are used by expand region right now
-;;; (global-set-key (kbd "M-p") 'backward-paragraph)
-;;; (global-set-key (kbd "M-n") 'forward-paragraph)
-
-;; (global-set-key (kbd "C-x C-c") 'delete-frame)
+;;; Set global keybindings
+(mapcar #'(lambda (key-function-pair) (set-key global-map key-function-pair))
+        '(
+          ;; One key bindings for recording macros
+          ("<f1>" . call-last-kbd-macro)
+          ("S-<f1>" . toggle-kbd-macro-recording-on)
+          ("<f2>" . eshell)
+          ("M-o" . other-window)
+          ("C-x C-c" . delete-frame)    ; TODO(Gregory): Move this to the C-x map
+          ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
@@ -174,34 +147,10 @@
 (use-package ace-jump-mode
   :ensure t
   :bind
-  ("C-x SPC" . ace-jump-word-mode))
-
-;;; Don't discard this just yet
-;; (autoload
-;;   'ace-jump-mode-pop-mark
-;;   "ace-jump-mode"
-;;   "Ace jump back:-)"
-;;   t)
-;; (eval-after-load "ace-jump-mode"
-;;   '(ace-jump-mode-enable-mark-sync))
-;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-;; (define-key global-map (kbd "C-x m") 'ace-jump-word-mode)
+  ;; TODO(Gregory): Think about using my set-key function with the C-x map to bind these
+  ("C-x SPC" . ace-jump-word-mode)
+  ("C-x M-DEL" . ace-jump-mode-pop-mark))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (magit hl-todo fic-ext-mode powerline zenburn-theme which-key use-package expand-region ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
