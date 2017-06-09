@@ -42,6 +42,7 @@ ohsnap
 ttf-mononoki
 quicklisp
 etcher
+ledger
 
 # npm 
 # tldr
