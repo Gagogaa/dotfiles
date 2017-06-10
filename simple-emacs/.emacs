@@ -161,7 +161,7 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (zenburn-theme which-key use-package powerline hl-todo expand-region ace-jump-mode))))
+    (ledger-mode zenburn-theme which-key use-package powerline hl-todo expand-region ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
