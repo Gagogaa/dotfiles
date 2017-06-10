@@ -1,53 +1,59 @@
-* TODO(Gregory): work on breaking this out into seperate blocks 
-  I'm tring out the emacs org config again to see if i like it more this time
+I've decided that I don't like the org mode documents for
+managing my org mode file... I'll leave this here but I'm
+never going to use it.
+I'm going to load emacs as a systemd service instead.
+* Built in Customizations
+** Variables
+   #+BEGIN_SRC emacs-lisp
+     ;;; Only insert spaces
+     ;;; TODO(Gregory): set this by major-mode
+     (setq indent-tabs-mode nil)
+     (setq tab-width 2)
 
+     (setq ring-bell-function 'ignore)       ; Get rid of the bell bacause omg is it bad
+     (setq delete-by-moving-to-trash t)
+     (setq inferior-lisp-program "clisp")
+     (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
+     (setq vc-follow-symlinks t)             ; Auto follow sym-links
+     (setq ring-bell-function 'ignore)
+     (set-default 'truncate-lines t)         ; Disable word wraping
+     ;;; (setq debug-on-error t)
+
+   #+END_SRC
+** Modes
+   #+BEGIN_SRC emacs-lisp
+
+  (setq show-paren-delay 0)
+  (show-paren-mode t)
+
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (save-place-mode)
+  (electric-pair-mode)
+   #+END_SRC
+** Aliases
+   #+BEGIN_SRC emacs-lisp
+  ;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (defalias 'split-window-below 'split-window-right)
+  ;;; (defalias 'list-buffers 'ibuffer)   ; I'm going to try using list-buffers for a bit
+   #+END_SRC
+   
+** Misc
+   #+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(font . "xos4 Terminus-12" ))
+  (set-face-attribute 'default t :font "xos4 Terminus-12" )
+
+  (require 'ido)
+  (ido-mode t)
+  (ido-everywhere t)
+  (setq ido-use-filename-at-point 'guess)
+
+  ;;; (start-server)
+   #+END_SRC
+* Custom Functions
   #+BEGIN_SRC emacs-lisp
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;; Built-In Customizations ;;;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    ;;; Only insert spaces
-    ;;; TODO(Gregory): set this by major-mode
-    (setq indent-tabs-mode nil)
-    (setq tab-width 2)
-
-    (setq ring-bell-function 'ignore)       ; Get rid of the bell bacause omg is it bad
-    (setq delete-by-moving-to-trash t)
-    (setq inferior-lisp-program "clisp")
-    (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
-    (setq vc-follow-symlinks t)             ; Auto follow sym-links
-    (setq ring-bell-function 'ignore)
-    (set-default 'truncate-lines t)         ; Disable word wraping
-    ;;; (setq debug-on-error t)
-
-    (setq show-paren-delay 0)
-    (show-paren-mode t)
-
-    (tool-bar-mode -1)
-    (menu-bar-mode -1)
-    (scroll-bar-mode -1)
-    (save-place-mode)
-    (electric-pair-mode)
-
-    ;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
-    (defalias 'yes-or-no-p 'y-or-n-p)
-    (defalias 'split-window-below 'split-window-right)
-    ;;; (defalias 'list-buffers 'ibuffer)   ; I'm going to try using list-buffers for a bit
-
-    (add-to-list 'default-frame-alist '(font . "xos4 Terminus-12" ))
-    (set-face-attribute 'default t :font "xos4 Terminus-12" )
-
-    (require 'ido)
-    (ido-mode t)
-    (ido-everywhere t)
-    (setq ido-use-filename-at-point 'guess)
-
-    ;;; (start-server)
-
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;; Custom Functions ;;;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;
-
     (defun reload-emacs-config ()
       "Recompile and run ~/.emacs.org source code"
       (interactive)
@@ -72,11 +78,9 @@
          An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
       (define-key keymap (kbd (car pair)) (cdr pair)))
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;; Keybindings ;;;;
-    ;;;;;;;;;;;;;;;;;;;;;
-
-    ;;; Set global keybindings
+  #+END_SRC
+* Keybindings
+  #+BEGIN_SRC emacs-lisp
     (mapc #'(lambda (key-function-pair) (set-key global-map key-function-pair))
           '(
             ;; One key bindings for recording macros
@@ -86,11 +90,9 @@
             ("M-o" . other-window)
             ("C-x C-c" . delete-frame)    ; TODO(Gregory): Move this to the C-x map
             ))
-
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;; Downloaded Packages ;;;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+  #+END_SRC
+* Packages
+  #+BEGIN_SRC emacs-lisp
     (require 'package)
 
     (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
@@ -100,6 +102,9 @@
 
     (package-initialize)
 
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
 
     (use-package zenburn-theme
       :ensure t
@@ -157,7 +162,4 @@
     ;;   ("C-x SPC" . ace-jump-word-mode)
     ;;   ("C-x M-DEL" . ace-jump-mode-pop-mark))
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;; Auto Generated Code ;;;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   #+END_SRC
