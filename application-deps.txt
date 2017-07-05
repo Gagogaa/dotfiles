@@ -52,3 +52,4 @@ ledger
 # .config/gtk-3.0/settings.ini
 # Other
 # Etcher from: https://etcher.io/ 
+# Use the amdgpu driver on desktop
