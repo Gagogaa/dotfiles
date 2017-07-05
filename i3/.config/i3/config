@@ -232,7 +232,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5 # decrease screen 
 # start the compositor and wait to rebind this key because it doesnt acctually rebind it otherwise
 #exec --no-startup-id compton -f -D 5 -c -C -r 20 -l -30 -t -20 -o 0.2 --vsync opengl --glx-use-copysubbuffermesa -b && xmodmap -e "keycode 135 = Super_R"
 
-exec --no-startup-id compton -f -C -D 5 -b
+# exec --no-startup-id compton -f -C -D 5 -b
 exec --no-startup-id dropbox start # start dropbox
 
 # Custom keybindings
@@ -240,6 +240,7 @@ bindsym $mod+shift+x exec --no-startup-id i3lock
 bindsym $mod+q exec --no-startup-id ~/.config/i3/lock.sh
 bindsym $mod+d exec --no-startup-id run_rofi
 bindsym $mod+g exec --no-startup-id rofi -modi "run" -show run
+bindsym $mod+i exec pcmanfm
 
 # TODO(Gregory): break these commands out into a script to load machine specific utilities
 # Desktop only things

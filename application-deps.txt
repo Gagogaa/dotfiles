@@ -33,6 +33,7 @@ artwiz-fonts
 stow
 stress
 iftop
+tlp
 
 [yaourt -S]
 i3blocks
@@ -43,6 +44,8 @@ ttf-mononoki
 quicklisp
 etcher
 ledger
+godot
+yakyak
 
 # npm 
 # tldr

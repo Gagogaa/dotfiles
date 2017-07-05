@@ -100,6 +100,11 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   :config
   (load-theme 'zenburn t))
 
+(use-package color-theme-sanityinc-solarized
+  :ensure t
+  :config
+  (load-theme 'sanityinc-solarized-dark t))
+
 (use-package which-key
   :ensure t
   :config
@@ -154,3 +159,20 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(package-selected-packages
+   (quote
+    (ace-jump-mode color-theme-sanityinc-solarized lua-mode hl-todo powerline expand-region which-key zenburn-theme use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
