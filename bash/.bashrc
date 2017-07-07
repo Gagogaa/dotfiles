@@ -38,3 +38,15 @@ TRASH=/.local/share/Trash/files
 # [ -z $TMUX ] && tmux
 # TODO: figure out a way to start the emacs server on login
 # [ -e /usr/bin/emacs ] && emacs &
+
+# Try connecting to a tmux session on login and logout 
+# Don't use this until I get use to tmux
+#if which tmux >/dev/null 2>&1; then
+#    # if no session is started, start a new session
+#    test -z ${TMUX} && tmux
+#
+#    # when quitting tmux, try to attach
+#    while test -z ${TMUX}; do
+#        tmux attach 2>/dev/null|| break
+#    done
+#fi
