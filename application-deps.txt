@@ -41,11 +41,9 @@ ttf-font-awesome
 gtk-theme-numix-solarized
 ohsnap
 ttf-mononoki
-quicklisp
 etcher
 ledger
 godot
-yakyak
 
 # npm 
 # tldr
