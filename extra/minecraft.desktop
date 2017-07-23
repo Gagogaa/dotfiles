@@ -1,11 +1,10 @@
-#.local/share/applications
+# Place in ~/.local/share/applications/
 [Desktop Entry]
 Name=Minecraft
 Comment=Amazing game by Mojang
-#Path=/home/gregory/.minecraft/
 Path=.minecraft
 Exec=java -jar launcher.jar
-Icon=steam
+Icon=minecraft
 Terminal=false
 Type=Application
 Categories=Game;
