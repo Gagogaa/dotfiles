@@ -34,6 +34,7 @@ stow
 stress
 iftop
 tlp
+gnuplot
 
 [yaourt -S]
 i3blocks
@@ -47,12 +48,12 @@ ledger
 godot
 yakyak
 
-# npm 
+# npm
 # tldr
 # pip
 # cheat
 # check this out for rebinding keys https://superuser.com/questions/116376/can-i-swap-the-ctrl-and-alt-in-kde
 # .config/gtk-3.0/settings.ini
 # Other
-# Etcher from: https://etcher.io/ 
+# Etcher from: https://etcher.io/
 # Use the amdgpu driver on desktop
