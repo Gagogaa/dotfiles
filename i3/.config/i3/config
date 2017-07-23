@@ -175,10 +175,16 @@ bindsym $mod+Down resize grow height 10 px or 10 ppt
 bindsym $mod+Up resize shrink height 10 px or 10 ppt
 bindsym $mod+Right resize grow width 10 px or 10 ppt
 
+# pulse Audio control
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% # increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% # decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
 # pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%+ # increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%- # decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master 1+ toggle # mute sound
+#bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%+ # increase sound volume
+#bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%- # decrease sound volume
+#bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master 1+ toggle # mute sound
+
 
 # Media player controls
 bindsym XF86AudioPlay exec --no-startup-id playerctl play
