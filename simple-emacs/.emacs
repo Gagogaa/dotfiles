@@ -12,7 +12,6 @@
 (setq inferior-lisp-program "clisp")
 (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
 (setq vc-follow-symlinks t)		; Auto follow sym-links
-(setq ring-bell-function 'ignore)
 (set-default 'truncate-lines t)		; Disable word wraping
 ;;; (setq debug-on-error t)
 
