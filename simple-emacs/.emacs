@@ -24,6 +24,7 @@
 (scroll-bar-mode -1)
 (save-place-mode)
 (electric-pair-mode)
+(auto-save-mode)
 
 ;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -75,8 +76,10 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
           ("S-<f1>" . toggle-kbd-macro-recording-on)
           ("<f2>" . eshell)
           ("M-o" . other-window)
+          ("M-<f1>" . multi-occur-in-matching-buffers)
           ("C-x C-c" . delete-frame)    ; TODO(Gregory): Move this to the C-x map
           ))
+;;; TODO(Greogry): make a C-z map!!!
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
@@ -153,9 +156,21 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   :ensure t
   :bind
   ;; TODO(Gregory): Think about using my set-key function with the C-x map to bind these
-  ("C-x SPC" . ace-jump-word-mode)
+  ("M-[" . ace-jump-word-mode)
   ("C-x M-DEL" . ace-jump-mode-pop-mark))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(save-place-mode t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ace-jump-face-foreground ((t (:background "#073642" :foreground "#fdf6e3" :inverse-video nil)))))
