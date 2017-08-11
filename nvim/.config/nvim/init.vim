@@ -142,11 +142,23 @@ let g:netrw_liststyle=3
 
 :nnoremap <leader>sv :source $MYVIMRC <RETURN>
 :nnoremap <leader>ev :vsplit $MYVIMRC <RETURN>
-:nnoremap <F1> @@
+:nnoremap <leader>\|  :vsplit <RETURN>
+:nnoremap <leader>-  :split <RETURN>
+:nnoremap <F1> @d
 :nnoremap <F2> qd
 :nnoremap <leader>w :w <RETURN>
 :nnoremap <leader>q :q <RETURN>
 :nnoremap <leader>Q :q! <RETURN>
+
+:nnoremap <leader>a 0
+:nnoremap <leader>f $
+
+
+:nnoremap <leader>j <C-W><C-J>
+:nnoremap <leader>k <C-W><C-K>
+:nnoremap <leader>l <C-W><C-L>
+:nnoremap <leader>h <C-W><C-H>
+
 :nnoremap <C-J> <C-W><C-J>
 :nnoremap <C-K> <C-W><C-K>
 :nnoremap <C-L> <C-W><C-L>
