@@ -6,11 +6,26 @@
 "╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 
 " Settings {{{
-" Switch syntax highlighting on, when the terminal has colors
-syntax on
-
 " Use vim, not vi api
 set nocompatible
+
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+if !filereadable(expand('~/.cache/dein/repos/github.com/Shougo/dein.vim'))
+  !mkdir -p ~/.cache/dein/repos/github.com/Shougo/dein.vim
+  !git clone https://github.com/Shougo/dein.vim.git ~/.cache/dein/repos/github.com/Shougo/dein.vim
+  call dein#begin(expand('~/.cache/dein'))
+  call dein#add('Shougo/dein.vim')
+  call dein#add('kien/ctrlp.vim')
+  call dein#add('easymotion/vim-easymotion')
+  " call dein#add('Shougo/denite.nvim')
+  " call dein#add('Shougo/neocomplete.vim')
+  call dein#end()
+  " call dein#install()
+endif
+
+" Switch syntax highlighting on, when the terminal has colors
+syntax on
 
 " No backup files
 set nobackup
@@ -150,6 +165,12 @@ let g:netrw_liststyle=3
 :nnoremap <leader>q :q <RETURN>
 :nnoremap <leader>Q :q! <RETURN>
 
+:nnoremap <leader>p :CtrlP<RETURN>
+:nnoremap <leader>b :CtrlPBuffer<RETURN>
+:nnoremap <C-P> :CtrlP<RETURN>
+:nnoremap <leader>di :call dein#install()<RETURN>
+:nnoremap <leader>t <Plug>(easymotion-prefix)
+
 :nnoremap <leader>a 0
 :nnoremap <leader>f $
 
@@ -254,4 +275,6 @@ fun! SetDiffColors()
   highlight DiffText   cterm=bold ctermfg=white ctermbg=DarkRed
 endfun
 autocmd FilterWritePre * call SetDiffColors()
+
+
 " }}}

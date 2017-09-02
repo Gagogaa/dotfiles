@@ -1,3 +1,10 @@
+;;;;    ███████╗███╗   ███╗ █████╗  ██████╗███████╗
+;;;;    ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
+;;;;    █████╗  ██╔████╔██║███████║██║     ███████╗
+;;;;    ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
+;;;; ██╗███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
+;;;; ╚═╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Built-In Customizations ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -30,8 +37,8 @@
 (defalias 'split-window-below 'split-window-right)
 ;;; (defalias 'list-buffers 'ibuffer)	; I'm going to try using list-buffers for a bit
 
-(add-to-list 'default-frame-alist '(font . "xos4 Terminus-12" ))
-(set-face-attribute 'default t :font "xos4 Terminus-12" )
+;;(add-to-list 'default-frame-alist '(font . "xos4 Terminus-12" ))
+;;(set-face-attribute 'default t :font "xos4 Terminus-12" )
 
 (require 'ido)
 (ido-mode t)
@@ -75,6 +82,7 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
           ("S-<f1>" . toggle-kbd-macro-recording-on)
           ("<f2>" . eshell)
           ("M-o" . other-window)
+	  ("M-<f4>" . save-buffers-kill-emacs)
           ("M-<f1>" . multi-occur-in-matching-buffers)
           ("C-x C-c" . delete-frame)    ; TODO(Gregory): Move this to the C-x map
           ))
@@ -97,10 +105,10 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package zenburn-theme
-  :ensure t
-  :config
-  (load-theme 'zenburn t))
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
 
 (use-package color-theme-sanityinc-solarized
   :ensure t
@@ -158,6 +166,29 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   ("M-[" . ace-jump-word-mode)
   ("C-x M-DEL" . ace-jump-mode-pop-mark))
 
+;;;; My new favorite plugin!!!!
+(use-package god-mode
+  :ensure t
+  :bind
+  ("C-." . god-mode-all)
+  ("M-." . god-mode-all)
+  :config
+  ;; Copied from the git page
+  (define-key god-local-mode-map (kbd "z") 'repeat)
+  ;; (define-key god-local-mode-map (kbd ".") 'repeat)
+  (define-key god-local-mode-map (kbd "i") 'god-local-mode)
+
+  (defun my-update-cursor ()
+    ;; "Change the look of the cursor depending on the state of god-mode"
+    (setq cursor-type (if (or god-local-mode buffer-read-only)
+			  (progn (set-cursor-color "red") 'box)
+			(progn (set-cursor-color "white") 'bar))))
+  
+  (add-hook 'god-mode-enable-hook 'my-update-cursor)
+  (add-hook 'god-mode-disable-hook 'my-update-cursor)
+  (add-hook 'eshell-mode-hook '(lambda () (god-mode -1))) ; drop out of god mode when switching to eshell
+  )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -168,5 +199,11 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized zenburn-theme use-package))))
+    (cursor-chg god-mode web-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized zenburn-theme use-package))))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

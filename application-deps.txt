@@ -45,6 +45,11 @@ ttf-mononoki
 etcher
 ledger
 godot
+sc-im # needs byacc
+wordgrinder
+
+[pip install]
+pygments
 
 # npm
 # tldr
