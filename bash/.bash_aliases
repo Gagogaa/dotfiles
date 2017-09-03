@@ -25,6 +25,7 @@ alias pm='pacman'
 # alias install='sudo pacman -S'
 # alias remove='sudo pacman -Rnsc'
 alias pacman='sudo pacman --color=auto'
+alias pacaur='pacaur --color=auto'
 
 alias emacs='emacsclient --alternate-editor="" -c "$@"'
 alias wg='wordgrinder'
