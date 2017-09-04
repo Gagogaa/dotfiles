@@ -21,6 +21,7 @@
 (setq vc-follow-symlinks t)		; Auto follow sym-links
 (set-default 'truncate-lines t)		; Disable word wraping
 ;;; (setq debug-on-error t)
+(set-face-attribute 'default t :font "Roboto Mono" )
 
 (setq show-paren-delay 0)
 (show-paren-mode t)
@@ -188,16 +189,17 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   ;; (define-key god-local-mode-map (kbd ".") 'repeat)
   (define-key god-local-mode-map (kbd "i") 'god-local-mode)
 
-  (defun update-cursor ()
+  (defun my-update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
+    (message "update cursor")
     (setq cursor-type (if (or god-local-mode buffer-read-only)
-			  ;;   (progn (set-cursor-color "red") 'box)
-			  ;; (progn (set-cursor-color "white") 'bar))))
 			  'box
 			'bar)))
   
-  (add-hook 'god-mode-enable-hook 'update-cursor)
-  (add-hook 'god-mode-disable-hook 'update-cursor)
+  (add-hook 'god-mode-enabled-hook 'my-update-cursor)
+  (add-hook 'god-mode-disabled-hook 'my-update-cursor)
+  
+  ;; todo just add eshell to the list of god mode free buffers
   (add-hook 'eshell-mode-hook '(lambda () (god-mode -1))))
 
 (use-package engine-mode
@@ -253,3 +255,17 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (company engine-mode god-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
