@@ -32,7 +32,6 @@
 (save-place-mode)
 (electric-pair-mode)
 (auto-save-mode)
-(global-hl-line-mode)
 
 ;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
 (defalias 'yes-or-no-p 'y-or-n-p)
