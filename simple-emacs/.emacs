@@ -27,12 +27,12 @@
 (show-paren-mode t)
 
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+;; (menu-bar-mode -1)
 (tooltip-mode -1)
 (scroll-bar-mode -1)
 (save-place-mode)
 (electric-pair-mode)
-(auto-save-mode)
+;; (auto-save-mode)
 
 ;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -101,19 +101,14 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-initialize)
 
-;;; Add package archives
 (add-to-list 'package-archives
 	     '("marmalade" . "https://marmalade-repo.org/packages/") t)
-;; (add-to-list 'package-archives
-;;              '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
 	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
 	     '("gnu" . "https://elpa.gnu.org/packages/") t)
-
-;; TODO -oGregory look into yasnippents to speed things up! Also
-;; think about installing company for c and java maybe I'll have to
-;; see what I'm using for classes
 
 (install-use-package)
 
@@ -184,6 +179,7 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   ("C-." . god-mode-all)
   ("M-." . god-mode-all)
   :config
+  (god-mode-activate)
   ;; Copied from the git page
   (define-key god-local-mode-map (kbd "z") 'repeat)
   ;; (define-key god-local-mode-map (kbd ".") 'repeat)
@@ -191,7 +187,6 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 
   (defun my-update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
-    (message "update cursor")
     (setq cursor-type (if (or god-local-mode buffer-read-only)
 			  'box
 			'bar)))
@@ -206,6 +201,7 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   :ensure t
   :config
   (engine-mode t)
+  
   (defengine amazon
     "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=%s"
     :keybinding "a")
@@ -230,8 +226,7 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 
   (defengine wikipedia
     "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
-    :keybinding "w"
-    :docstring "Searchin' the wikis.")
+    :keybinding "w")
 
   (defengine wiktionary
     "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s"
@@ -240,6 +235,10 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   (defengine youtube
     "http://www.youtube.com/results?aq=f&oq=&search_query=%s"
     :keybinding "y")
+
+  (defengine python-doc
+    "https://docs.python.org/3/search.html?q=%s"
+    :keybinding "p")
 
   ;; NOTE this is for work
   (defengine delphi-doc
@@ -250,7 +249,18 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   :ensure t
   :config
   ;; TODO(Gregory): check out the config settings for this
-  (company-mode))
+  (global-company-mode))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  ;; TODO(Gregory): check out the config settings for this
+  ;; to add snippets due so under .emacs.d/snippets/my-mode/
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets
+  ;; More snippets for yasnippet I should check them out!!!!
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
@@ -262,7 +272,7 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company engine-mode god-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized use-package))))
+    (yasnippet-snippets yasnippet company engine-mode god-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -5,6 +5,8 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+export PATH=$PATH:~/.bin
+
 # Shell options 
 # Set the default edit mode to emacs
 set -o emacs 

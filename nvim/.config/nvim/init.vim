@@ -11,18 +11,18 @@ set nocompatible
 
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if !filereadable(expand('~/.cache/dein/repos/github.com/Shougo/dein.vim'))
-  !mkdir -p ~/.cache/dein/repos/github.com/Shougo/dein.vim
-  !git clone https://github.com/Shougo/dein.vim.git ~/.cache/dein/repos/github.com/Shougo/dein.vim
-  call dein#begin(expand('~/.cache/dein'))
-  call dein#add('Shougo/dein.vim')
-  call dein#add('kien/ctrlp.vim')
-  call dein#add('easymotion/vim-easymotion')
-  " call dein#add('Shougo/denite.nvim')
-  " call dein#add('Shougo/neocomplete.vim')
-  call dein#end()
-  " call dein#install()
-endif
+" if !filereadable(expand('~/.cache/dein/repos/github.com/Shougo/dein.vim'))
+" !mkdir -p ~/.cache/dein/repos/github.com/Shougo/dein.vim
+" !git clone https://github.com/Shougo/dein.vim.git ~/.cache/dein/repos/github.com/Shougo/dein.vim
+" call dein#begin(expand('~/.cache/dein'))
+" call dein#add('Shougo/dein.vim')
+" call dein#add('kien/ctrlp.vim')
+" call dein#add('easymotion/vim-easymotion')
+" call dein#add('Shougo/denite.nvim')
+" call dein#add('Shougo/neocomplete.vim')
+" call dein#end()
+" call dein#install()
+" endif
 
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
