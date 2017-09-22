@@ -17,11 +17,18 @@
 (setq ring-bell-function 'ignore)	; Get rid of the bell bacause omg is it bad
 (setq delete-by-moving-to-trash t)
 (setq inferior-lisp-program "clisp")
-(setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
+;; (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 (setq vc-follow-symlinks t)		; Auto follow sym-links
 (set-default 'truncate-lines t)		; Disable word wraping
 ;;; (setq debug-on-error t)
 (set-face-attribute 'default t :font "Roboto Mono" )
+
+(setq c-default-style "linux"
+      c-basic-offset 2)
 
 (setq show-paren-delay 0)
 (show-paren-mode t)
@@ -190,18 +197,18 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   ;; (define-key god-local-mode-map (kbd ".") 'repeat)
   (define-key god-local-mode-map (kbd "i") 'god-local-mode)
 
-  (defun my-update-cursor ()
+  (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
     (message "update cursor")
     (setq cursor-type (if (or god-local-mode buffer-read-only)
 			  'box
 			'bar)))
   
-  (add-hook 'god-mode-enabled-hook 'my-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'my-update-cursor)
+  (add-hook 'god-mode-enabled-hook 'update-cursor)
+  (add-hook 'god-mode-disabled-hook 'update-cursor)
   
   ;; todo just add eshell to the list of god mode free buffers
-  (add-hook 'eshell-mode-hook '(lambda () (god-mode -1))))
+  (add-hook 'eshell-mode-hook '(lambda () (setq cursor-type 'bar))))
 
 (use-package engine-mode
   :ensure t
@@ -236,6 +243,10 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 
   (defengine wiktionary
     "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s"
+    :keybinding "i")
+  
+  (defengine emacswiki
+    "https://www.emacswiki.org/emacs/Search?action=index&match=%s"
     :keybinding "e")
 
   (defengine youtube
@@ -263,7 +274,7 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company engine-mode god-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized use-package))))
+    (erlang company engine-mode god-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
