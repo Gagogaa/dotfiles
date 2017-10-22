@@ -10,6 +10,8 @@ alias edit='$EDITOR'
 alias free='free -h'
 alias shutdown='sudo shutdown -h now'
 alias h='history'
+alias t=tmux
+alias open="xdg-open $1 2>>/dev/null"
 # alias hsi='hs -i'
 # alias emacs='emacs -nw'
 alias grep='grep --color=auto'
