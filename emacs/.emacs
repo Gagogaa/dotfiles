@@ -10,7 +10,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Only insert spaces
-;;; TODO(Gregory): Create a funciton to change the indentation by major mode
+;;; TODO: Create a funciton to change the indentation by major mode
 (setq indent-tabs-mode nil
       tab-width 2
       ring-bell-function 'ignore ; Get rid of the bell bacause omg is it bad
@@ -39,7 +39,6 @@
 (electric-pair-mode)
 (auto-save-mode)
 
-;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
 (defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'split-window-below 'split-window-right)
 ;;; (defalias 'list-buffers 'ibuffer)	; I'm going to try using list-buffers for a bit
@@ -51,8 +50,6 @@
 
 (desktop-save-mode t)
 
-;;; (start-server)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -62,6 +59,7 @@
     (package-refresh-contents)
     (package-install 'use-package)))
 
+;;; TODO: bundle these two up into one function.
 (defun toggle-kbd-macro-recording-on ()
   "One-key keyboard macros: turn recording on."
   (interactive)
@@ -78,15 +76,30 @@
 
 (defun set-key (keymap pair)
   "Binds a key:function pair too a keymap;
-An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
+An example call that binds shell to F1 is (set-key global-map (\"<f1>\" . shell))"
   (define-key keymap (kbd (car pair)) (cdr pair)))
+
+(defun not-today ()
+  (interactive)
+  (message-box "Not Today!"))
+
+;;; TODO: Make a stop nagging function for when I'm in a rush.
+(setq last-time (current-time))
+(defun stop-saving-so-much ()
+  "Messages me when I'm saving the file way too often."
+  (interactive)
+  (if (< (- (time-to-seconds (current-time))
+            (time-to-seconds last-time))
+         60)
+      (message-box "Stop saving so much!"))
+  (setq now (current-time))
+  (save-buffer))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-;;; TODO(Greogry): make a C-z map!!!
-;;; TODO(Gregory): Make a function and keybinding to stop me from saving the file every three seconds.
+;;; TODO: Make a function and keybinding to stop me from saving the file every three seconds.
 
 ;;; Set global keybindings
 (mapcar #'(lambda (key-function-pair)
@@ -97,7 +110,8 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
           ("M-o" . other-window)
           ("M-<f1>" . multi-occur-in-matching-buffers)
           ;; ("C-x C-c" . delete-frame)
-          ;; ("C-x C-c" . (lambda () (message "Not Today!")))
+          ("C-x C-c" . not-today)
+          ("C-x C-s" . stop-saving-so-much)
           ("C-M-{" . insert-pair)
           ("C-M-(" . insert-pair)
           ("C-M-[" . insert-pair)
@@ -105,70 +119,55 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
           ("C-M-\"" . insert-pair)
           ("M-<f4>" . delete-frame)))
 
+(setq ctl-z-map (make-sparse-keymap))
+
+(global-set-key (kbd "C-z") ctl-z-map)
+
+(mapcar #'(lambda (key-function-pair)
+            (set-key ctl-z-map key-function-pair))
+        '(("x" . kill-emacs)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-initialize)
 
 (add-to-list 'package-archives
-	     '("marmalade" . "https://marmalade-repo.org/packages/") t)
+             '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
-	     '("gnu" . "https://elpa.gnu.org/packages/") t)
+             '("gnu" . "https://elpa.gnu.org/packages/") t)
 
 (install-use-package)
 
-;; (use-package zenburn-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'zenburn t))
-
-(use-package color-theme-sanityinc-solarized
+(use-package zenburn-theme
   :ensure t
   :config
-  (load-theme 'sanityinc-solarized-dark t))
+  (load-theme 'zenburn t))
 
-;; (use-package which-key
+;; (use-package color-theme-sanityinc-solarized
 ;;   :ensure t
 ;;   :config
-;;   (which-key-mode))
+;;   (load-theme 'sanityinc-solarized-dark t))
 
-;; (use-package expand-region
-;;   :ensure t
-;;   :bind
-;;   ("M-n" . er/expand-region)
-;;   ("M-p" . er/contract-region))
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 
 (use-package powerline
   :ensure t
   :config
   (powerline-default-theme))
 
-;; (use-package hl-todo
-;;   ;; hl-todo-mode keywords
-;;   ;; HOLD
-;;   ;; TODO
-;;   ;; NEXT
-;;   ;; THEM
-;;   ;; PROG
-;;   ;; OKAY
-;;   ;; DONT
-;;   ;; FAIL
-;;   ;; DONE
-;;   ;; NOTE
-;;   ;; KLUDGE
-;;   ;; HACK
-;;   ;; FIXME
-;;   ;; XXX
-;;   ;; XXXX
-;;   ;; ???
-
-;;   :ensure t
-;;   :config
-;;   (global-hl-todo-mode))
+(use-package expand-region
+  :ensure t
+  :bind
+  ("M-N" . er/expand-region)
+  ("M-P" . er/contract-region))
 
 (use-package ace-jump-mode
   :ensure t
@@ -179,12 +178,13 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 (use-package god-mode
   :ensure t
   :bind
-  ("C-." . god-mode-all)
+  ;; ("C-." . god-mode-all)
   ("M-." . god-mode-all)
   :init
   (god-mode-all)
   :config
-  (define-key god-local-mode-map (kbd "z") 'repeat)
+  (define-key god-local-mode-map (kbd ".") 'repeat)
+
   (add-to-list 'god-exempt-major-modes 'eshell-mode)
 
   (setq cursor-type 'bar)
@@ -192,9 +192,9 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
     (setq cursor-type
-	  (if (or god-local-mode buffer-read-only)
-	      'box
-	    'bar)))
+          (if (or god-local-mode buffer-read-only)
+              'box
+            'bar)))
 
   (add-hook 'god-mode-enabled-hook 'update-cursor)
   (add-hook 'god-mode-disabled-hook 'update-cursor))
@@ -254,14 +254,14 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 (use-package company
   :ensure t
   :config
-  ;; TODO(Gregory): check out the config settings for this
+  ;; TODO: check out the config settings for this
   (global-company-mode))
 
 (use-package yasnippet
   :ensure t
   :config
-  ;; TODO(Gregory): check out the config settings for this
-  ;; to add snippets due so under .emacs.d/snippets/my-mode/
+  ;; TODO: Check out the config settings for this.
+  ;; To add snippets due so under .emacs.d/snippets/my-mode/
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets
@@ -277,3 +277,17 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (expand-region which-key zenburn-theme yasnippet-snippets use-package powerline god-mode engine-mode company color-theme-sanityinc-solarized beacon ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
