@@ -18,6 +18,7 @@ alias info='info --vi-keys'
 alias srcx='xrdb ~/.Xresources'
 alias pg='ping google.com'
 alias pm='pacman'
+alias rm-orphans="pacman -Rns $(pacman -Qtdq)"
 #alias mdprev='pandoc $1 > markdownPreview.html ; firefox markdownPreview.html'
 #; firefox markdownPreview.html; rm markdownPreview.html"
 

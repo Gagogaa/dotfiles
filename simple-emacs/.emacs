@@ -14,7 +14,7 @@
 (setq indent-tabs-mode nil)
 (setq tab-width 2)
 
-(setq ring-bell-function 'ignore)	; Get rid of the bell bacause omg is it bad
+(setq ring-bell-function 'ignore)       ; Get rid of the bell bacause omg is it bad
 (setq delete-by-moving-to-trash t)
 (setq inferior-lisp-program "clisp")
 ;; (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
@@ -22,8 +22,8 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
-(setq vc-follow-symlinks t)		; Auto follow sym-links
-(set-default 'truncate-lines t)		; Disable word wraping
+(setq vc-follow-symlinks t)             ; Auto follow sym-links
+(set-default 'truncate-lines t)         ; Disable word wraping
 ;;; (setq debug-on-error t)
 (set-face-attribute 'default t :font "Roboto Mono" )
 
@@ -43,8 +43,9 @@
 
 ;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
 (defalias 'yes-or-no-p 'y-or-n-p)
+;; See keybindings
 (defalias 'split-window-below 'split-window-right)
-;;; (defalias 'list-buffers 'ibuffer)	; I'm going to try using list-buffers for a bit
+;;; (defalias 'list-buffers 'ibuffer)   ; I'm going to try using list-buffers for a bit
 
 (require 'ido)
 (ido-mode t)
@@ -89,19 +90,20 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 
 ;;; Set global keybindings
 (mapcar #'(lambda (key-function-pair)
-    (set-key global-map key-function-pair))
+            (set-key global-map key-function-pair))
         '(("<f1>" . call-last-kbd-macro)
           ("S-<f1>" . toggle-kbd-macro-recording-on)
           ("<f2>" . eshell)
           ("M-o" . other-window)
           ("M-<f1>" . multi-occur-in-matching-buffers)
+          ("C-x 3" . split-window-right)
           ("C-x C-c" . delete-frame)
-	  ("C-M-{" . insert-pair)
-	  ("C-M-(" . insert-pair)
-	  ("C-M-[" . insert-pair)
-	  ("C-M-'" . insert-pair)
-	  ("C-M-\"" . insert-pair)
-	  ("M-<f4>" . delete-frame)))
+          ("C-M-{" . insert-pair)
+          ("C-M-(" . insert-pair)
+          ("C-M-[" . insert-pair)
+          ("C-M-'" . insert-pair)
+          ("C-M-\"" . insert-pair)
+          ("M-<f4>" . delete-frame)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
@@ -109,13 +111,13 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 (package-initialize)
 
 (add-to-list 'package-archives
-	     '("marmalade" . "https://marmalade-repo.org/packages/") t)
+             '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
-	     '("gnu" . "https://elpa.gnu.org/packages/") t)
+             '("gnu" . "https://elpa.gnu.org/packages/") t)
 
 (install-use-package)
 
@@ -134,11 +136,11 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   :config
   (which-key-mode))
 
-(use-package expand-region
-  :ensure t
-  :bind
-  ("M-n" . er/expand-region)
-  ("M-p" . er/contract-region))
+;; (use-package expand-region
+;;   :ensure t
+;;   :bind
+;;   ("M-n" . er/expand-region)
+;;   ("M-p" . er/contract-region))
 
 (use-package powerline
   :ensure t
@@ -176,8 +178,8 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 (use-package ace-jump-mode
   :ensure t
   :bind
-  ("M-[" . ace-jump-word-mode)
-  ("C-x M-DEL" . ace-jump-mode-pop-mark))
+  ("M-n" . ace-jump-word-mode)
+  ("M-p" . ace-jump-mode-pop-mark))
 
 ;;;; NOTE: My new favorite plugin!!!!
 (use-package god-mode
@@ -186,7 +188,8 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   ("C-." . god-mode-all)
   ("M-." . god-mode-all)
   :config
-  (god-mode-activate)
+  ;; (god-mode-activate)
+  (god-mode-all)
   ;; Copied from the git page
   (define-key god-local-mode-map (kbd "z") 'repeat)
   ;; (define-key god-local-mode-map (kbd ".") 'repeat)
@@ -195,8 +198,8 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
     (setq cursor-type (if (or god-local-mode buffer-read-only)
-			  'box
-			'bar)))
+                          'box
+                        'bar)))
 
   (add-hook 'god-mode-enabled-hook 'update-cursor)
   (add-hook 'god-mode-disabled-hook 'update-cursor)
@@ -269,11 +272,29 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   ;; to add snippets due so under .emacs.d/snippets/my-mode/
   (yas-global-mode 1))
 
+;; More snippets for yasnippet.
 (use-package yasnippet-snippets
-  ;; More snippets for yasnippet I should check them out!!!!
+  :ensure t)
+
+(use-package try
   :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(put 'narrow-to-region 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (try erlang company engine-mode god-mode ace-jump-mode hl-todo powerline expand-region which-key color-theme-sanityinc-solarized use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
