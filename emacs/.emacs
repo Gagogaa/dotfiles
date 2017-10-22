@@ -1,64 +1,279 @@
-;;; Package
-(require 'package)
+;;;;    ███████╗███╗   ███╗ █████╗  ██████╗███████╗
+;;;;    ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
+;;;;    █████╗  ██╔████╔██║███████║██║     ███████╗
+;;;;    ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
+;;;; ██╗███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
+;;;; ╚═╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
 
-;;; Add some package servers
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Built-In Customizations ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;; Only insert spaces
+;;; TODO(Gregory): Create a funciton to change the indentation by major mode
+(setq indent-tabs-mode nil
+      tab-width 2
+      ring-bell-function 'ignore ; Get rid of the bell bacause omg is it bad
+      delete-by-moving-to-trash t
+      inferior-lisp-program "clisp"
+      vc-follow-symlinks t		; Auto follow sym-links
+      backup-directory-alist `((".*" . ,temporary-file-directory))
+      auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+      truncate-lines t
+      ;; debug-on-error t			; Just in case I need to enable debugging
+      c-default-style "linux"
+      c-basic-offset 2)
+
+(set-face-attribute 'default t :font "Ubuntu Mono")
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(setq show-paren-delay 0)
+(show-paren-mode t)
+
+(tool-bar-mode -1)
+;; (menu-bar-mode -1)			; Not I keep this on to check out the snippets in ya-snippets
+(tooltip-mode -1)
+(scroll-bar-mode -1)
+(save-place-mode)
+(electric-pair-mode)
+(auto-save-mode)
+
+;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
+(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'split-window-below 'split-window-right)
+;;; (defalias 'list-buffers 'ibuffer)	; I'm going to try using list-buffers for a bit
+
+(require 'ido)
+(ido-mode t)
+(ido-everywhere t)
+(setq ido-use-filename-at-point 'guess)
+
+(desktop-save-mode t)
+
+;;; (start-server)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Custom Functions ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun install-use-package ()
+  "Install the use-package package manager if its not installed"
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package)))
+
+(defun toggle-kbd-macro-recording-on ()
+  "One-key keyboard macros: turn recording on."
+  (interactive)
+  (define-key global-map (this-command-keys)
+    'toggle-kbd-macro-recording-off)
+  (start-kbd-macro nil))
+
+(defun toggle-kbd-macro-recording-off ()
+  "One-key keyboard macros: turn recording off."
+  (interactive)
+  (define-key global-map (this-command-keys)
+    'toggle-kbd-macro-recording-on)
+  (end-kbd-macro))
+
+(defun set-key (keymap pair)
+  "Binds a key:function pair too a keymap;
+An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
+  (define-key keymap (kbd (car pair)) (cdr pair)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Keybindings ;;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+;;; TODO(Greogry): make a C-z map!!!
+;;; TODO(Gregory): Make a function and keybinding to stop me from saving the file every three seconds.
+
+;;; Set global keybindings
+(mapcar #'(lambda (key-function-pair)
+            (set-key global-map key-function-pair))
+        '(("<f1>" . call-last-kbd-macro)
+          ("S-<f1>" . toggle-kbd-macro-recording-on)
+          ("<f2>" . eshell)
+          ("M-o" . other-window)
+          ("M-<f1>" . multi-occur-in-matching-buffers)
+          ;; ("C-x C-c" . delete-frame)
+          ;; ("C-x C-c" . (lambda () (message "Not Today!")))
+          ("C-M-{" . insert-pair)
+          ("C-M-(" . insert-pair)
+          ("C-M-[" . insert-pair)
+          ("C-M-'" . insert-pair)
+          ("C-M-\"" . insert-pair)
+          ("M-<f4>" . delete-frame)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Downloaded Packages ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-initialize)
-;; (setq package-enable-at-startup nil)
 
-;;; Ensure that use-package is installed
-(unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
+(add-to-list 'package-archives
+	     '("marmalade" . "https://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives
+	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+	     '("gnu" . "https://elpa.gnu.org/packages/") t)
 
-(org-babel-load-file (expand-file-name ".my-emacs.org"))
+(install-use-package)
 
-;;; -------------- AUTO GENERATED CODE -------------- 
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-	 [default bold shadow italic underline bold bold-italic bold])
- '(compilation-message-face (quote default))
- '(custom-safe-themes
-	 (quote
-		("f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "1db337246ebc9c083be0d728f8d20913a0f46edc0a00277746ba411c149d7fe5" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "c7a9a68bd07e38620a5508fef62ec079d274475c8f92d75ed0c33c45fbe306bc" default)))
- '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
- '(highlight-tail-colors
-	 (quote
-		(("#3C3D37" . 0)
-		 ("#679A01" . 20)
-		 ("#4BBEAE" . 30)
-		 ("#1DB4D0" . 50)
-		 ("#9A8F21" . 60)
-		 ("#A75B00" . 70)
-		 ("#F309DF" . 85)
-		 ("#3C3D37" . 100))))
- '(magit-diff-use-overlays nil)
- '(package-selected-packages
-	 (quote
-		(zenburn-theme color-theme-sanityinc-solarized powerline which-key beacon ace-mc w3 engine-mode hl-todo ample-zen-theme solarized-theme git-gutter flycheck markdown-mode eshell-manual 2048-game ac-emmet auto-complete org-bullets counsel swiper avy lorem-ipsum control-lock try monokai-theme use-package)))
- '(pos-tip-background-color "#A6E22E")
- '(pos-tip-foreground-color "#272822")
- '(ring-bell-function (quote ignore))
- '(weechat-color-list
-	 (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+(use-package color-theme-sanityinc-solarized
+  :ensure t
+  :config
+  (load-theme 'sanityinc-solarized-dark t))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ac-candidate-mouse-face ((t (:inherit highlight))))
- '(ac-completion-face ((t (:inherit default))))
- '(ac-gtags-candidate-face ((t (:inherit ac-candidate-face))))
- '(ac-gtags-selection-face ((t (:inherit ac-selection-face)))))
+;; (use-package which-key
+;;   :ensure t
+;;   :config
+;;   (which-key-mode))
 
-(put 'narrow-to-region 'disabled nil)
+;; (use-package expand-region
+;;   :ensure t
+;;   :bind
+;;   ("M-n" . er/expand-region)
+;;   ("M-p" . er/contract-region))
+
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme))
+
+;; (use-package hl-todo
+;;   ;; hl-todo-mode keywords
+;;   ;; HOLD
+;;   ;; TODO
+;;   ;; NEXT
+;;   ;; THEM
+;;   ;; PROG
+;;   ;; OKAY
+;;   ;; DONT
+;;   ;; FAIL
+;;   ;; DONE
+;;   ;; NOTE
+;;   ;; KLUDGE
+;;   ;; HACK
+;;   ;; FIXME
+;;   ;; XXX
+;;   ;; XXXX
+;;   ;; ???
+
+;;   :ensure t
+;;   :config
+;;   (global-hl-todo-mode))
+
+(use-package ace-jump-mode
+  :ensure t
+  :bind
+  ("M-n" . ace-jump-word-mode)
+  ("M-p" . ace-jump-mode-pop-mark))
+
+(use-package god-mode
+  :ensure t
+  :bind
+  ("C-." . god-mode-all)
+  ("M-." . god-mode-all)
+  :init
+  (god-mode-all)
+  :config
+  (define-key god-local-mode-map (kbd "z") 'repeat)
+  (add-to-list 'god-exempt-major-modes 'eshell-mode)
+
+  (setq cursor-type 'bar)
+
+  (defun update-cursor ()
+    "Change the look of the cursor depending on the state of god-mode"
+    (setq cursor-type
+	  (if (or god-local-mode buffer-read-only)
+	      'box
+	    'bar)))
+
+  (add-hook 'god-mode-enabled-hook 'update-cursor)
+  (add-hook 'god-mode-disabled-hook 'update-cursor))
+
+(use-package engine-mode
+  :ensure t
+  :config
+  (engine-mode t)
+
+  (defengine amazon
+    "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=%s"
+    :keybinding "a")
+
+  (defengine duckduckgo
+    "https://duckduckgo.com/?q=%s"
+    :keybinding "d")
+
+  (defengine github
+    "https://github.com/search?ref=simplesearch&q=%s"
+    :keybinding "g")
+
+  (defengine project-gutenberg
+    "http://www.gutenberg.org/ebooks/search/?query=%s")
+
+  (defengine stack-overflow
+    "https://stackoverflow.com/search?q=%s"
+    :keybinding "s")
+
+  (defengine twitter
+    "https://twitter.com/search?q=%s")
+
+  (defengine wikipedia
+    "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
+    :keybinding "w")
+
+  (defengine wiktionary
+    "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s"
+    :keybinding "i")
+
+  (defengine emacswiki
+    "https://www.emacswiki.org/emacs/Search?action=index&match=%s"
+    :keybinding "e")
+
+  (defengine youtube
+    "http://www.youtube.com/results?aq=f&oq=&search_query=%s"
+    :keybinding "y")
+
+  (defengine python-doc
+    "https://docs.python.org/3/search.html?q=%s"
+    :keybinding "p")
+
+  ;; NOTE this is for work
+  (defengine delphi-doc
+    "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s"
+    :keybinding "o"))
+
+(use-package company
+  :ensure t
+  :config
+  ;; TODO(Gregory): check out the config settings for this
+  (global-company-mode))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  ;; TODO(Gregory): check out the config settings for this
+  ;; to add snippets due so under .emacs.d/snippets/my-mode/
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets
+  ;; More snippets for yasnippet I should check them out!!!!
+  :ensure t)
+
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode t)
+  (add-hook 'ace-jump-mode-end-hook 'beacon-blink))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Auto Generated Code ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
