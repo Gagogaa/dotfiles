@@ -92,7 +92,7 @@ An example call that binds shell to F1 is (set-key global-map (\"<f1>\" . shell)
             (time-to-seconds last-time))
          60)
       (message-box "Stop saving so much!"))
-  (setq now (current-time))
+  (setq last-time (current-time))
   (save-buffer))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
