@@ -74,10 +74,21 @@
     'toggle-kbd-macro-recording-on)
   (end-kbd-macro))
 
-(defun set-key (keymap pair)
-  "Binds a key:function pair too a keymap;
-An example call that binds shell to F1 is (set-key global-map (\"<f1>\" . shell))"
-  (define-key keymap (kbd (car pair)) (cdr pair)))
+(defun set-keys (keymap pairs)
+  "Binds a list of keys to a keymap;
+Example usage:
+
+(set-keys global-map
+	  '((\"<f1>\" . eshell)
+	    (\"M-o\" . other-window)
+	    (\"M-<f1>\" . multi-occur-in-matching-buffers)
+	    (\"M-<f4>\" . delete-frame)))"
+
+  (mapcar #'(lambda (key-function-pair)
+              (define-key keymap
+                (kbd (car key-function-pair))
+                (cdr key-function-pair)))
+          pairs))
 
 (defun not-today ()
   (interactive)
@@ -92,24 +103,21 @@ An example call that binds shell to F1 is (set-key global-map (\"<f1>\" . shell)
             (time-to-seconds last-time))
          60)
       (message-box "Stop saving so much!"))
-  (setq now (current-time))
+  (setq last-time (current-time))
   (save-buffer))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-;;; TODO: Make a function and keybinding to stop me from saving the file every three seconds.
-
 ;;; Set global keybindings
-(mapcar #'(lambda (key-function-pair)
-            (set-key global-map key-function-pair))
+
+(set-keys global-map
         '(("<f1>" . call-last-kbd-macro)
           ("S-<f1>" . toggle-kbd-macro-recording-on)
           ("<f2>" . eshell)
           ("M-o" . other-window)
           ("M-<f1>" . multi-occur-in-matching-buffers)
-          ;; ("C-x C-c" . delete-frame)
           ("C-x C-c" . not-today)
           ("C-x C-s" . stop-saving-so-much)
           ("C-M-{" . insert-pair)
@@ -123,9 +131,8 @@ An example call that binds shell to F1 is (set-key global-map (\"<f1>\" . shell)
 
 (global-set-key (kbd "C-z") ctl-z-map)
 
-(mapcar #'(lambda (key-function-pair)
-            (set-key ctl-z-map key-function-pair))
-        '(("x" . kill-emacs)))
+(set-keys ctl-z-map
+          '(("x" . kill-emacs)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
