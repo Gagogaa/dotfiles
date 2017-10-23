@@ -30,7 +30,7 @@ alias rm-orphans="pacman -Rns $(pacman -Qtdq)"
 alias pacman='sudo pacman --color=auto'
 alias pacaur='pacaur --color=auto'
 
-alias emacs='emacsclient --alternate-editor="" -c "$@"'
+# alias emacs='emacsclient --alternate-editor="" -c "$@"'
 alias wg='wordgrinder'
 
 # alias yupdate='yaourt -Syu'

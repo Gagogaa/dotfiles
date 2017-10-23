@@ -13,7 +13,7 @@
 ;;; TODO: Create a funciton to change the indentation by major mode
 (setq indent-tabs-mode nil
       tab-width 2
-      ring-bell-function 'ignore ; Get rid of the bell bacause omg is it bad
+      ring-bell-function 'ignore 	; Get rid of the bell bacause omg is it bad
       delete-by-moving-to-trash t
       inferior-lisp-program "clisp"
       vc-follow-symlinks t		; Auto follow sym-links
@@ -24,7 +24,8 @@
       c-default-style "linux"
       c-basic-offset 2)
 
-(set-face-attribute 'default t :font "Ubuntu Mono")
+(set-default-font "Ubuntu Mono 12")
+;; (set-face-attribute 'default t :font "Ubuntu Mono" :height 120)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -32,12 +33,12 @@
 (show-paren-mode t)
 
 (tool-bar-mode -1)
-;; (menu-bar-mode -1)			; Not I keep this on to check out the snippets in ya-snippets
+;; (menu-bar-mode -1) 			; Not I keep this on to check out the snippets in ya-snippets
 (tooltip-mode -1)
 (scroll-bar-mode -1)
 (save-place-mode)
 (electric-pair-mode)
-(auto-save-mode)
+;; (auto-save-mode) 			; It doesn't respect saving in another directory other than the source directory
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'split-window-below 'split-window-right)
@@ -95,6 +96,8 @@ Example usage:
   (message-box "Not Today!"))
 
 ;;; TODO: Make a stop nagging function for when I'm in a rush.
+;;; Also take into account the last buffer I used save file in.
+;;; and make this pop up if the files hasnt changed.
 (setq last-time (current-time))
 (defun stop-saving-so-much ()
   "Messages me when I'm saving the file way too often."
@@ -109,15 +112,12 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
-
-;;; Set global keybindings
-
 (set-keys global-map
         '(("<f1>" . call-last-kbd-macro)
           ("S-<f1>" . toggle-kbd-macro-recording-on)
           ("<f2>" . eshell)
           ("M-o" . other-window)
-          ("M-<f1>" . multi-occur-in-matching-buffers)
+          ("C-<f1>" . multi-occur-in-matching-buffers)
           ("C-x C-c" . not-today)
           ("C-x C-s" . stop-saving-so-much)
           ("C-M-{" . insert-pair)
@@ -194,8 +194,6 @@ Example usage:
 
   (add-to-list 'god-exempt-major-modes 'eshell-mode)
 
-  (setq cursor-type 'bar)
-
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
     (setq cursor-type
@@ -261,7 +259,7 @@ Example usage:
 (use-package company
   :ensure t
   :config
-  ;; TODO: check out the config settings for this
+  ;; TODO: Check out the config settings for this.
   (global-company-mode))
 
 (use-package yasnippet
@@ -284,17 +282,3 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (expand-region which-key zenburn-theme yasnippet-snippets use-package powerline god-mode engine-mode company color-theme-sanityinc-solarized beacon ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
