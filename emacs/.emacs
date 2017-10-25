@@ -98,6 +98,7 @@ Example usage:
 ;;; TODO: Make a stop nagging function for when I'm in a rush.
 ;;; Also take into account the last buffer I used save file in.
 ;;; and make this pop up if the files hasnt changed.
+;;; Maybe if I give it an argument it should turn itself off
 (setq last-time (current-time))
 (defun stop-saving-so-much ()
   "Messages me when I'm saving the file way too often."
@@ -113,19 +114,19 @@ Example usage:
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 (set-keys global-map
-        '(("<f1>" . call-last-kbd-macro)
-          ("S-<f1>" . toggle-kbd-macro-recording-on)
-          ("<f2>" . eshell)
-          ("M-o" . other-window)
-          ("C-<f1>" . multi-occur-in-matching-buffers)
-          ("C-x C-c" . not-today)
-          ("C-x C-s" . stop-saving-so-much)
-          ("C-M-{" . insert-pair)
-          ("C-M-(" . insert-pair)
-          ("C-M-[" . insert-pair)
-          ("C-M-'" . insert-pair)
-          ("C-M-\"" . insert-pair)
-          ("M-<f4>" . delete-frame)))
+	  '(("<f1>" . call-last-kbd-macro)
+	    ("S-<f1>" . toggle-kbd-macro-recording-on)
+	    ("<f2>" . eshell)
+	    ("M-o" . other-window)
+	    ("C-<f1>" . multi-occur-in-matching-buffers)
+	    ("C-x C-c" . not-today)
+	    ("C-x C-s" . stop-saving-so-much)
+	    ("C-M-{" . insert-pair)
+	    ("C-M-(" . insert-pair)
+	    ("C-M-[" . insert-pair)
+	    ("C-M-'" . insert-pair)
+	    ("C-M-\"" . insert-pair)
+	    ("M-<f4>" . delete-frame)))
 
 (setq ctl-z-map (make-sparse-keymap))
 
@@ -209,52 +210,27 @@ Example usage:
   :config
   (engine-mode t)
 
-  (defengine amazon
-    "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=%s"
-    :keybinding "a")
+  (defun define-engines (engine-list)
+    (mapcar #'(lambda (engine)
+		(eval `(defengine ,(car engine)
+			 ,(cadr engine)
+			 :keybinding ,(cddr engine))))
+  	    engine-list))
 
-  (defengine duckduckgo
-    "https://duckduckgo.com/?q=%s"
-    :keybinding "d")
-
-  (defengine github
-    "https://github.com/search?ref=simplesearch&q=%s"
-    :keybinding "g")
-
-  (defengine project-gutenberg
-    "http://www.gutenberg.org/ebooks/search/?query=%s")
-
-  (defengine stack-overflow
-    "https://stackoverflow.com/search?q=%s"
-    :keybinding "s")
-
-  (defengine twitter
-    "https://twitter.com/search?q=%s")
-
-  (defengine wikipedia
-    "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
-    :keybinding "w")
-
-  (defengine wiktionary
-    "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s"
-    :keybinding "i")
-
-  (defengine emacswiki
-    "https://www.emacswiki.org/emacs/Search?action=index&match=%s"
-    :keybinding "e")
-
-  (defengine youtube
-    "http://www.youtube.com/results?aq=f&oq=&search_query=%s"
-    :keybinding "y")
-
-  (defengine python-doc
-    "https://docs.python.org/3/search.html?q=%s"
-    :keybinding "p")
-
-  ;; NOTE this is for work
-  (defengine delphi-doc
-    "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s"
-    :keybinding "o"))
+  (define-engines
+    '((amazon "https://www.amazon.com/s/ref=nb_sb_noss_2/133-6164387-7931258?url=search-alias%3Daps&field-keywords=%s" . "a")
+      (duckduckgo "https://duckduckgo.com/?q=%s" . "d")
+      (twitter "https://twitter.com/search?q=%s" . nil)
+      (github "https://github.com/search?ref=simplesearch&q=%s" . "g")
+      (project-gutenberg "http://www.gutenberg.org/ebooks/search/?query=%s" . nil)
+      (stack-overflow "https://stackoverflow.com/search?q=%s" . "s")
+      (wikipedia "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s" . "w")
+      (wiktionary "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s" . "i")
+      (emacswiki "https://www.emacswiki.org/emacs/Search?action=index&match=%s" . "e")
+      (youtube "http://www.youtube.com/results?aq=f&oq=&search_query=%s" . "y")
+      (python-doc "https://docs.python.org/3/search.html?q=%s" . "p")
+      ;; NOTE this is for work
+      (delphi-doc "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s" . "o"))))
 
 (use-package company
   :ensure t
