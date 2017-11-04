@@ -21,8 +21,14 @@
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
       truncate-lines t
       ;; debug-on-error t			; Just in case I need to enable debugging
+
       c-default-style "linux"
       c-basic-offset 2)
+
+(setq-default truncate-lines t
+              c-default-style "linux"
+              c-basic-offset 2)
+
 
 (set-default-font "Ubuntu Mono 12")
 ;; (set-face-attribute 'default t :font "Ubuntu Mono" :height 120)
@@ -38,6 +44,8 @@
 (scroll-bar-mode -1)
 (save-place-mode)
 (electric-pair-mode)
+(windmove-default-keybindings) ; Move around with shift arrow-keys
+(global-prettify-symbols-mode +1)
 ;; (auto-save-mode) 			; It doesn't respect saving in another directory other than the source directory
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -258,3 +266,4 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(put 'narrow-to-region 'disabled nil)
