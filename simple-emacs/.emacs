@@ -14,7 +14,7 @@
 (setq indent-tabs-mode nil)
 (setq tab-width 2)
 
-(setq ring-bell-function 'ignore)	; Get rid of the bell bacause omg is it bad
+(setq ring-bell-function 'ignore)       ; Get rid of the bell bacause omg is it bad
 (setq delete-by-moving-to-trash t)
 (setq inferior-lisp-program "clisp")
 ;; (setq backup-directory-alist `(("." . "~/.saves"))) ; Make a backups directory in ~/.saves
@@ -22,8 +22,8 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
-(setq vc-follow-symlinks t)		; Auto follow sym-links
-(set-default 'truncate-lines t)		; Disable word wraping
+(setq vc-follow-symlinks t)             ; Auto follow sym-links
+(set-default 'truncate-lines t)         ; Disable word wraping
 ;;; (setq debug-on-error t)
 (set-face-attribute 'default t :font "Roboto Mono" )
 
@@ -44,7 +44,7 @@
 ;;; Replace the annoying yes-or-no prompt with the shorter y-or-n version
 (defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'split-window-below 'split-window-right)
-;;; (defalias 'list-buffers 'ibuffer)	; I'm going to try using list-buffers for a bit
+;;; (defalias 'list-buffers 'ibuffer)   ; I'm going to try using list-buffers for a bit
 
 (require 'ido)
 (ido-mode t)
@@ -96,12 +96,12 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
           ("M-o" . other-window)
           ("M-<f1>" . multi-occur-in-matching-buffers)
           ("C-x C-c" . delete-frame)
-	  ("C-M-{" . insert-pair)
-	  ("C-M-(" . insert-pair)
-	  ("C-M-[" . insert-pair)
-	  ("C-M-'" . insert-pair)
-	  ("C-M-\"" . insert-pair)
-	  ("M-<f4>" . delete-frame)))
+          ("C-M-{" . insert-pair)
+          ("C-M-(" . insert-pair)
+          ("C-M-[" . insert-pair)
+          ("C-M-'" . insert-pair)
+          ("C-M-\"" . insert-pair)
+          ("M-<f4>" . delete-frame)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
@@ -109,13 +109,13 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 (package-initialize)
 
 (add-to-list 'package-archives
-	     '("marmalade" . "https://marmalade-repo.org/packages/") t)
+             '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
-	     '("gnu" . "https://elpa.gnu.org/packages/") t)
+             '("gnu" . "https://elpa.gnu.org/packages/") t)
 
 (install-use-package)
 
@@ -195,8 +195,8 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
     (setq cursor-type (if (or god-local-mode buffer-read-only)
-			  'box
-			'bar)))
+                          'box
+                        'bar)))
 
   (add-hook 'god-mode-enabled-hook 'update-cursor)
   (add-hook 'god-mode-disabled-hook 'update-cursor)
@@ -277,3 +277,4 @@ An example key:function pair that binds shell to F1 is (\"<f1>\" . shell)"
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(put 'narrow-to-region 'disabled nil)
