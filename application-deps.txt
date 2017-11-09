@@ -35,6 +35,7 @@ stress
 iftop
 tlp
 gnuplot
+wmctrl
 
 [yaourt -S]
 i3blocks

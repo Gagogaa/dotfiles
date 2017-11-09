@@ -9,12 +9,15 @@
 " Use vim, not vi api
 set nocompatible
 
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-" if !filereadable(expand('~/.cache/dein/repos/github.com/Shougo/dein.vim'))
-" !mkdir -p ~/.cache/dein/repos/github.com/Shougo/dein.vim
-" !git clone https://github.com/Shougo/dein.vim.git ~/.cache/dein/repos/github.com/Shougo/dein.vim
-" call dein#begin(expand('~/.cache/dein'))
+"if !filereadable(expand('~/.vim/dein/repos/github.com/Shougo/dein.vim.git'))
+
+" !mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
+" !git clone https://github.com/Shougo/dein.vim.git
+"   \ ~/.vim/dein/repos/github.com/Shougo/dein.vim
+
+" call dein#begin(expand('~/.vim/dein'))
 " call dein#add('Shougo/dein.vim')
 " call dein#add('kien/ctrlp.vim')
 " call dein#add('easymotion/vim-easymotion')
@@ -22,7 +25,7 @@ set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 " call dein#add('Shougo/neocomplete.vim')
 " call dein#end()
 " call dein#install()
-" endif
+"endif
 
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
