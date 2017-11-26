@@ -25,7 +25,7 @@ PS1+='\[$(tput setaf 12)\]\$> '
 PS1+='\[$(tput sgr0)\]'
 export PS1
 
-BROWSER=/usr/bin/chromium
+BROWSER=/usr/bin/firefox
 EDITOR=/usr/bin/nvim
 VISUAL=/usr/bin/nvim
 TRASH=/.local/share/Trash/files

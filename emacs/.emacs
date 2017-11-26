@@ -107,16 +107,17 @@ Example usage:
 ;;; Also take into account the last buffer I used save file in.
 ;;; and make this pop up if the files hasnt changed.
 ;;; Maybe if I give it an argument it should turn itself off
-(setq last-time (current-time))
-(defun stop-saving-so-much ()
-  "Messages me when I'm saving the file way too often."
-  (interactive)
-  (if (< (- (time-to-seconds (current-time))
-            (time-to-seconds last-time))
-         60)
-      (message-box "Stop saving so much!"))
-  (setq last-time (current-time))
-  (save-buffer))
+
+;; (setq last-time (current-time))
+;; (defun stop-saving-so-much ()
+;;   "Messages me when I'm saving the file way too often."
+;;   (interactive)
+;;   (if (< (- (time-to-seconds (current-time))
+;;             (time-to-seconds last-time))
+;;          60)
+;;       (message-box "Stop saving so much!"))
+;;   (setq last-time (current-time))
+;;   (save-buffer))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
@@ -128,7 +129,7 @@ Example usage:
 	    ("M-o" . other-window)
 	    ("C-<f1>" . multi-occur-in-matching-buffers)
 	    ("C-x C-c" . not-today)
-	    ("C-x C-s" . stop-saving-so-much)
+	    ;; ("C-x C-s" . stop-saving-so-much)
 	    ("C-M-{" . insert-pair)
 	    ("C-M-(" . insert-pair)
 	    ("C-M-[" . insert-pair)
@@ -159,15 +160,23 @@ Example usage:
 
 (install-use-package)
 
-(use-package zenburn-theme
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
+
+(use-package color-theme-monokai
   :ensure t
   :config
-  (load-theme 'zenburn t))
+  (color-theme-monokai))
 
 ;; (use-package color-theme-sanityinc-solarized
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'sanityinc-solarized-dark t))
+
+(use-package rust-mode
+  :ensure t)
 
 (use-package which-key
   :ensure t
@@ -267,3 +276,17 @@ Example usage:
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (put 'narrow-to-region 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (color-theme-monokai rust-mode zenburn-theme yasnippet-snippets which-key use-package powerline god-mode expand-region engine-mode company beacon ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

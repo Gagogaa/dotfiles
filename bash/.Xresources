@@ -4,10 +4,10 @@
 URxvt.font: xft:font_0:size=12
 URxvt.scrollBar: false
 
-! Do nothing for terminal bell 
-URxvt.bell-command: "" 
+! Do nothing for terminal bell
+URxvt.bell-command: ""
 
-! solarized dark colors 
+! solarized dark colors
 #define S_base03        #002b36
 #define S_base02        #073642
 #define S_base01        #586e75
