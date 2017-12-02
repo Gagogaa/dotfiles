@@ -11,7 +11,7 @@
 
 (setq-default indent-tabs-mode nil
               tab-width 2
-              ring-bell-function 'ignore  ; Get rid of the bell bacause omg is it bad
+              ring-bell-function 'ignore  ; Get rid of the bell because omg is it bad
               delete-by-moving-to-trash t
               vc-follow-symlinks t      ; Auto follow sym-links
               backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -84,6 +84,17 @@
       (end-kbd-macro)
     (start-kbd-macro nil)))
 
+(defun scratch ()
+  "Switches to the *scratch* buffer creating one if it doesn't exist."
+  (interactive)
+  (switch-to-buffer "*scratch*")
+
+  (if (= (buffer-size) 0)
+      (insert ";; This buffer is for text that is not saved, and for Lisp evaluation.
+;; To create a file, visit it with C-x C-f and enter text in its buffer.
+
+")))
+
 (defun set-keys (keymap pairs)
   "Binds a list of keys to a keymap;
 Example usage:
@@ -100,23 +111,14 @@ Example usage:
                 (cdr key-function-pair)))
           pairs))
 
-(defun scratch ()
-  (interactive)
-  (switch-to-buffer "*scratch*")
-
-  (if (= (buffer-size) 0)
-      (insert ";; This buffer is for text that is not saved, and for Lisp evaluation.
-;; To create a file, visit it with C-x C-f and enter text in its buffer.
-
-")))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 (set-keys global-map
     '(("<f1>" . call-last-kbd-macro)
       ("S-<f1>" . toggle-kbd-macro-recording)
-      ("<f2>" . eshell)
+      ;; ("<f2>" . (lambda () (ansi-term "/bin/bash")))
+      ("<f2>" . shell)
       ("M-o" . other-window)
       ("C-x C-o" . swap-buffers)
       ("C-<f1>" . multi-occur-in-matching-buffers)
