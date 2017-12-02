@@ -32,10 +32,9 @@ TRASH=/.local/share/Trash/files
 
 # See this stack overflow for file testing
 # http://stackoverflow.com/questions/638975/how-do-i-tell-if-a-regular-file-does-not-exist-in-bash#638980
-
 [ -f ~/.bash_aliases ]   && source ~/.bash_aliases
 [ -f ~/.bash_functions ] && source ~/.bash_functions
-[ -f ~/.Xresources ] && xrdb ~/.Xresources
+#[ -f ~/.Xresources ] && xrdb ~/.Xresources
 
 # http://stackoverflow.com/questions/9652126/bashrc-profile-is-not-loaded-on-new-tmux-session-or-window-why
 # [ -z $TMUX ] && tmux
