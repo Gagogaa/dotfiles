@@ -14,6 +14,7 @@ alias t=tmux
 alias open="xdg-open $1 2>>/dev/null"
 # alias hsi='hs -i'
 # alias emacs='emacs -nw'
+alias pacman='pacman --color=auto'
 alias grep='grep --color=auto'
 alias ccat='pygmentize -g'
 alias info='info --vi-keys'
