@@ -84,6 +84,9 @@ set shiftwidth=2
 " Turn on line numbers
 set number
 
+" Keep some space above and below the cursor at all times
+set scrolloff=5
+
 " Highlight tailing whitespace
 " See issue: https://github.com/Integralist/ProVim/issues/4
 set list listchars=tab:\ \ ,trail:·

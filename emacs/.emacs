@@ -32,6 +32,7 @@
 (show-paren-mode t)
 
 (tool-bar-mode -1)
+(tooltip-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tooltip-mode -1)
@@ -131,6 +132,7 @@ Example usage:
       ("C-M-\"" . insert-pair)
       ("M-<f4>" . delete-frame)))
 
+
 (setq ctl-z-map (make-sparse-keymap))
 
 (global-set-key (kbd "C-z") ctl-z-map)
@@ -225,6 +227,11 @@ Example usage:
   (add-hook 'god-mode-enabled-hook 'update-cursor)
   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
+;; (use-package multiple-cursors
+;;   :ensure t
+;;   ;; TODO: Look into this.
+;;   )
+
 ;; (use-package engine-mode
 ;;   :ensure t
 ;;   :config
@@ -279,7 +286,7 @@ Example usage:
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (powerline yasnippet use-package god-mode expand-region color-theme-sanityinc-tomorrow ace-jump-mode))))
+    (yasnippet god-mode ace-jump-mode expand-region powerline color-theme-sanityinc-tomorrow use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
