@@ -215,8 +215,6 @@ Example usage:
   :config
   ;; (define-key god-local-mode-map (kbd ".") 'repeat)
 
-  (add-to-list 'god-exempt-major-modes 'eshell-mode 'shell)
-
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
     (setq cursor-type
