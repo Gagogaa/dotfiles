@@ -17,12 +17,23 @@
               backup-directory-alist `((".*" . ,temporary-file-directory))
               auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
               ;; debug-on-error t     ; Just in case I need to enable debugging
+              gc-cons-threshold 50000000
+              gnutls-min-prime-bits 256 ; Remove the warnings from the GnuTLS library
+              initial-scratch-message ""
               truncate-lines t
               c-default-style "linux"
               c-basic-offset 2
+              scroll-conservatively 10000
+              scroll-preserve-screen-position t
               whitespace-style '(trailing tabs tab-mark))
 
+;; TODO Make a function so I can cycle through my favorite fonts
 (set-default-font "Ubuntu Mono 12")
+;; (set-default-font "Fira Mono 10")
+;; (set-default-font "Hack 11")
+;; (set-default-font "Roboto Mono 11")
+;; (set-default-font "Terminus 13")
+
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend) ; Set a better korean font
 ;; (set-face-attribute 'default t :font "Ubuntu Mono" :height 120)
 
@@ -88,23 +99,17 @@
 (defun scratch ()
   "Switches to the *scratch* buffer creating one if it doesn't exist."
   (interactive)
-  (switch-to-buffer "*scratch*")
-
-  (if (= (buffer-size) 0)
-      (insert ";; This buffer is for text that is not saved, and for Lisp evaluation.
-;; To create a file, visit it with C-x C-f and enter text in its buffer.
-
-")))
+  (switch-to-buffer "*scratch*"))
 
 (defun set-keys (keymap pairs)
   "Binds a list of keys to a keymap;
 Example usage:
 
 (set-keys global-map
-    '((\"<f1>\" . eshell)
-      (\"M-o\" . other-window)
-      (\"M-<f1>\" . multi-occur-in-matching-buffers)
-      (\"M-<f4>\" . delete-frame)))"
+          '((\"<f1>\" . eshell)
+            (\"M-o\" . other-window)
+            (\"M-<f1>\" . multi-occur-in-matching-buffers)
+            (\"M-<f4>\" . delete-frame)))"
 
   (mapcar #'(lambda (key-function-pair)
               (define-key keymap
@@ -116,22 +121,21 @@ Example usage:
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 (set-keys global-map
-    '(("<f1>" . call-last-kbd-macro)
-      ("S-<f1>" . toggle-kbd-macro-recording)
-      ;; ("<f2>" . (lambda () (ansi-term "/bin/bash")))
-      ("<f2>" . shell)
-      ("M-o" . other-window)
-      ("C-x C-o" . swap-buffers)
-      ("C-<f1>" . multi-occur-in-matching-buffers)
-      ("C-x C-k" . kill-this-buffer)
-      ;; ("C-x C-s" . stop-saving-so-much)
-      ("C-M-{" . insert-pair)
-      ("C-M-(" . insert-pair)
-      ("C-M-[" . insert-pair)
-      ("C-M-'" . insert-pair)
-      ("C-M-\"" . insert-pair)
-      ("M-<f4>" . delete-frame)))
-
+          '(("<f1>" . call-last-kbd-macro)
+            ("S-<f1>" . toggle-kbd-macro-recording)
+            ;; ("<f2>" . (lambda () (interactive) (ansi-term "/bin/bash")))
+            ;; ("<f2>" . shell)
+            ("<f2>" . shell)
+            ("M-o" . other-window)
+            ("C-x C-o" . swap-buffers)
+            ("C-<f1>" . multi-occur-in-matching-buffers)
+            ("C-x C-k" . kill-this-buffer)
+            ("M-{" . insert-pair)
+            ("M-(" . insert-pair)
+            ("M-[" . insert-pair)
+            ("M-'" . insert-pair)
+            ("M-\"" . insert-pair)
+            ("M-<f4>" . delete-frame)))
 
 (setq ctl-z-map (make-sparse-keymap))
 
@@ -140,17 +144,7 @@ Example usage:
 (set-keys ctl-z-map
           '(("k" . kill-emacs)
             ("s" . scratch)
-            ;; Insert pairs in ctrl-z map
-            ("C-{" . insert-pair)
-            ("C-(" . insert-pair)
-            ("C-[" . insert-pair)
-            ("C-'" . insert-pair)
-            ("C-\"" . insert-pair)
-            ("{" . insert-pair)
-            ("(" . insert-pair)
-            ("[" . insert-pair)
-            ("'" . insert-pair)
-            ("\"" . insert-pair)))
+            ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
@@ -166,12 +160,55 @@ Example usage:
 (add-to-list 'package-archives
              '("gnu" . "https://elpa.gnu.org/packages/") t)
 
+;;;; check out the s library for string functions!
+;;;; check out the f library for file functions!
+;;;; check out the dash.
+;;;; check out the wrap-region.
+;;;; Example useage
+;; (use-package wrap-region
+;;   :ensure   t
+;;   :config
+;;   (wrap-region-global-mode t)
+;;   (wrap-region-add-wrappers
+;;    '(("(" ")")
+;;      ("[" "]")
+;;      ("{" "}")
+;;      ("<" ">")
+;;      ("'" "'")
+;;      ("\"" "\"")
+;;      ("‘" "’"   "q")
+;;      ("“" "”"   "Q")
+;;      ("*" "*"   "b"   org-mode)                 ; bolden
+;;      ("*" "*"   "*"   org-mode)                 ; bolden
+;;      ("/" "/"   "i"   org-mode)                 ; italics
+;;      ("/" "/"   "/"   org-mode)                 ; italics
+;;      ("~" "~"   "c"   org-mode)                 ; code
+;;      ("~" "~"   "~"   org-mode)                 ; code
+;;      ("=" "="   "v"   org-mode)                 ; verbatim
+;;      ("=" "="   "="   org-mode)                 ; verbatim
+;;      ("_" "_"   "u" '(org-mode markdown-mode))  ; underline
+;;      ("**" "**" "b"   markdown-mode)            ; bolden
+;;      ("*" "*"   "i"   markdown-mode)            ; italics
+;;      ("`" "`"   "c" '(markdown-mode ruby-mode)) ; code
+;;      ("`" "'"   "c"   lisp-mode)                ; code
+;;      ))
+;;   :diminish wrap-region-mode)
+
 (install-use-package)
 
 (use-package color-theme-sanityinc-tomorrow
   :ensure t
   :config
   (load-theme 'sanityinc-tomorrow-bright t))
+
+;; TODO I'm not sure I'm up for this yet...
+(use-package ido-vertical-mode
+  :ensure t
+  :init               ; I like up and down arrow keys:
+  (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
+  :config
+  (ido-vertical-mode 1)
+  (setq ido-vertical-pad-list nil))
 
 ;; (use-package zenburn-theme
 ;;   :ensure t
@@ -272,6 +309,11 @@ Example usage:
   ;; To add snippets due so under .emacs.d/snippets/my-mode/
   (yas-global-mode 1))
 
+(use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode))
+
 ;; (use-package yasnippet-snippets
 ;;   ;; More snippets for yasnippet I should check them out!!!!
 ;;   :ensure t)
@@ -279,17 +321,3 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yasnippet god-mode ace-jump-mode expand-region powerline color-theme-sanityinc-tomorrow use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
