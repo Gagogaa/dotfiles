@@ -130,6 +130,8 @@ Example usage:
             ("<f2>" . shell)
             ("M-o" . other-window)
             ("M-O" . (lambda () (interactive) (other-window -1)))
+            ("C-|" . split-window-right)
+            ("C--" . split-window-below)
             ("C-x C-o" . swap-buffers)
             ("C-<f1>" . multi-occur-in-matching-buffers)
             ("C-x C-k" . kill-this-buffer)
