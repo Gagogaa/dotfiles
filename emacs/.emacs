@@ -38,6 +38,8 @@
 ;; (set-face-attribute 'default t :font "Ubuntu Mono" :height 120)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(fullscreen . fullheight))
 
 (setq show-paren-delay 0)
 (show-paren-mode t)
@@ -127,6 +129,9 @@ Example usage:
             ;; ("<f2>" . shell)
             ("<f2>" . shell)
             ("M-o" . other-window)
+            ("M-O" . (lambda () (interactive) (other-window -1)))
+            ("C-|" . split-window-right)
+            ("C--" . split-window-below)
             ("C-x C-o" . swap-buffers)
             ("C-<f1>" . multi-occur-in-matching-buffers)
             ("C-x C-k" . kill-this-buffer)
@@ -224,10 +229,6 @@ Example usage:
   (god-mode-all)
   :config
   ;; (define-key god-local-mode-map (kbd ".") 'repeat)
-
-  (add-to-list 'god-exempt-major-modes 'eshell-mode)
-  (add-to-list 'god-exempt-major-modes 'shell)
-  (add-to-list 'god-exempt-major-modes 'char)
 
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
