@@ -163,36 +163,7 @@ Example usage:
 ;;;; check out the s library for string functions!
 ;;;; check out the f library for file functions!
 ;;;; check out the dash.
-;;;; check out the wrap-region.
-;;;; Example useage
-;; (use-package wrap-region
-;;   :ensure   t
-;;   :config
-;;   (wrap-region-global-mode t)
-;;   (wrap-region-add-wrappers
-;;    '(("(" ")")
-;;      ("[" "]")
-;;      ("{" "}")
-;;      ("<" ">")
-;;      ("'" "'")
-;;      ("\"" "\"")
-;;      ("‘" "’"   "q")
-;;      ("“" "”"   "Q")
-;;      ("*" "*"   "b"   org-mode)                 ; bolden
-;;      ("*" "*"   "*"   org-mode)                 ; bolden
-;;      ("/" "/"   "i"   org-mode)                 ; italics
-;;      ("/" "/"   "/"   org-mode)                 ; italics
-;;      ("~" "~"   "c"   org-mode)                 ; code
-;;      ("~" "~"   "~"   org-mode)                 ; code
-;;      ("=" "="   "v"   org-mode)                 ; verbatim
-;;      ("=" "="   "="   org-mode)                 ; verbatim
-;;      ("_" "_"   "u" '(org-mode markdown-mode))  ; underline
-;;      ("**" "**" "b"   markdown-mode)            ; bolden
-;;      ("*" "*"   "i"   markdown-mode)            ; italics
-;;      ("`" "`"   "c" '(markdown-mode ruby-mode)) ; code
-;;      ("`" "'"   "c"   lisp-mode)                ; code
-;;      ))
-;;   :diminish wrap-region-mode)
+
 
 (install-use-package)
 
@@ -202,13 +173,13 @@ Example usage:
   (load-theme 'sanityinc-tomorrow-bright t))
 
 ;; TODO I'm not sure I'm up for this yet...
-(use-package ido-vertical-mode
-  :ensure t
-  :init               ; I like up and down arrow keys:
-  (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
-  :config
-  (ido-vertical-mode 1)
-  (setq ido-vertical-pad-list nil))
+;; (use-package ido-vertical-mode
+;;   :ensure t
+;;   :init               ; I like up and down arrow keys:
+;;   (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
+;;   :config
+;;   (ido-vertical-mode 1)
+;;   (setq ido-vertical-pad-list nil))
 
 ;; (use-package zenburn-theme
 ;;   :ensure t
@@ -273,32 +244,32 @@ Example usage:
 ;;   ;; TODO: Look into this.
 ;;   )
 
-;; (use-package engine-mode
-;;   :ensure t
-;;   :config
-;;   (engine-mode t)
+(use-package engine-mode
+  :ensure t
+  :config
+  (engine-mode t)
 
-;; (defun define-engines (engine-list)
-;;   (mapcar #'(lambda (engine)
-;;   (eval `(defengine ,(car engine)
-;;      ,(cadr engine)
-;;      :keybinding ,(cddr engine))))
-;;       engine-list))
+(defun define-engines (engine-list)
+  (mapcar #'(lambda (engine)
+  (eval `(defengine ,(car engine)
+     ,(cadr engine)
+     :keybinding ,(cddr engine))))
+      engine-list))
 
-;;   (define-engines
-;;     '((amazon "https://www.amazon.com/s/ref=nb_sb_noss_2/133-6164387-7931258?url=search-alias%3Daps&field-keywords=%s" . "a")
-;;       (duckduckgo "https://duckduckgo.com/?q=%s" . "d")
-;;       (twitter "https://twitter.com/search?q=%s" . nil)
-;;       (github "https://github.com/search?ref=simplesearch&q=%s" . "g")
-;;       (project-gutenberg "http://www.gutenberg.org/ebooks/search/?query=%s" . nil)
-;;       (stack-overflow "https://stackoverflow.com/search?q=%s" . "s")
-;;       (wikipedia "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s" . "w")
-;;       (wiktionary "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s" . "i")
-;;       (emacswiki "https://www.emacswiki.org/emacs/Search?action=index&match=%s" . "e")
-;;       (youtube "http://www.youtube.com/results?aq=f&oq=&search_query=%s" . "y")
-;;       (python-doc "https://docs.python.org/3/search.html?q=%s" . "p")
-;;       ;; NOTE this is for work
-;;       (delphi-doc "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s" . "o"))))
+  (define-engines
+    '((amazon "https://www.amazon.com/s/ref=nb_sb_noss_2/133-6164387-7931258?url=search-alias%3Daps&field-keywords=%s" . "a")
+      (duckduckgo "https://duckduckgo.com/?q=%s" . "d")
+      (twitter "https://twitter.com/search?q=%s" . nil)
+      (github "https://github.com/search?ref=simplesearch&q=%s" . "g")
+      (project-gutenberg "http://www.gutenberg.org/ebooks/search/?query=%s" . nil)
+      (stack-overflow "https://stackoverflow.com/search?q=%s" . "s")
+      (wikipedia "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s" . "w")
+      (wiktionary "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s" . "i")
+      (emacswiki "https://www.emacswiki.org/emacs/Search?action=index&match=%s" . "e")
+      (youtube "http://www.youtube.com/results?aq=f&oq=&search_query=%s" . "y")
+      (python-doc "https://docs.python.org/3/search.html?q=%s" . "p")
+      ;; NOTE this is for work
+      (delphi-doc "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s" . "o"))))
 
 ;; (use-package company
 ;;   :ensure t
@@ -322,6 +293,51 @@ Example usage:
 ;;   ;; More snippets for yasnippet I should check them out!!!!
 ;;   :ensure t)
 
+;;;; check out the wrap-region.
+;;;; Example useage
+(use-package wrap-region
+  :ensure   t
+  :config
+  (wrap-region-global-mode t)
+  (wrap-region-add-wrappers
+   '(("(" ")")
+     ("[" "]")
+     ("{" "}")
+     ("<" ">")
+     ("'" "'")
+     ("\"" "\"")
+     ("‘" "’"   "q")
+     ("“" "”"   "Q")
+     ("*" "*"   "b"   org-mode)                 ; bolden
+     ("*" "*"   "*"   org-mode)                 ; bolden
+     ("/" "/"   "i"   org-mode)                 ; italics
+     ("/" "/"   "/"   org-mode)                 ; italics
+     ("~" "~"   "c"   org-mode)                 ; code
+     ("~" "~"   "~"   org-mode)                 ; code
+     ("=" "="   "v"   org-mode)                 ; verbatim
+     ("=" "="   "="   org-mode)                 ; verbatim
+     ("_" "_"   "u" '(org-mode markdown-mode))  ; underline
+     ("**" "**" "b"   markdown-mode)            ; bolden
+     ("*" "*"   "i"   markdown-mode)            ; italics
+     ("`" "`"   "c" '(markdown-mode ruby-mode)) ; code
+     ("`" "'"   "c"   lisp-mode)                ; code
+     ))
+  :diminish wrap-region-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (wrap-region engine-mode yasnippet use-package powerline ido-vertical-mode hungry-delete god-mode expand-region color-theme-sanityinc-tomorrow ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

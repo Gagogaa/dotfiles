@@ -76,8 +76,8 @@ bar {
 }
 
 # i3-gaps
-#gaps inner 10 # the size of the border between windows and other things
-#gaps outer 0 # the size of the border around the edges of the screen
+gaps inner 10 # the size of the border between windows and other things
+gaps outer 0 # the size of the border around the edges of the screen
 
 # Set the window colors
 # class                  border      backgr.     text        indicator   child_border
@@ -185,7 +185,6 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 #bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 1+ 5%- # decrease sound volume
 #bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master 1+ toggle # mute sound
 
-
 # Media player controls
 bindsym XF86AudioPlay exec --no-startup-id playerctl play
 bindsym XF86AudioPause exec --no-startup-id playerctl pause
@@ -196,13 +195,17 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5 # decrease screen brightness
 
+bindsym $mod+i exec --no-startup-id light -A 5 # increase screen brightness
+bindsym $mod+o exec --no-startup-id light -U 5 # decrease screen brightness
+
 # Quick launch applications
 bindsym $mod+Return exec alacritty
 bindsym $mod+shift+x exec --no-startup-id i3lock -c333333
 bindsym $mod+q exec --no-startup-id ~/.config/i3/lock.sh
 bindsym $mod+d exec --no-startup-id run_rofi
+bindsym $mod+w exec --no-startup-id rofi -show window
 # bindsym $mod+g exec --no-startup-id rofi -modi "run" -show run
-bindsym $mod+c exec chromium
+bindsym $mod+c exec firefox
 bindsym $mod+e exec --no-startup-id emacsclient -c
 
 # Autostart
