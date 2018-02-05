@@ -210,11 +210,10 @@ Example usage:
 (use-package expand-region
   :ensure t
   :bind
-  ("C-." . er/expand-region)
-  ("C-," . er/contract-region)
-  ;; ("M-N" . er/expand-region)
-  ;; ("M-P" . er/contract-region)
-  )
+  ;; ("C-." . er/expand-region)
+  ;; ("C-," . er/contract-region)
+  ("C-h" . er/expand-region)
+  ("C-S-H" . er/contract-region))
 
 (use-package ace-jump-mode
   :ensure t
@@ -226,6 +225,7 @@ Example usage:
   :ensure t
   :bind
   ("M-." . god-mode-all)
+  ("C-." . god-mode-all)
   :init
   (god-mode-all)
   :config
@@ -298,7 +298,7 @@ Example usage:
 ;;;; check out the wrap-region.
 ;;;; Example useage
 (use-package wrap-region
-  :ensure   t
+  :ensure t
   :config
   (wrap-region-global-mode t)
   (wrap-region-add-wrappers
