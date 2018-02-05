@@ -29,7 +29,7 @@
 
 ;; TODO Make a function so I can cycle through my favorite fonts
 (set-default-font "Ubuntu Mono 12")
-;; (set-default-font "Fira Mono 10")
+;; (set-default-font "Fira Mono 11")
 ;; (set-default-font "Hack 11")
 ;; (set-default-font "Roboto Mono 11")
 ;; (set-default-font "Terminus 13")
