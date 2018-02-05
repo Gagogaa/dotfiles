@@ -141,7 +141,11 @@ Example usage:
             ("M-[" . insert-pair)
             ("M-'" . insert-pair)
             ("M-\"" . insert-pair)
-            ("M-<f4>" . delete-frame)))
+            ("M-<f4>" . delete-frame)
+            ("M-<down>" . (lambda () (interactive) (scroll-down-line -1)))
+            ("M-<up>" . (lambda () (interactive) (scroll-down-line 1)))
+            ("C-x C-s". (lambda () (interactive) (message-box "No saving!")))
+            ))
 
 (setq ctl-z-map (make-sparse-keymap))
 
