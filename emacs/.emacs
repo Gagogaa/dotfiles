@@ -38,6 +38,7 @@
 ;; (set-face-attribute 'default t :font "Ubuntu Mono" :height 120)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'focus-out-hook '(lambda () (save-some-buffers t)))
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(fullscreen . fullheight))
 
