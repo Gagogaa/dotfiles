@@ -75,6 +75,9 @@
 ;;; Insert matching symbols (insterts a closing "]" when entering "[")
 (electric-pair-mode)
 
+;;; Makes it easier to navigate CamelCaseing
+(subword-mode)
+
 ;;; Move around with shift arrow-keys
 ;; (windmove-default-keybindings)
 
