@@ -9,63 +9,90 @@
 ;;;; Built-In Customizations ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq-default indent-tabs-mode nil
-              tab-width 2
-              ring-bell-function 'ignore  ; Get rid of the bell because omg is it bad
-              delete-by-moving-to-trash t
-              vc-follow-symlinks t      ; Auto follow sym-links
-              backup-directory-alist `((".*" . ,temporary-file-directory))
-              auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
-              ;; debug-on-error t     ; Just in case I need to enable debugging
-              gc-cons-threshold 50000000
-              gnutls-min-prime-bits 256 ; Remove the warnings from the GnuTLS library
-              initial-scratch-message ""
-              truncate-lines t
-              c-default-style "linux"
-              c-basic-offset 2
-              scroll-conservatively 10000
-              scroll-preserve-screen-position t
-              whitespace-style '(trailing tabs tab-mark))
+;;; TODO: Describe these settings
+(setq-default
+ ;; Don't insert spaces not tabs
+ indent-tabs-mode nil
+ ;; Keep the tab size at 2 spaces
+ tab-width 2
+ ;; Turn off the aweful ring bell function
+ ring-bell-function 'ignore
+ delete-by-moving-to-trash t
+ ;; Auto follow sym-links
+ vc-follow-symlinks t
+ ;; Move emacs backup files to a different directory instead of the "current directory"
+ backup-directory-alist `((".*" . ,temporary-file-directory))
+ auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+ ;; Just in case I need to enable debugging
+ ;; debug-on-error t
+ ;; This may speed up emacs by makeing it's garbage collector run less often
+ gc-cons-threshold 50000000
+ ;; I know what scratch is for
+ initial-scratch-message ""
+ ;; Turn off line wraping
+ truncate-lines t
+ ;; Customize c mode for the indentation style that I like
+ c-default-style "linux"
+ c-basic-offset 2
+ ;; Scroll one line at a time
+ scroll-conservatively 10000
+ ;; Don't move the cursor when scrolling
+ scroll-preserve-screen-position t
+ ;; Highlight tabs in whitespace mode
+ whitespace-style '(trailing tabs tab-mark))
 
-;; TODO Make a function so I can cycle through my favorite fonts
-(set-default-font "Ubuntu Mono 12")
-;; (set-default-font "Fira Mono 11")
-;; (set-default-font "Hack 11")
-;; (set-default-font "Roboto Mono 11")
-;; (set-default-font "Terminus 13")
+;;; Setup fonts
+(set-default-font "Fira Code 9")
+;;; Set a better korean font
+(set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
 
-(set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend) ; Set a better korean font
-;; (set-face-attribute 'default t :font "Ubuntu Mono" :height 120)
-
+;;; Delete whitespace at the end of lines when saveing files
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;; Save files when tabbing out of emacs
 (add-hook 'focus-out-hook '(lambda () (save-some-buffers t)))
+
+;;; Start emacs in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(fullscreen . fullheight))
 
+;;; Show matching parentheses
 (setq show-paren-delay 0)
 (show-paren-mode t)
 
+;;; Get rid of ui clutter
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(tooltip-mode -1)
-(global-whitespace-mode)
-(save-place-mode)
-(electric-pair-mode)
-(windmove-default-keybindings) ; Move around with shift arrow-keys
-;; (global-prettify-symbols-mode)
-(auto-save-mode)
 
+;;; Show the various whitespace symbols (for tabs)
+(global-whitespace-mode)
+
+;;; Save the location in files between sessions
+(save-place-mode)
+
+;;; Insert matching symbols (insterts a closing "]" when entering "[")
+(electric-pair-mode)
+
+;;; Move around with shift arrow-keys
+;; (windmove-default-keybindings)
+
+;;; I don't think this does anything
+;; (auto-save-mode)
+
+;;; Swap the annoying "yes or no" prompts with just "y or n"
 (defalias 'yes-or-no-p 'y-or-n-p)
-;; (defalias 'split-window-below 'split-window-right)
+;;; Switch out list-buffers with the newer ibuffer
 (defalias 'list-buffers 'ibuffer)
 
+;;; Use "interactive do" it makes menuing MUCH easier
 (require 'ido)
 (ido-mode t)
 (ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 
+;; Save open files and layout for the next time emacs opens
 (desktop-save-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -77,8 +104,6 @@
     (package-refresh-contents)
     (package-install 'use-package)))
 
-;; TODO make this more powerful! Although I think the way I want it to
-;; work will require more that just a few functions.
 (defun swap-buffers ()
   "Swaps the current buffer with the next buffer."
   (interactive)
@@ -126,27 +151,25 @@ Example usage:
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
-            ;; ("<f2>" . (lambda () (interactive) (ansi-term "/bin/bash")))
-            ;; ("<f2>" . shell)
-            ("<f2>" . shell)
+            ("<f2>" . multi-occur-in-matching-buffers)
+            ("<f3>" . ibuffer)
+            ("<f4>" . rgrep)
+            ("M-<f4>" . delete-frame)
+            ;; ("<f4>" . (lambda () (interactive) (dired ".")))
             ("M-o" . other-window)
             ("M-O" . (lambda () (interactive) (other-window -1)))
             ("C-|" . split-window-right)
             ("C--" . split-window-below)
             ("C-x C-o" . swap-buffers)
-            ("C-<f1>" . multi-occur-in-matching-buffers)
             ("C-x C-k" . kill-this-buffer)
-            ("M-{" . insert-pair)
-            ("M-(" . insert-pair)
-            ("M-[" . insert-pair)
-            ("M-'" . insert-pair)
-            ("M-\"" . insert-pair)
-            ("M-<f4>" . delete-frame)
             ("M-<down>" . (lambda () (interactive) (scroll-up-line 1)))
             ("M-<up>" . (lambda () (interactive) (scroll-down-line 1)))
             ("C-x C-s". (lambda () (interactive) (message-box "No saving!")))
+            ("M-n" . forward-paragraph)
+            ("M-p" . backward-paragraph)
             ))
 
+;;; Make my own keymap
 (setq ctl-z-map (make-sparse-keymap))
 
 (global-set-key (kbd "C-z") ctl-z-map)
@@ -154,6 +177,7 @@ Example usage:
 (set-keys ctl-z-map
           '(("k" . kill-emacs)
             ("s" . scratch)
+            ("w" . save-buffer)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -161,6 +185,7 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (package-initialize)
 
+;;; Add in additional package archives
 (add-to-list 'package-archives
              '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
@@ -170,26 +195,19 @@ Example usage:
 (add-to-list 'package-archives
              '("gnu" . "https://elpa.gnu.org/packages/") t)
 
-;;;; check out the s library for string functions!
-;;;; check out the f library for file functions!
-;;;; check out the dash.
-
-
 (install-use-package)
 
-(use-package color-theme-sanityinc-tomorrow
+;;; TODO: wrap the color schemes into a neater little bundle
+
+;; (use-package color-theme-sanityinc-tomorrow
+;;   :ensure t
+;;   :config
+;;   (load-theme 'sanityinc-tomorrow-bright t))
+
+(use-package material-theme
   :ensure t
   :config
-  (load-theme 'sanityinc-tomorrow-bright t))
-
-;; TODO I'm not sure I'm up for this yet...
-;; (use-package ido-vertical-mode
-;;   :ensure t
-;;   :init               ; I like up and down arrow keys:
-;;   (setq ido-vertical-define-keys 'C-n-C-p-up-and-down)
-;;   :config
-;;   (ido-vertical-mode 1)
-;;   (setq ido-vertical-pad-list nil))
+  (load-theme 'material t))
 
 ;; (use-package zenburn-theme
 ;;   :ensure t
@@ -201,16 +219,19 @@ Example usage:
 ;;   :config
 ;;   (load-theme 'sanityinc-solarized-dark t))
 
-;; (use-package which-key
-;;   :ensure t
-;;   :config
-;;   (which-key-mode))
+;;; Shows avalable commands
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 
+;;; A nicer, easier to read status bar
 (use-package powerline
   :ensure t
   :config
   (powerline-default-theme))
 
+;;; Incrementally select text
 (use-package expand-region
   :ensure t
   :bind
@@ -219,12 +240,16 @@ Example usage:
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
 
+;;; Jump to text
 (use-package ace-jump-mode
   :ensure t
   :bind
-  ("M-n" . ace-jump-word-mode)
-  ("M-p" . ace-jump-mode-pop-mark))
+  ("M-i" . ace-jump-word-mode)
+  ;; ("M-n" . ace-jump-word-mode)
+  ;; ("M-p" . ace-jump-mode-pop-mark)
+  )
 
+;;; Model editing (kinda like vim)
 (use-package god-mode
   :ensure t
   :bind
@@ -233,7 +258,6 @@ Example usage:
   :init
   (god-mode-all)
   :config
-  ;; (define-key god-local-mode-map (kbd ".") 'repeat)
 
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
@@ -245,22 +269,18 @@ Example usage:
   (add-hook 'god-mode-enabled-hook 'update-cursor)
   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
-;; (use-package multiple-cursors
-;;   :ensure t
-;;   ;; TODO: Look into this.
-;;   )
-
+;;; Search within emacs!
 (use-package engine-mode
   :ensure t
   :config
   (engine-mode t)
 
-(defun define-engines (engine-list)
-  (mapcar #'(lambda (engine)
-  (eval `(defengine ,(car engine)
-     ,(cadr engine)
-     :keybinding ,(cddr engine))))
-      engine-list))
+  (defun define-engines (engine-list)
+    (mapcar #'(lambda (engine)
+                (eval `(defengine ,(car engine)
+                         ,(cadr engine)
+                         :keybinding ,(cddr engine))))
+            engine-list))
 
   (define-engines
     '((amazon "https://www.amazon.com/s/ref=nb_sb_noss_2/133-6164387-7931258?url=search-alias%3Daps&field-keywords=%s" . "a")
@@ -277,30 +297,34 @@ Example usage:
       ;; NOTE this is for work
       (delphi-doc "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s" . "o"))))
 
-;; (use-package company
-;;   :ensure t
-;;   :config
-;;   ;; TODO: Check out the config settings for this.
-;;   (global-company-mode))
+;;; An auto completion framework
+(use-package company
+  :ensure t
+  :config
+  ;; TODO: Check out the config settings for this.
+  (global-company-mode))
 
+;;; Snippets... no more hand writing boilerplate code
 (use-package yasnippet
   :ensure t
   :config
   ;; TODO: Check out the config settings for this.
+  ;; TODO: Make some of my own snippets.
   ;; To add snippets due so under .emacs.d/snippets/my-mode/
   (yas-global-mode 1))
 
+;;; A bunch of premade snippets
+(use-package yasnippet-snippets
+  ;; More snippets for yasnippet I should check them out!!!!
+  :ensure t)
+
+;;; Delete functions now kill more white space
 (use-package hungry-delete
   :ensure t
   :config
   (global-hungry-delete-mode))
 
-;; (use-package yasnippet-snippets
-;;   ;; More snippets for yasnippet I should check them out!!!!
-;;   :ensure t)
-
-;;;; check out the wrap-region.
-;;;; Example useage
+;;; Easily wrap selected regions
 (use-package wrap-region
   :ensure t
   :config
@@ -325,25 +349,24 @@ Example usage:
      ("_" "_"   "u" '(org-mode markdown-mode))  ; underline
      ("**" "**" "b"   markdown-mode)            ; bolden
      ("*" "*"   "i"   markdown-mode)            ; italics
-     ("`" "`"   "c" '(markdown-mode ruby-mode)) ; code
+     ("`" "`"   "c"   markdown-mode)            ; code
      ("`" "'"   "c"   lisp-mode)                ; code
      ))
   :diminish wrap-region-mode)
 
+(use-package hl-todo
+  :ensure t)
+
+;;; For python development
+;; (use-package elpy
+;;   :ensure t
+;;   :config
+;;   (elpy-enable))
+
+;;; For clojure development
+;; (use-package cider
+;;   :ensure t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (wrap-region engine-mode yasnippet use-package powerline ido-vertical-mode hungry-delete god-mode expand-region color-theme-sanityinc-tomorrow ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
