@@ -9,7 +9,7 @@
 ;;;; Built-In Customizations ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; TODO: Describe these settings
+;;; Change a buch of the defualt settings
 (setq-default
  ;; Don't insert spaces not tabs
  indent-tabs-mode nil
@@ -35,7 +35,7 @@
  c-default-style "linux"
  c-basic-offset 2
  ;; Scroll one line at a time
- scroll-conservatively 10000
+ ;; scroll-conservatively 10000
  ;; Don't move the cursor when scrolling
  scroll-preserve-screen-position t
  ;; Highlight tabs in whitespace mode
@@ -74,6 +74,14 @@
 
 ;;; Insert matching symbols (insterts a closing "]" when entering "[")
 (electric-pair-mode)
+
+;;; Highlight the current line
+(global-hl-line-mode)
+
+;;; Show line numbers
+;; (global-linum-mode)
+;; (setq linum-format "%d ")
+;; (setq linum-eager t)
 
 ;;; Move around with shift arrow-keys
 ;; (windmove-default-keybindings)
@@ -151,9 +159,9 @@ Example usage:
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
-            ("<f2>" . multi-occur-in-matching-buffers)
+            ("<f2>" . rgrep)
+            ;; ("<f2>" . multi-occur-in-matching-buffers)
             ("<f3>" . ibuffer)
-            ("<f4>" . rgrep)
             ("M-<f4>" . delete-frame)
             ;; ("<f4>" . (lambda () (interactive) (dired ".")))
             ("M-o" . other-window)
@@ -235,8 +243,6 @@ Example usage:
 (use-package expand-region
   :ensure t
   :bind
-  ;; ("C-." . er/expand-region)
-  ;; ("C-," . er/contract-region)
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
 
@@ -244,10 +250,7 @@ Example usage:
 (use-package ace-jump-mode
   :ensure t
   :bind
-  ("M-i" . ace-jump-word-mode)
-  ;; ("M-n" . ace-jump-word-mode)
-  ;; ("M-p" . ace-jump-mode-pop-mark)
-  )
+  ("M-i" . ace-jump-word-mode))
 
 ;;; Model editing (kinda like vim)
 (use-package god-mode
@@ -354,8 +357,11 @@ Example usage:
      ))
   :diminish wrap-region-mode)
 
+;;; Highlight keywords in comments
 (use-package hl-todo
-  :ensure t)
+  :ensure t
+  :config
+  (global-hl-todo-mode))
 
 ;;; For python development
 ;; (use-package elpy
