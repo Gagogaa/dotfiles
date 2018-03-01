@@ -11,6 +11,18 @@ set nocompatible
 
 set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
+filetype plugin on
+
+set path+=**
+
+set wildmenu
+
+" Generates a nice tags file for jummping around
+" ^] jump to tag
+" g^ list ambiguous tags
+" ^t jump back up the tag stack
+command! MakeTags !ctags -R --extra=+f .
+
 "if !filereadable(expand('~/.vim/dein/repos/github.com/Shougo/dein.vim.git'))
 
 " !mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim

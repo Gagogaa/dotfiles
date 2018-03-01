@@ -210,15 +210,15 @@ Example usage:
 
 ;;; TODO: wrap the color schemes into a neater little bundle
 
-;; (use-package color-theme-sanityinc-tomorrow
-;;   :ensure t
-;;   :config
-;;   (load-theme 'sanityinc-tomorrow-bright t))
-
-(use-package material-theme
+(use-package color-theme-sanityinc-tomorrow
   :ensure t
   :config
-  (load-theme 'material t))
+  (load-theme 'sanityinc-tomorrow-bright t))
+
+;; (use-package material-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'material t))
 
 ;; (use-package zenburn-theme
 ;;   :ensure t
@@ -379,3 +379,18 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (rust-mode color-theme-sanityinc-solarized yasnippet-snippets wrap-region which-key use-package powerline material-theme markdown-mode hungry-delete hl-todo god-mode expand-region engine-mode elpy dired-single color-theme-sanityinc-tomorrow cider ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'narrow-to-region 'disabled nil)

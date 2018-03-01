@@ -8,7 +8,7 @@ source ~/.bashrc
 # For my personal scripts
 export PATH=$PATH:~/.bin
 # For rust build tool cargo
-export PATH=$PATH:$HOME/.cargo/bin
+export PATH="$PATH:$HOME/.cargo/bin"
 # For java development
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk/jre/bin/
 
