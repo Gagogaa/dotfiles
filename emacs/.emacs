@@ -42,12 +42,14 @@
  whitespace-style '(trailing tabs tab-mark))
 
 ;;; Setup fonts
-(set-default-font "Fira Code 9")
+(set-default-font "Fira Code 8")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
 
 ;;; Delete whitespace at the end of lines when saveing files
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'pascal-mode-hook 'opascal-mode)
+(add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2)))
 
 ;;; Save files when tabbing out of emacs
 (add-hook 'focus-out-hook '(lambda () (save-some-buffers t)))
@@ -103,8 +105,11 @@
 (ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 
-;; Save open files and layout for the next time emacs opens
+;; Save open files and layout for the next time emacs open
 (desktop-save-mode t)
+
+;; (when (file-exists-p (concat desktop-dirname desktop-base-lock-name))
+;;   (desktop-save-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
@@ -162,8 +167,8 @@ Example usage:
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
-            ("<f2>" . rgrep)
-            ;; ("<f2>" . multi-occur-in-matching-buffers)
+            ;; ("<f2>" . rgrep)
+            ("<f2>" . multi-occur-in-matching-buffers)
             ("<f3>" . ibuffer)
             ("M-<f4>" . delete-frame)
             ;; ("<f4>" . (lambda () (interactive) (dired ".")))
@@ -175,6 +180,8 @@ Example usage:
             ("C-x C-k" . kill-this-buffer)
             ("M-<down>" . (lambda () (interactive) (scroll-up-line 1)))
             ("M-<up>" . (lambda () (interactive) (scroll-down-line 1)))
+            ("M-<right>" . next-buffer)
+            ("M-<left>" . previous-buffer)
             ("C-x C-s". (lambda () (interactive) (message-box "No saving!")))
             ("M-n" . forward-paragraph)
             ("M-p" . backward-paragraph)
@@ -188,7 +195,8 @@ Example usage:
 (set-keys ctl-z-map
           '(("k" . kill-emacs)
             ("s" . scratch)
-            ("w" . save-buffer)
+            ;; ("w" . save-buffer)
+            ("w" . (lambda () (interactive) (message-box "No saving!")))
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -300,6 +308,8 @@ Example usage:
       (emacswiki "https://www.emacswiki.org/emacs/Search?action=index&match=%s" . "e")
       (youtube "http://www.youtube.com/results?aq=f&oq=&search_query=%s" . "y")
       (python-doc "https://docs.python.org/3/search.html?q=%s" . "p")
+      (dictionary "http://www.dictionary.com/browse/%s" . "u")
+      (thesaurus "http://www.thesaurus.com/browse/%s?s=t" . "t")
       ;; NOTE this is for work
       (delphi-doc "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s" . "o"))))
 
@@ -323,6 +333,7 @@ Example usage:
 (use-package yasnippet-snippets
   ;; More snippets for yasnippet I should check them out!!!!
   :ensure t)
+
 
 ;;; Delete functions now kill more white space
 (use-package hungry-delete
@@ -379,18 +390,3 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (rust-mode color-theme-sanityinc-solarized yasnippet-snippets wrap-region which-key use-package powerline material-theme markdown-mode hungry-delete hl-todo god-mode expand-region engine-mode elpy dired-single color-theme-sanityinc-tomorrow cider ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'narrow-to-region 'disabled nil)
