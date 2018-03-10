@@ -42,7 +42,7 @@
  whitespace-style '(trailing tabs tab-mark))
 
 ;;; Setup fonts
-(set-default-font "Fira Code 8")
+(set-default-font "Fira Code 9")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
 
@@ -182,7 +182,7 @@ Example usage:
             ("M-<up>" . (lambda () (interactive) (scroll-down-line 1)))
             ("M-<right>" . next-buffer)
             ("M-<left>" . previous-buffer)
-            ("C-x C-s". (lambda () (interactive) (message-box "No saving!")))
+            ;; ("C-x C-s". (lambda () (interactive) (message-box "No saving!")))
             ("M-n" . forward-paragraph)
             ("M-p" . backward-paragraph)
             ))
@@ -195,8 +195,7 @@ Example usage:
 (set-keys ctl-z-map
           '(("k" . kill-emacs)
             ("s" . scratch)
-            ;; ("w" . save-buffer)
-            ("w" . (lambda () (interactive) (message-box "No saving!")))
+            ("w" . save-buffer)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -284,41 +283,41 @@ Example usage:
   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
 ;;; Search within emacs!
-(use-package engine-mode
-  :ensure t
-  :config
-  (engine-mode t)
+;; (use-package engine-mode
+;;   :ensure t
+;;   :config
+;;   (engine-mode t)
 
-  (defun define-engines (engine-list)
-    (mapcar #'(lambda (engine)
-                (eval `(defengine ,(car engine)
-                         ,(cadr engine)
-                         :keybinding ,(cddr engine))))
-            engine-list))
+;;   (defun define-engines (engine-list)
+;;     (mapcar #'(lambda (engine)
+;;                 (eval `(defengine ,(car engine)
+;;                          ,(cadr engine)
+;;                          :keybinding ,(cddr engine))))
+;;             engine-list))
 
-  (define-engines
-    '((amazon "https://www.amazon.com/s/ref=nb_sb_noss_2/133-6164387-7931258?url=search-alias%3Daps&field-keywords=%s" . "a")
-      (duckduckgo "https://duckduckgo.com/?q=%s" . "d")
-      (twitter "https://twitter.com/search?q=%s" . nil)
-      (github "https://github.com/search?ref=simplesearch&q=%s" . "g")
-      (project-gutenberg "http://www.gutenberg.org/ebooks/search/?query=%s" . nil)
-      (stack-overflow "https://stackoverflow.com/search?q=%s" . "s")
-      (wikipedia "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s" . "w")
-      (wiktionary "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s" . "i")
-      (emacswiki "https://www.emacswiki.org/emacs/Search?action=index&match=%s" . "e")
-      (youtube "http://www.youtube.com/results?aq=f&oq=&search_query=%s" . "y")
-      (python-doc "https://docs.python.org/3/search.html?q=%s" . "p")
-      (dictionary "http://www.dictionary.com/browse/%s" . "u")
-      (thesaurus "http://www.thesaurus.com/browse/%s?s=t" . "t")
-      ;; NOTE this is for work
-      (delphi-doc "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s" . "o"))))
+;;   (define-engines
+;;     '((amazon "https://www.amazon.com/s/ref=nb_sb_noss_2/133-6164387-7931258?url=search-alias%3Daps&field-keywords=%s" . "a")
+;;       (duckduckgo "https://duckduckgo.com/?q=%s" . "d")
+;;       (twitter "https://twitter.com/search?q=%s" . nil)
+;;       (github "https://github.com/search?ref=simplesearch&q=%s" . "g")
+;;       (project-gutenberg "http://www.gutenberg.org/ebooks/search/?query=%s" . nil)
+;;       (stack-overflow "https://stackoverflow.com/search?q=%s" . "s")
+;;       (wikipedia "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s" . "w")
+;;       (wiktionary "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s" . "i")
+;;       (emacswiki "https://www.emacswiki.org/emacs/Search?action=index&match=%s" . "e")
+;;       (youtube "http://www.youtube.com/results?aq=f&oq=&search_query=%s" . "y")
+;;       (python-doc "https://docs.python.org/3/search.html?q=%s" . "p")
+;;       (dictionary "http://www.dictionary.com/browse/%s" . "u")
+;;       (thesaurus "http://www.thesaurus.com/browse/%s?s=t" . "t")
+;;       ;; NOTE this is for work
+;;       (delphi-doc "http://docwiki.embarcadero.com/RADStudio/Berlin/en/%s" . "o"))))
 
 ;;; An auto completion framework
-(use-package company
-  :ensure t
-  :config
-  ;; TODO: Check out the config settings for this.
-  (global-company-mode))
+;; (use-package company
+;;   :ensure t
+;;   :config
+;;   ;; TODO: Check out the config settings for this.
+;;   (global-company-mode))
 
 ;;; Snippets... no more hand writing boilerplate code
 (use-package yasnippet
@@ -330,16 +329,16 @@ Example usage:
   (yas-global-mode 1))
 
 ;;; A bunch of premade snippets
-(use-package yasnippet-snippets
-  ;; More snippets for yasnippet I should check them out!!!!
-  :ensure t)
+;; (use-package yasnippet-snippets
+;;   ;; More snippets for yasnippet I should check them out!!!!
+;;   :ensure t)
 
 
 ;;; Delete functions now kill more white space
-(use-package hungry-delete
-  :ensure t
-  :config
-  (global-hungry-delete-mode))
+;; (use-package hungry-delete
+;;   :ensure t
+;;   :config
+;;   (global-hungry-delete-mode))
 
 ;;; Easily wrap selected regions
 (use-package wrap-region
@@ -372,10 +371,10 @@ Example usage:
   :diminish wrap-region-mode)
 
 ;;; Highlight keywords in comments
-(use-package hl-todo
-  :ensure t
-  :config
-  (global-hl-todo-mode))
+;; (use-package hl-todo
+;;   :ensure t
+;;   :config
+;;   (global-hl-todo-mode))
 
 ;;; For python development
 ;; (use-package elpy
