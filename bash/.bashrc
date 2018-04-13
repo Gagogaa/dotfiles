@@ -1,7 +1,7 @@
 #    ██████╗  █████╗ ███████╗██╗  ██╗██████╗  ██████╗
 #    ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔══██╗██╔════╝
-#    ██████╔╝███████║███████╗███████║██████╔╝██║     
-#    ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║     
+#    ██████╔╝███████║███████╗███████║██████╔╝██║
+#    ██╔══██╗██╔══██║╚════██║██╔══██║██╔══██╗██║
 # ██╗██████╔╝██║  ██║███████║██║  ██║██║  ██║╚██████╗
 # ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
 
@@ -35,7 +35,7 @@ export TRASH=~/.local/share/Trash/files
 
 [ -f ~/.bash_aliases ]   && source ~/.bash_aliases
 [ -f ~/.bash_functions ] && source ~/.bash_functions
-[ -f ~/.Xresources ]     && xrdb ~/.Xresources
+#[ -f ~/.Xresources ]     && xrdb ~/.Xresources
 [ -f /etc/bashrc ]       && . /etc/bashrc # Source global definitions
 
 # http://stackoverflow.com/questions/9652126/bashrc-profile-is-not-loaded-on-new-tmux-session-or-window-why
@@ -52,3 +52,6 @@ export TRASH=~/.local/share/Trash/files
 #        tmux attach 2>/dev/null|| break
 #    done
 #fi
+
+# added by Anaconda3 installer
+export PATH="/home/gregory/.anaconda3/bin:$PATH"

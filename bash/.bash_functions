@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 mdprev () {
     pandoc "$1" 1> /tmp/markdownPreview.html 2>/dev/null;
     $BROWSER /tmp/markdownPreview.html 2>/dev/null;

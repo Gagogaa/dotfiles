@@ -42,12 +42,12 @@
  whitespace-style '(trailing tabs tab-mark))
 
 ;;; Setup fonts
-(set-default-font "Fira Code 9")
+(set-default-font "Fira Code 11")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
 
 ;;; Delete whitespace at the end of lines when saveing files
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'pascal-mode-hook 'opascal-mode)
 (add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2)))
 
@@ -69,7 +69,7 @@
 (scroll-bar-mode -1)
 
 ;;; Show the various whitespace symbols (for tabs)
-(global-whitespace-mode)
+;; (global-whitespace-mode)
 
 ;;; Save the location in files between sessions
 (save-place-mode)
@@ -86,7 +86,7 @@
 ;; (setq linum-eager t)
 
 ;;; Makes it easier to navigate CamelCaseing
-(subword-mode)
+;; (subword-mode)
 
 ;;; Move around with shift arrow-keys
 ;; (windmove-default-keybindings)
@@ -185,6 +185,7 @@ Example usage:
             ;; ("C-x C-s". (lambda () (interactive) (message-box "No saving!")))
             ("M-n" . forward-paragraph)
             ("M-p" . backward-paragraph)
+            ("C-M-<backspace>" . delete-window)
             ))
 
 ;;; Make my own keymap
@@ -238,10 +239,10 @@ Example usage:
 ;;   (load-theme 'sanityinc-solarized-dark t))
 
 ;;; Shows avalable commands
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode))
+;; (use-package which-key
+;;   :ensure t
+;;   :config
+;;   (which-key-mode))
 
 ;;; A nicer, easier to read status bar
 (use-package powerline
@@ -389,3 +390,17 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (rust-mode wrap-region yasnippet god-mode ace-jump-mode expand-region powerline color-theme-sanityinc-tomorrow use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

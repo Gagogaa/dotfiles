@@ -78,4 +78,4 @@ rofi.color-urgent: #002b37, #da4281, #002b37, #003642, #da4281
 rofi.font: Roboto Mono 12
 
 ! -------- fix for highdpi --------
-Xft.dpi: 240
+!Xft.dpi: 240
