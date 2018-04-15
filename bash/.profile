@@ -18,6 +18,9 @@ export JAVA_HOME="/usr/lib/jvm/java-9-openjdk-9.0.4.11-4.fc27.x86_64/"
 # Set better screen scaling
 gsettings set org.gnome.desktop.interface scaling-factor 2
 
+# Setting for ulauncher
+export GDK_BACKEND=x11
+
 # Set the display mode
 #xrandr --newmode $(gtf 1920 1080 60.00 | grep Modeline | sed s/Modeline\ // | tr -d '"')
 #xrandr --addmode eDP-1 "1920x1080_60.00"
