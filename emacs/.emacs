@@ -25,7 +25,8 @@
  c-basic-offset 2                       ; Set c indentation width
  whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
  terminal "gnome-terminal"              ; Default terminal emulator
- ;; move emacs backup files to a different directory instead of the current directory
+ echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
+ ;; Move emacs backup files to a different directory instead of the current directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
  auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
  ;; For use later when using save-desktop-mode
@@ -65,9 +66,44 @@
 ;;; Stop blinking the cursor
 (blink-cursor-mode -1)
 
-;;; TODO needs fixing with powerline mode
 ;;; Show battery status in the menu bar
-;; (display-battery-mode t)
+
+;; TODO Look into this
+
+;;    When running Emacs on a laptop computer, you can display the battery
+;; charge on the mode-line, by using the command ‘display-battery-mode’ or
+;; customizing the variable ‘display-battery-mode’.  The variable
+;; ‘battery-mode-line-format’ determines the way the battery charge is
+;; displayed; the exact mode-line message depends on the operating system,
+;; and it usually shows the current battery charge as a percentage of the
+;; total charge.
+
+(display-battery-mode t)
+
+;; TODO work on customizing the mode-line
+
+;;    Emacs can optionally display the time and system load in all mode
+;; lines.  To enable this feature, type ‘M-x display-time’ or customize the
+;; option ‘display-time-mode’.  The information added to the mode line
+;; looks like this:
+
+;;      HH:MMpm L.LL
+
+;; Here HH and MM are the hour and minute, followed always by ‘am’ or ‘pm’.
+;; L.LL is the average number, collected for the last few minutes, of
+;; processes in the whole system that were either running or ready to run
+;; (i.e., were waiting for an available processor).  (Some fields may be
+;; missing if your operating system cannot support them.)  If you prefer
+;; time display in 24-hour format, set the variable
+;; ‘display-time-24hr-format’ to ‘t’.
+
+;;    On graphical displays, the mode line is drawn as a 3D box.  If you
+;; don’t like this effect, you can disable it by customizing the
+;; ‘mode-line’ face and setting its ‘box’ attribute to ‘nil’.  *Note Face
+;; Customization::.
+
+;;; Show column numbers
+(column-number-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
@@ -135,14 +171,12 @@ Example:
 
 ;;; Shift F1 toggles macro recording.
 (global-set-key (kbd \"S-<f1>\") 'toggle-kbd-macro-recording)"
-
   (interactive)
 
   (if defining-kbd-macro
       (end-kbd-macro)
     (start-kbd-macro nil)))
 
-;;; TODO expand this so I don't have to write (lambda () (interactive) ...) for all the non standard functions
 (defun set-keys (keymap pairs)
   "Binds a list of keys to a keymap
 Example usage:
@@ -163,18 +197,9 @@ Example usage:
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
+;; TODO Rename the current buffer and its visiting file if any.
+
 ;;; Change keys in the global map
-
-;; TODO These things
-;; Duplicate the current line (or region).
-;; Rename the current buffer and its visiting file if any.
-;; Join lines
-;; Kill whole line
-
-;; Fix word using ispell and then save to abbrev.
-;; (setq save-abbrevs 'silently)
-;; (setq-default abbrev-mode t)
-
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
@@ -228,8 +253,6 @@ Example usage:
 
 (install-use-package)
 
-;;; TODO: wrap the color schemes into a neater little bundle
-
 (use-package zenburn-theme
   :ensure t
   :config
@@ -245,19 +268,6 @@ Example usage:
 ;;   :config
 ;;   (load-theme 'sanityinc-solarized-dark t))
 
-;;; A nicer, easier to read status bar
-;; (use-package powerline
-;;   :ensure t
-;;   :config
-;;   (powerline-default-theme))
-
-;;; Nice emacs mode-line
-;; TODO configure this
-(use-package telephone-line
-  :ensure t
-  :config
-  (telephone-line-mode 2))
-
 ;;; Incrementally select text
 (use-package expand-region
   :ensure t
@@ -266,10 +276,11 @@ Example usage:
   ("C-S-H" . er/contract-region))
 
 ;;; Jump to text
-(use-package ace-jump-mode
-  :ensure t
-  :bind
-  ("M-i" . ace-jump-word-mode))
+;; TODO Ace jump is cool but I never use it :(
+;; (use-package ace-jump-mode
+;;   :ensure t
+;;   :bind
+;;   ("M-i" . ace-jump-word-mode))
 
 ;;; Model editing (kinda like vim)
 (use-package god-mode
@@ -280,7 +291,7 @@ Example usage:
   :init
   (god-mode-all)
   :config
-
+  
   (defun update-cursor ()
     "Change the look of the cursor depending on the state of god-mode"
     (setq cursor-type
@@ -295,8 +306,6 @@ Example usage:
 (use-package yasnippet
   :ensure t
   :config
-  ;; TODO: Check out the config settings for this.
-  ;; TODO: Make some of my own snippets.
   ;; To add snippets due so under .emacs.d/snippets/my-mode/
   (yas-global-mode 1))
 
@@ -304,14 +313,14 @@ Example usage:
 (use-package company
   :ensure t
   :config
-  ;; TODO: Check out the config settings for this.
-  ;; Make sure it doesnt trigger on its own set up a prompt key
+  ;; TODO configure this so the popup only happens when I trigger it
   (global-company-mode))
 
 ;;; Delete functions now kill more white space
 (use-package hungry-delete
   :ensure t
   :config
+  ;; TODO see if I can configure this
   (global-hungry-delete-mode))
 
 ;;; Easily wrap selected regions
@@ -332,35 +341,16 @@ Example usage:
      ("**" "**" "b"   markdown-mode)  ; bolden
      ("*" "*"   "i"   markdown-mode)  ; italics
      ("`" "`"   "c"   markdown-mode)  ; code
-     ("`" "'"   "c"   lisp-mode)      ; code
      )))
-;; :diminish wrap-region-mode)
 
 ;;; A really awesome plugin for editing multiple files at the same time
 (use-package multifiles
   :ensure t
   :bind ("C-!" . mf/mirror-region-in-multifile))
 
-;;; Display emoji in emacs
-(use-package emojify
-  :ensure t
-  :config
-  (global-emojify-mode))
+(use-package rust-mode
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (telephone-line emojify multifiles color-theme-sanityinc-solarized zenburn-theme rust-mode wrap-region yasnippet god-mode ace-jump-mode expand-region powerline color-theme-sanityinc-tomorrow use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
