@@ -67,40 +67,7 @@
 (blink-cursor-mode -1)
 
 ;;; Show battery status in the menu bar
-
-;; TODO Look into this
-
-;;    When running Emacs on a laptop computer, you can display the battery
-;; charge on the mode-line, by using the command ‘display-battery-mode’ or
-;; customizing the variable ‘display-battery-mode’.  The variable
-;; ‘battery-mode-line-format’ determines the way the battery charge is
-;; displayed; the exact mode-line message depends on the operating system,
-;; and it usually shows the current battery charge as a percentage of the
-;; total charge.
-
 (display-battery-mode t)
-
-;; TODO work on customizing the mode-line
-
-;;    Emacs can optionally display the time and system load in all mode
-;; lines.  To enable this feature, type ‘M-x display-time’ or customize the
-;; option ‘display-time-mode’.  The information added to the mode line
-;; looks like this:
-
-;;      HH:MMpm L.LL
-
-;; Here HH and MM are the hour and minute, followed always by ‘am’ or ‘pm’.
-;; L.LL is the average number, collected for the last few minutes, of
-;; processes in the whole system that were either running or ready to run
-;; (i.e., were waiting for an available processor).  (Some fields may be
-;; missing if your operating system cannot support them.)  If you prefer
-;; time display in 24-hour format, set the variable
-;; ‘display-time-24hr-format’ to ‘t’.
-
-;;    On graphical displays, the mode line is drawn as a 3D box.  If you
-;; don’t like this effect, you can disable it by customizing the
-;; ‘mode-line’ face and setting its ‘box’ attribute to ‘nil’.  *Note Face
-;; Customization::.
 
 ;;; Show column numbers
 (column-number-mode)
@@ -217,8 +184,10 @@ Example usage:
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
-            ("M-n" . forward-paragraph)
-            ("M-p" . backward-paragraph)
+            ;; ("M-n" . forward-paragraph)
+            ;; ("M-p" . backward-paragraph)
+            ("M-n" .(lambda () (interactive) (next-line 10)))
+            ("M-p" .(lambda () (interactive) (previous-line 10)))
             ("C-}" . next-buffer)
             ("C-{" . previous-buffer)
             ))
@@ -253,20 +222,20 @@ Example usage:
 
 (install-use-package)
 
-(use-package zenburn-theme
-  :ensure t
-  :config
-  (load-theme 'zenburn t))
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
 
 ;; (use-package color-theme-sanityinc-tomorrow
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'sanityinc-tomorrow-bright t))
 
-;; (use-package color-theme-sanityinc-solarized
-;;   :ensure t
-;;   :config
-;;   (load-theme 'sanityinc-solarized-dark t))
+(use-package color-theme-sanityinc-solarized
+  :ensure t
+  :config
+  (load-theme 'sanityinc-solarized-dark t))
 
 ;;; Incrementally select text
 (use-package expand-region
@@ -274,13 +243,6 @@ Example usage:
   :bind
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
-
-;;; Jump to text
-;; TODO Ace jump is cool but I never use it :(
-;; (use-package ace-jump-mode
-;;   :ensure t
-;;   :bind
-;;   ("M-i" . ace-jump-word-mode))
 
 ;;; Model editing (kinda like vim)
 (use-package god-mode
@@ -309,20 +271,6 @@ Example usage:
   ;; To add snippets due so under .emacs.d/snippets/my-mode/
   (yas-global-mode 1))
 
-;;; An auto completion framework
-(use-package company
-  :ensure t
-  :config
-  ;; TODO configure this so the popup only happens when I trigger it
-  (global-company-mode))
-
-;;; Delete functions now kill more white space
-(use-package hungry-delete
-  :ensure t
-  :config
-  ;; TODO see if I can configure this
-  (global-hungry-delete-mode))
-
 ;;; Easily wrap selected regions
 (use-package wrap-region
   :ensure t
@@ -337,10 +285,10 @@ Example usage:
      ("\"" "\"")
      ("‘" "’"   "q")
      ("“" "”"   "Q")
-     ("_" "_"   "u"   markdown-mode)  ; underline
-     ("**" "**" "b"   markdown-mode)  ; bolden
-     ("*" "*"   "i"   markdown-mode)  ; italics
-     ("`" "`"   "c"   markdown-mode)  ; code
+     ("_" "_"   "u" markdown-mode)  ; underline
+     ("**" "**" "b" markdown-mode)  ; bolden
+     ("*" "*"   "i" markdown-mode)  ; italics
+     ("`" "`"   "c" markdown-mode)  ; code
      )))
 
 ;;; A really awesome plugin for editing multiple files at the same time
