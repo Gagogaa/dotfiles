@@ -232,10 +232,15 @@ Example usage:
 ;;   :config
 ;;   (load-theme 'sanityinc-tomorrow-bright t))
 
-(use-package color-theme-sanityinc-solarized
+;; (use-package color-theme-sanityinc-solarized
+;;   :ensure t
+;;   :config
+;;   (load-theme 'sanityinc-solarized-dark t))
+
+(use-package dracula-theme
   :ensure t
   :config
-  (load-theme 'sanityinc-solarized-dark t))
+  (load-theme 'dracula t))
 
 ;;; Incrementally select text
 (use-package expand-region
@@ -298,6 +303,15 @@ Example usage:
 
 (use-package rust-mode
   :ensure t)
+
+;;; Jump to text
+(use-package ace-jump-mode
+  :ensure t
+  :bind
+  ("M-i" . ace-jump-word-mode)
+  ;; ("M-n" . ace-jump-word-mode)
+  ;; ("M-p" . ace-jump-mode-pop-mark)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
