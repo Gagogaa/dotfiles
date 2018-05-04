@@ -160,6 +160,16 @@ Example usage:
                 (cdr key-function-pair)))
           pairs))
 
+;;; Open multiple marked files dired
+(eval-after-load "dired"
+  '(progn
+     (define-key dired-mode-map "F" 'my-dired-find-file)
+     (defun my-dired-find-file (&optional arg)
+       "Open each of the marked files, or the file under the point, or when prefix arg, the next N files "
+       (interactive "P")
+       (let* ((fn-list (dired-get-marked-files nil arg)))
+         (mapc 'find-file fn-list)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -202,6 +212,9 @@ Example usage:
             ("s" . (lambda () (interactive) (switch-to-buffer "*scratch*")))
             ("w" . save-buffer)
             ("e" . (lambda () (interactive) (find-file user-init-file)))
+            ("p" . package-list-packages)
+            ("a" . align-regexp)
+            ("h" . eshell)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -304,14 +317,20 @@ Example usage:
 (use-package rust-mode
   :ensure t)
 
+;;; An auto completion framework
+(use-package company
+  :ensure t
+  :bind
+  ("C-," . company-complete)
+  :config
+  ;; TODO configure this so the popup only happens when I trigger it
+  (global-company-mode))
+
 ;;; Jump to text
 (use-package ace-jump-mode
   :ensure t
   :bind
-  ("M-i" . ace-jump-word-mode)
-  ;; ("M-n" . ace-jump-word-mode)
-  ;; ("M-p" . ace-jump-mode-pop-mark)
-)
+  ("M-i" . ace-jump-word-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
