@@ -215,6 +215,7 @@ Example usage:
             ("p" . package-list-packages)
             ("a" . align-regexp)
             ("h" . eshell)
+            ("l" . view-lossage)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -250,10 +251,17 @@ Example usage:
 ;;   :config
 ;;   (load-theme 'sanityinc-solarized-dark t))
 
-(use-package dracula-theme
+;; (use-package dracula-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'dracula t))
+
+
+(use-package darktooth-theme
   :ensure t
   :config
-  (load-theme 'dracula t))
+  (load-theme 'darktooth t))
+
 
 ;;; Incrementally select text
 (use-package expand-region
@@ -331,6 +339,31 @@ Example usage:
   :ensure t
   :bind
   ("M-i" . ace-jump-word-mode))
+
+;;; Vim like code folding
+(use-package vimish-fold
+  :ensure t
+  :bind
+  ("C-z v f" . vimish-fold)
+  ("C-z v u" . vimish-fold-unfold)
+  ("C-z v U" . vimish-fold-unfold-all)
+  ("C-z v d" . vimish-fold-delete)
+  ("C-z v D" . vimish-fold-delete-all)
+  ("C-z v r" . vimish-fold-refold)
+  ("C-z v R" . vimish-fold-refold-all)
+  ("C-z v t" . vimish-fold-toggle)
+  ("C-z v T" . vimish-fold-toggle-all))
+
+;; https://github.com/magnars/multiple-cursors.el
+(use-package multiple-cursors
+  :ensure t
+  :bind
+  ("C-z m m"       . mc/edit-lines)
+  ("C->"           . mc/mark-next-like-this)
+  ("C-<"           . mc/mark-previous-like-this)
+  ("C-c C-<"       . mc/mark-all-like-this)
+  ("C-S-<mouse-1>" . mc/add-cursor-on-click)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
