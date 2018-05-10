@@ -55,3 +55,4 @@ export TRASH=~/.local/share/Trash/files
 
 # added by Anaconda3 installer
 export PATH="/home/gregory/.anaconda3/bin:$PATH"
+export PATH="~/.cargo/env:$PATH"
