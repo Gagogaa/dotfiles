@@ -160,6 +160,16 @@ Example usage:
                 (cdr key-function-pair)))
           pairs))
 
+;;; Open multiple marked files dired
+(eval-after-load "dired"
+  '(progn
+     (define-key dired-mode-map "F" 'my-dired-find-file)
+     (defun my-dired-find-file (&optional arg)
+       "Open each of the marked files, or the file under the point, or when prefix arg, the next N files "
+       (interactive "P")
+       (let* ((fn-list (dired-get-marked-files nil arg)))
+         (mapc 'find-file fn-list)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -202,6 +212,10 @@ Example usage:
             ("s" . (lambda () (interactive) (switch-to-buffer "*scratch*")))
             ("w" . save-buffer)
             ("e" . (lambda () (interactive) (find-file user-init-file)))
+            ("p" . package-list-packages)
+            ("a" . align-regexp)
+            ("h" . eshell)
+            ("l" . view-lossage)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -232,10 +246,22 @@ Example usage:
 ;;   :config
 ;;   (load-theme 'sanityinc-tomorrow-bright t))
 
-(use-package color-theme-sanityinc-solarized
+;; (use-package color-theme-sanityinc-solarized
+;;   :ensure t
+;;   :config
+;;   (load-theme 'sanityinc-solarized-dark t))
+
+;; (use-package dracula-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'dracula t))
+
+
+(use-package darktooth-theme
   :ensure t
   :config
-  (load-theme 'sanityinc-solarized-dark t))
+  (load-theme 'darktooth t))
+
 
 ;;; Incrementally select text
 (use-package expand-region
@@ -298,6 +324,46 @@ Example usage:
 
 (use-package rust-mode
   :ensure t)
+
+;;; An auto completion framework
+(use-package company
+  :ensure t
+  :bind
+  ("C-," . company-complete)
+  :config
+  ;; TODO configure this so the popup only happens when I trigger it
+  (global-company-mode))
+
+;;; Jump to text
+(use-package ace-jump-mode
+  :ensure t
+  :bind
+  ("M-i" . ace-jump-word-mode))
+
+;;; Vim like code folding
+(use-package vimish-fold
+  :ensure t
+  :bind
+  ("C-z v f" . vimish-fold)
+  ("C-z v u" . vimish-fold-unfold)
+  ("C-z v U" . vimish-fold-unfold-all)
+  ("C-z v d" . vimish-fold-delete)
+  ("C-z v D" . vimish-fold-delete-all)
+  ("C-z v r" . vimish-fold-refold)
+  ("C-z v R" . vimish-fold-refold-all)
+  ("C-z v t" . vimish-fold-toggle)
+  ("C-z v T" . vimish-fold-toggle-all))
+
+;; https://github.com/magnars/multiple-cursors.el
+(use-package multiple-cursors
+  :ensure t
+  :bind
+  ("C-z m m"       . mc/edit-lines)
+  ("C->"           . mc/mark-next-like-this)
+  ("C-<"           . mc/mark-previous-like-this)
+  ("C-c C-<"       . mc/mark-all-like-this)
+  ("C-S-<mouse-1>" . mc/add-cursor-on-click)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
