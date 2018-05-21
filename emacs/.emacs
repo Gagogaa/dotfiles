@@ -14,7 +14,7 @@
 ;;; Change a buch of the defualt settings
 (setq-default
  indent-tabs-mode nil                   ; Insert spaces not tabs
- tab-width 4                            ; Set tab size to 2 spaces
+ tab-width 4                            ; Set tab size to 4 spaces
  ring-bell-function 'ignore             ; Turn off the aweful bell
  delete-by-moving-to-trash t            ; Move files to trash instead of deleting them
  vc-follow-symlinks t                   ; Auto follow sym-links
