@@ -48,7 +48,7 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Fira Code 10")
+(set-default-font "Fira Code 9")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
 
@@ -246,22 +246,20 @@ Example usage:
 ;;   :config
 ;;   (load-theme 'sanityinc-tomorrow-bright t))
 
-;; (use-package color-theme-sanityinc-solarized
-;;   :ensure t
-;;   :config
-;;   (load-theme 'sanityinc-solarized-dark t))
+(use-package color-theme-sanityinc-solarized
+  :ensure t
+  :config
+  (load-theme 'sanityinc-solarized-dark t))
 
 ;; (use-package dracula-theme
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'dracula t))
 
-
-(use-package darktooth-theme
-  :ensure t
-  :config
-  (load-theme 'darktooth t))
-
+;; (use-package darktooth-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'darktooth t))
 
 ;;; Incrementally select text
 (use-package expand-region
@@ -324,6 +322,13 @@ Example usage:
 
 (use-package rust-mode
   :ensure t)
+
+;;; I need to look into these
+;; (use-package lsp-mode
+;;   :ensure t)
+
+;; (use-package lsp-rust
+;;   :ensure t)
 
 ;;; An auto completion framework
 (use-package company

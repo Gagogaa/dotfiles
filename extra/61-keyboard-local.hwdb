@@ -1,14 +1,7 @@
-# /etc/udev/hwdb.d/
-# this will allow you to use the zoom on
-# the Microsoft Ergonomic Keyboard 4000
-# see this directory for more hardware 
-# configuration files
-# /usr/lib/udev/hwdb.d/
-# see this arch wiki entry for more info
-# on mapping scancodes
-# https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes
-# see this article on configuring the keyboard
-# https://nicroland.wordpress.com/2016/07/11/remapping-zoom-slider-on-microsoft-ergonomic-keyboard/
+# Place this in '/etc/udev/hwdb.d/'
+# This maps the nub on the 
+# Microsoft Ergonomic Keyboard 4000
+# to PGup PGdn 
 
 evdev:input:b0003v045Ep00DB*
  KEYBOARD_KEY_c022d=pageup

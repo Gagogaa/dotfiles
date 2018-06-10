@@ -1,14 +1,16 @@
-#!/usr/bin/env bash
-mdprev () {
-    pandoc "$1" 1> /tmp/markdownPreview.html 2>/dev/null;
-    $BROWSER /tmp/markdownPreview.html 2>/dev/null;
+trash () {
+    command mv "$@" $TRASH;
 }
 
-trash () { command mv "$@" $TRASH; }
-cd () { builtin cd "$@"; ls; }
-mcd () { mkdir -p "$1" && cd "$1"; }
+cd () {
+    builtin cd "$@";
+    ls;
+}
 
-# TODO take care of the missing arguments problem
-hs () { history | grep $*; }
+mcd () {
+    mkdir -p "$1" && cd "$1";
+}
 
-fd-mount () { sudo mount -t msdos -o loop,offset=32256 /var/lib/libvirt/images/DOS/free-dos.img /mnt/Free-DOS; }
+hs () {
+    history | grep $*;
+}

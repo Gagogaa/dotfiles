@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-xkbcomp ~/.extra/swap-ctrl-alt.xkb $DISPLAY
