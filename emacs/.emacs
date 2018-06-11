@@ -35,6 +35,10 @@
  desktop-base-lock-name (concat desktop-dirname desktop-base-file-name ".lock")
  ;; Just in case I need to enable debugging
  ;; debug-on-error t
+ abbrev-mode t
+ abbrev-file-name (concat user-emacs-directory ".abbrev-file")
+ save-abbrevs 'silent
+ extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -70,7 +74,7 @@
 (display-battery-mode t)
 
 ;;; Show column numbers
-(column-number-mode)
+;; (column-number-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
