@@ -1,11 +1,11 @@
-#     888                        888                      
-#     888                        888                      
-#     888                        888                      
-#     88888b.   8888b.  .d8888b  88888b.  888d888 .d8888b 
-#     888 "88b     "88b 88K      888 "88b 888P"  d88P"    
-#     888  888 .d888888 "Y8888b. 888  888 888    888      
-# d8b 888 d88P 888  888      X88 888  888 888    Y88b.    
-# Y8P 88888P"  "Y888888  88888P' 888  888 888     "Y8888P 
+#     888                        888
+#     888                        888
+#     888                        888
+#     88888b.   8888b.  .d8888b  88888b.  888d888 .d8888b
+#     888 "88b     "88b 88K      888 "88b 888P"  d88P"
+#     888  888 .d888888 "Y8888b. 888  888 888    888
+# d8b 888 d88P 888  888      X88 888  888 888    Y88b.
+# Y8P 88888P"  "Y888888  88888P' 888  888 888     "Y8888P
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -30,4 +30,4 @@ export TRASH=~/.local/share/Trash/files
 [ -f /etc/bashrc ]       && . /etc/bashrc # Source global definitions
 
 # Load tmux on login and close the terminal when it exits
-[ -z $TMUX ] && tmux && exit
+[ -z $TMUX ] && tmux

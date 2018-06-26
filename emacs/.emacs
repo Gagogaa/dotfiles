@@ -35,6 +35,7 @@
  desktop-base-lock-name (concat desktop-dirname desktop-base-file-name ".lock")
  ;; Just in case I need to enable debugging
  ;; debug-on-error t
+ python-shell-interpreter "python3"
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -170,6 +171,18 @@ Example usage:
        (let* ((fn-list (dired-get-marked-files nil arg)))
          (mapc 'find-file fn-list)))))
 
+;;; Testing this one out for clearing eshell
+(defun eshell-clear-buffer ()
+  "Clear terminal"
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)
+    (eshell-send-input)))
+
+(add-hook 'eshell-mode-hook
+      '(lambda()
+          (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -245,11 +258,11 @@ Example usage:
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'sanityinc-tomorrow-bright t))
-
-(use-package color-theme-sanityinc-solarized
-  :ensure t
-  :config
-  (load-theme 'sanityinc-solarized-dark t))
+(if window-system
+    (use-package color-theme-sanityinc-solarized
+      :ensure t
+      :config
+      (load-theme 'sanityinc-solarized-dark t)))
 
 ;; (use-package dracula-theme
 ;;   :ensure t
@@ -268,25 +281,25 @@ Example usage:
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
 
-;;; Model editing (kinda like vim)
-(use-package god-mode
-  :ensure t
-  :bind
-  ("M-." . god-mode-all)
-  ("C-." . god-mode-all)
-  :init
-  (god-mode-all)
-  :config
+;; ;;; Model editing (kinda like vim)
+;; (use-package god-mode
+;;   :ensure t
+;;   :bind
+;;   ("M-." . god-mode-all)
+;;   ("C-." . god-mode-all)
+;;   :init
+;;   (god-mode-all)
+;;   :config
   
-  (defun update-cursor ()
-    "Change the look of the cursor depending on the state of god-mode"
-    (setq cursor-type
-          (if (or god-local-mode buffer-read-only)
-              'box
-            'bar)))
+;;   (defun update-cursor ()
+;;     "Change the look of the cursor depending on the state of god-mode"
+;;     (setq cursor-type
+;;           (if (or god-local-mode buffer-read-only)
+;;               'box
+;;             'bar)))
 
-  (add-hook 'god-mode-enabled-hook 'update-cursor)
-  (add-hook 'god-mode-disabled-hook 'update-cursor))
+;;   (add-hook 'god-mode-enabled-hook 'update-cursor)
+;;   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
 ;;; Snippets... no more hand writing boilerplate code
 (use-package yasnippet
@@ -369,6 +382,21 @@ Example usage:
   ("C-c C-<"       . mc/mark-all-like-this)
   ("C-S-<mouse-1>" . mc/add-cursor-on-click)
   )
+
+(use-package cider
+  :ensure t)
+
+(use-package paredit
+  :ensure t)
+
+;; (use-package elpy
+;;   :ensure t
+;;   :config
+;;   (elpy-enable))
+
+;; I dont think i need this one for editing anymore
+;; (use-package clj-mode
+;;   :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
