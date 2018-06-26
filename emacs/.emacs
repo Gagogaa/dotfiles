@@ -429,24 +429,23 @@ Example usage:
 (use-package projectile
   :ensure t
   :config
+  (use-package flx-ido
+    :ensure t
+    :config
+    (flx-ido-mode 1)
+    ;; disable ido faces to see flx highlights.
+    (setq ido-enable-flex-matching t)
+    (setq ido-use-faces nil))
 
   (use-package projectile-ripgrep
     :ensure t)
-
+             
   (projectile-mode))
 
 (use-package which-key
   :ensure t
   :config
   (which-key-mode))
-
-(use-package flx-ido
-  :ensure t
-  :config
-  (flx-ido-mode 1)
-  ;; disable ido faces to see flx highlights.
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-faces nil))
 
 (use-package powerline
   :ensure t
