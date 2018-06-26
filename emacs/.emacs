@@ -1,30 +1,33 @@
-;;;;     8888888888 888b     d888        d8888  .d8888b.   .d8888b.  
-;;;;     888        8888b   d8888       d88888 d88P  Y88b d88P  Y88b 
-;;;;     888        88888b.d88888      d88P888 888    888 Y88b.      
-;;;;     8888888    888Y88888P888     d88P 888 888         "Y888b.   
-;;;;     888        888 Y888P 888    d88P  888 888            "Y88b. 
-;;;;     888        888  Y8P  888   d88P   888 888    888       "888 
-;;;; d8b 888        888   "   888  d8888888888 Y88b  d88P Y88b  d88P 
-;;;; Y8P 8888888888 888       888 d88P     888  "Y8888P"   "Y8888P"  
+;;;;     8888888888 888b     d888        d8888  .d8888b.   .d8888b.
+;;;;     888        8888b   d8888       d88888 d88P  Y88b d88P  Y88b
+;;;;     888        88888b.d88888      d88P888 888    888 Y88b.
+;;;;     8888888    888Y88888P888     d88P 888 888         "Y888b.
+;;;;     888        888 Y888P 888    d88P  888 888            "Y88b.
+;;;;     888        888  Y8P  888   d88P   888 888    888       "888
+;;;; d8b 888        888   "   888  d8888888888 Y88b  d88P Y88b  d88P
+;;;; Y8P 8888888888 888       888 d88P     888  "Y8888P"   "Y8888P"
+
+;;;; Cool emacs sources
+;; http://ergoemacs.org/emacs/emacs.html
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Built-In Customizations ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Change a buch of the defualt settings
+;;; Change a buch of the default settings
 (setq-default
  indent-tabs-mode nil                   ; Insert spaces not tabs
- tab-width 4                            ; Set tab size to 4 spaces
+ tab-width 4                            ; Set tab size to 2 spaces
  ring-bell-function 'ignore             ; Turn off the aweful bell
  delete-by-moving-to-trash t            ; Move files to trash instead of deleting them
  vc-follow-symlinks t                   ; Auto follow sym-links
  gc-cons-threshold 50000000             ; Speed up emacs by makeing it's garbage collector run less often
  initial-scratch-message ""             ; I know what scratch is for
  truncate-lines t                       ; Turn off line wrapping
- c-default-style "linux"                ; Customize c mode for the indentation style that I like
+ c-default-style "bsd"                ; Customize c mode for the indentation style that I like
  c-basic-offset 2                       ; Set c indentation width
  whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
- terminal "gnome-terminal"              ; Default terminal emulator
+ terminal-command "hyper"               ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
  ;; Move emacs backup files to a different directory instead of the current directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -36,6 +39,10 @@
  ;; Just in case I need to enable debugging
  ;; debug-on-error t
  python-shell-interpreter "python3"
+ abbrev-mode t
+ abbrev-file-name (concat user-emacs-directory ".abbrev-file")
+ save-abbrevs 'silent
+ extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -49,7 +56,8 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Fira Code 9")
+(set-default-font "Fira Code 8")
+;; (set-default-font "InconsolataGo 7")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
 
@@ -68,17 +76,19 @@
 (blink-cursor-mode -1)
 
 ;;; Show battery status in the menu bar
-(display-battery-mode t)
-
-;;; Show column numbers
-(column-number-mode)
+;; (display-battery-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
 ;;;;;;;;;;;;;;;;;;;;
 
-;; (add-hook 'pascal-mode-hook 'opascal-mode)
-;; (add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2)))
+(add-hook 'pascal-mode-hook 'opascal-mode)
+;; (defalias 'pasal-mode 'opascal-mode)
+(add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2)))
+;; (setq opascal-indent-level 2)
+
+;;; Remove whitespace from line ends when saving files
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;; Save files when tabbing out of emacs
 (add-hook 'focus-out-hook '(lambda () (save-some-buffers t)))
@@ -100,6 +110,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 ;;; Switch out list-buffers with the newer ibuffer
 (defalias 'list-buffers 'ibuffer)
+;;; Only split windows right
+(defalias 'split-window-below 'split-window-right)
 
 ;;; Use "interactive do" it makes menuing MUCH easier
 (require 'ido)
@@ -180,9 +192,8 @@ Example usage:
     (eshell-send-input)))
 
 (add-hook 'eshell-mode-hook
-      '(lambda()
-          (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
-
+          '(lambda()
+             (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -193,12 +204,15 @@ Example usage:
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
-            ("<f2>" . multi-occur-in-matching-buffers)
+            ("<f2>" . multi-occur-in-matching-buffers) ;; This is replaced by projectile!
             ("<f3>" . calc)
             ;; Look into dired+
             ("<f4>" . (lambda () (interactive) (dired ".")))
             ("M-<f4>" . delete-frame)
-            ("<f5>" . (lambda () (interactive) (shell-command terminal)))
+            ("<f5>" . (lambda () (interactive) (shell-command terminal-command)))
+            ("<f7>" . run-python)
+            ("<f8>" . revert-buffer)
+            ("<f12>" . global-display-line-numbers-mode)
             ("M-o" . other-window)
             ("M-O" . (lambda () (interactive) (other-window -1)))
             ("C-|" . (lambda () (interactive) (split-window-right) (balance-windows)))
@@ -207,12 +221,42 @@ Example usage:
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
-            ;; ("M-n" . forward-paragraph)
-            ;; ("M-p" . backward-paragraph)
-            ("M-n" .(lambda () (interactive) (next-line 10)))
-            ("M-p" .(lambda () (interactive) (previous-line 10)))
+            ("M-n" . (lambda () (interactive) (next-line 10)))
+            ("M-p" . (lambda () (interactive) (previous-line 10)))
             ("C-}" . next-buffer)
             ("C-{" . previous-buffer)
+
+            ("M-t" . (lambda () (interactive) (jump-to-register 'r)))
+
+            ("M-1" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '1)))
+            ("C-M-1" . (lambda () (interactive) (point-to-register '1)))
+
+            ("M-2" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '2)))
+            ("C-M-2" . (lambda () (interactive) (point-to-register '2)))
+
+            ("M-3" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '3)))
+            ("C-M-3" . (lambda () (interactive) (point-to-register '3)))
+
+            ("M-4" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '4)))
+            ("C-M-4" . (lambda () (interactive) (point-to-register '4)))
+
+            ("M-5" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '5)))
+            ("C-M-5" . (lambda () (interactive) (point-to-register '5)))
+
+            ("M-6" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '6)))
+            ("C-M-6" . (lambda () (interactive) (point-to-register '6)))
+
+            ("M-7" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '7)))
+            ("C-M-7" . (lambda () (interactive) (point-to-register '7)))
+
+            ("M-8" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '8)))
+            ("C-M-8" . (lambda () (interactive) (point-to-register '8)))
+
+            ("M-9" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '9)))
+            ("C-M-9" . (lambda () (interactive) (point-to-register '9)))
+
+            ("M-0" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '0)))
+            ("C-M-0" . (lambda () (interactive) (point-to-register '0)))
             ))
 
 ;;; Make my own keymap
@@ -229,11 +273,15 @@ Example usage:
             ("a" . align-regexp)
             ("h" . eshell)
             ("l" . view-lossage)
+            ("b" . list-abbrevs)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; auto-install from git url!
+;; (auto-install-from-url "https://raw.github.com/jamcha-aa/auto-org-md/master/auto-org-md.el")
 
 (package-initialize)
 
@@ -249,30 +297,21 @@ Example usage:
 
 (install-use-package)
 
-;; (use-package zenburn-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'zenburn t))
+(if window-system
+    (use-package zenburn-theme
+      :ensure t
+      :config
+      (load-theme 'zenburn t)))
 
 ;; (use-package color-theme-sanityinc-tomorrow
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'sanityinc-tomorrow-bright t))
-(if window-system
-    (use-package color-theme-sanityinc-solarized
-      :ensure t
-      :config
-      (load-theme 'sanityinc-solarized-dark t)))
 
-;; (use-package dracula-theme
+;; (use-package color-theme-sanityinc-solarized
 ;;   :ensure t
 ;;   :config
-;;   (load-theme 'dracula t))
-
-;; (use-package darktooth-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'darktooth t))
+;;   (load-theme 'sanityinc-solarized-dark t))
 
 ;;; Incrementally select text
 (use-package expand-region
@@ -290,7 +329,7 @@ Example usage:
 ;;   :init
 ;;   (god-mode-all)
 ;;   :config
-  
+
 ;;   (defun update-cursor ()
 ;;     "Change the look of the cursor depending on the state of god-mode"
 ;;     (setq cursor-type
@@ -322,10 +361,11 @@ Example usage:
      ("\"" "\"")
      ("‘" "’"   "q")
      ("“" "”"   "Q")
-     ("_" "_"   "u" markdown-mode)  ; underline
-     ("**" "**" "b" markdown-mode)  ; bolden
-     ("*" "*"   "i" markdown-mode)  ; italics
-     ("`" "`"   "c" markdown-mode)  ; code
+     ("_" "_"   "u"   markdown-mode)  ; underline
+     ("**" "**" "b"   markdown-mode)  ; bolden
+     ("*" "*"   "i"   markdown-mode)  ; italics
+     ("`" "`"   "c"   markdown-mode)  ; code
+     ("begin\n" "end\n" "b" opascal-mode)
      )))
 
 ;;; A really awesome plugin for editing multiple files at the same time
@@ -333,15 +373,11 @@ Example usage:
   :ensure t
   :bind ("C-!" . mf/mirror-region-in-multifile))
 
-(use-package rust-mode
-  :ensure t)
-
-;;; I need to look into these
-;; (use-package lsp-mode
-;;   :ensure t)
-
-;; (use-package lsp-rust
-;;   :ensure t)
+;;; Jump to text
+(use-package ace-jump-mode
+  :ensure t
+  :bind
+  ("M-i" . ace-jump-word-mode))
 
 ;;; An auto completion framework
 (use-package company
@@ -352,25 +388,22 @@ Example usage:
   ;; TODO configure this so the popup only happens when I trigger it
   (global-company-mode))
 
-;;; Jump to text
-(use-package ace-jump-mode
-  :ensure t
-  :bind
-  ("M-i" . ace-jump-word-mode))
-
 ;;; Vim like code folding
 (use-package vimish-fold
   :ensure t
   :bind
-  ("C-z v f" . vimish-fold)
-  ("C-z v u" . vimish-fold-unfold)
-  ("C-z v U" . vimish-fold-unfold-all)
-  ("C-z v d" . vimish-fold-delete)
-  ("C-z v D" . vimish-fold-delete-all)
-  ("C-z v r" . vimish-fold-refold)
-  ("C-z v R" . vimish-fold-refold-all)
-  ("C-z v t" . vimish-fold-toggle)
-  ("C-z v T" . vimish-fold-toggle-all))
+  ("M-[" . vimish-fold-refold)
+  ("M-]" . vimish-fold-unfold)
+
+  ("C-c v f" . vimish-fold)
+  ("C-c v u" . vimish-fold-unfold)
+  ("C-c v U" . vimish-fold-unfold-all)
+  ("C-c v d" . vimish-fold-delete)
+  ("C-c v D" . vimish-fold-delete-all)
+  ("C-c v r" . vimish-fold-refold)
+  ("C-c v R" . vimish-fold-refold-all)
+  ("C-c v t" . vimish-fold-toggle)
+  ("C-c v T" . vimish-fold-toggle-all))
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
@@ -380,24 +413,75 @@ Example usage:
   ("C->"           . mc/mark-next-like-this)
   ("C-<"           . mc/mark-previous-like-this)
   ("C-c C-<"       . mc/mark-all-like-this)
-  ("C-S-<mouse-1>" . mc/add-cursor-on-click)
-  )
+  ("C-S-<mouse-1>" . mc/add-cursor-on-click))
 
-(use-package cider
+(use-package rust-mode
+  :ensure t)
+
+(use-package cedit
   :ensure t)
 
 (use-package paredit
   :ensure t)
 
-;; (use-package elpy
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable))
+
+(use-package magit
+  :ensure t
+  :bind
+  ("<f10>" . magit))
+
+(use-package projectile
+  :ensure t
+  :config
+  (use-package flx-ido
+    :ensure t
+    :config
+    (flx-ido-mode 1)
+    ;; disable ido faces to see flx highlights.
+    (setq ido-enable-flex-matching t)
+    (setq ido-use-faces nil))
+
+  (use-package projectile-ripgrep
+    :ensure t)
+
+  (projectile-mode))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+(use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme))
+
+;; (use-package spaceline
 ;;   :ensure t
 ;;   :config
-;;   (elpy-enable))
-
-;; I dont think i need this one for editing anymore
-;; (use-package clj-mode
-;;   :ensure t)
+;;   (spaceline-spacemacs-theme))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(package-selected-packages
+   (quote
+    (powerline which-key projectile-ripgrep cedit flx-ido projectile magit zenburn-theme elpy paredit clj-mode cider wrap-region vimish-fold use-package multiple-cursors multifiles meghanada lsp-rust js2-mode god-mode expand-region darktooth-theme color-theme-sanityinc-solarized ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

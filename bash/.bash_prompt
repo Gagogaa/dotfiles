@@ -1,0 +1,5 @@
+# Simple bash prompt
+PS1='\[$(tput setaf 4)\]\W '
+PS1+='\[$(tput setaf 12)\]\$> '
+PS1+='\[$(tput sgr0)\]'
+export PS1
