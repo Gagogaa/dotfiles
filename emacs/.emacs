@@ -298,20 +298,21 @@ Example usage:
 (install-use-package)
 
 (if window-system
+
+    ;; (use-package color-theme-sanityinc-tomorrow
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'sanityinc-tomorrow-bright t))
+
+    ;; (use-package color-theme-sanityinc-solarized
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'sanityinc-solarized-dark t))
+
     (use-package zenburn-theme
       :ensure t
       :config
       (load-theme 'zenburn t)))
-
-;; (use-package color-theme-sanityinc-tomorrow
-;;   :ensure t
-;;   :config
-;;   (load-theme 'sanityinc-tomorrow-bright t))
-
-;; (use-package color-theme-sanityinc-solarized
-;;   :ensure t
-;;   :config
-;;   (load-theme 'sanityinc-solarized-dark t))
 
 ;;; Incrementally select text
 (use-package expand-region
