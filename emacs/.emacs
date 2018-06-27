@@ -427,6 +427,20 @@ Example usage:
 (use-package elpy
   :ensure t
   :config
+  (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+
+  (use-package flycheck
+    :ensure t)
+
+  (when (require 'flycheck nil t)
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+  (use-package py-autopep8
+    :ensure t)
+
+  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
   (elpy-enable))
 
 (use-package magit
@@ -468,20 +482,3 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(package-selected-packages
-   (quote
-    (powerline which-key projectile-ripgrep cedit flx-ido projectile magit zenburn-theme elpy paredit clj-mode cider wrap-region vimish-fold use-package multiple-cursors multifiles meghanada lsp-rust js2-mode god-mode expand-region darktooth-theme color-theme-sanityinc-solarized ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
