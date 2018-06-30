@@ -299,20 +299,22 @@ Example usage:
 
 (if window-system
 
-    ;; (use-package color-theme-sanityinc-tomorrow
-    ;;   :ensure t
-    ;;   :config
-    ;;   (load-theme 'sanityinc-tomorrow-bright t))
+    (use-package color-theme-sanityinc-tomorrow
+      :ensure t
+      :config
+      (load-theme 'sanityinc-tomorrow-night t))
 
     ;; (use-package color-theme-sanityinc-solarized
     ;;   :ensure t
     ;;   :config
     ;;   (load-theme 'sanityinc-solarized-dark t))
 
-    (use-package zenburn-theme
-      :ensure t
-      :config
-      (load-theme 'zenburn t)))
+    ;; (use-package zenburn-theme
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'zenburn t))
+
+  )
 
 ;;; Incrementally select text
 (use-package expand-region
@@ -321,25 +323,25 @@ Example usage:
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
 
-;; ;;; Model editing (kinda like vim)
-;; (use-package god-mode
-;;   :ensure t
-;;   :bind
-;;   ("M-." . god-mode-all)
-;;   ("C-." . god-mode-all)
-;;   :init
-;;   (god-mode-all)
-;;   :config
+;;; Model editing (kinda like vim)
+(use-package god-mode
+  :ensure t
+  :bind
+  ("M-." . god-mode-all)
+  ("C-." . god-mode-all)
+  :init
+  (god-mode-all)
+  :config
 
-;;   (defun update-cursor ()
-;;     "Change the look of the cursor depending on the state of god-mode"
-;;     (setq cursor-type
-;;           (if (or god-local-mode buffer-read-only)
-;;               'box
-;;             'bar)))
+  (defun update-cursor ()
+    "Change the look of the cursor depending on the state of god-mode"
+    (setq cursor-type
+          (if (or god-local-mode buffer-read-only)
+              'box
+            'bar)))
 
-;;   (add-hook 'god-mode-enabled-hook 'update-cursor)
-;;   (add-hook 'god-mode-disabled-hook 'update-cursor))
+  (add-hook 'god-mode-enabled-hook 'update-cursor)
+  (add-hook 'god-mode-disabled-hook 'update-cursor))
 
 ;;; Snippets... no more hand writing boilerplate code
 (use-package yasnippet
@@ -437,6 +439,9 @@ Example usage:
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
     (add-hook 'elpy-mode-hook 'flycheck-mode))
 
+  (use-package jinja2-mode
+    :ensure t)
+
   (use-package py-autopep8
     :ensure t)
 
@@ -483,3 +488,20 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(package-selected-packages
+   (quote
+    (color-theme-sanityinc-tomorrow jinja2-mode py-autopep8 powerline which-key projectile-ripgrep cedit flx-ido projectile magit zenburn-theme elpy paredit clj-mode cider wrap-region vimish-fold use-package multiple-cursors multifiles meghanada lsp-rust js2-mode god-mode expand-region darktooth-theme color-theme-sanityinc-solarized ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
