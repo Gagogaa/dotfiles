@@ -485,23 +485,29 @@ Example usage:
 ;;   :config
 ;;   (spaceline-spacemacs-theme))
 
+(use-package diminish
+  :ensure t
+  :config
+  (diminish 'abbrev-mode)
+  (diminish 'company-mode) ;; I may need to add this to company mode hook...
+  (diminish 'auto-revert-mode)
+  (diminish 'projectile-mode) ;; Maybe I want to keep this one on?
+  (diminish 'god-local-mode)
+  (diminish 'wrap-region-mode)
+  (diminish 'which-key-mode)
+  (diminish 'hungry-delete-mode)
+  )
+
+(use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode))
+
+(use-package beacon
+  :ensure t
+  :bind
+  ("C-M-;" . beacon-blink))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(package-selected-packages
-   (quote
-    (color-theme-sanityinc-tomorrow jinja2-mode py-autopep8 powerline which-key projectile-ripgrep cedit flx-ido projectile magit zenburn-theme elpy paredit clj-mode cider wrap-region vimish-fold use-package multiple-cursors multifiles meghanada lsp-rust js2-mode god-mode expand-region darktooth-theme color-theme-sanityinc-solarized ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
