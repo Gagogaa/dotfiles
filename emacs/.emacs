@@ -42,6 +42,7 @@
  abbrev-mode t
  abbrev-file-name (concat user-emacs-directory ".abbrev-file")
  save-abbrevs 'silent
+ inhibit-startup-echo-area-message t    ; No startup message
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  inferior-lisp-program "clisp"
  )
@@ -301,21 +302,30 @@ Example usage:
 
 (if window-system
 
-    (use-package color-theme-sanityinc-tomorrow
+    (use-package moe-theme
       :ensure t
       :config
-      (load-theme 'sanityinc-tomorrow-night t))
+      (load-theme 'moe-dark t))
 
-    ;; (use-package color-theme-sanityinc-solarized
-    ;;   :ensure t
-    ;;   :config
-    ;;   (load-theme 'sanityinc-solarized-dark t))
+  ;; (use-package color-theme-sanityinc-tomorrow
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'sanityinc-tomorrow-night t))
 
-    ;; (use-package zenburn-theme
-    ;;   :ensure t
-    ;;   :config
-    ;;   (load-theme 'zenburn t))
+  ;; (use-package dracula-theme
+  ;;     :ensure t
+  ;;     :config
+  ;;     (load-theme 'dracula t))
 
+  ;; (use-package color-theme-sanityinc-solarized
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'sanityinc-solarized-dark t))
+
+  ;; (use-package zenburn-theme
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'zenburn t))
   )
 
 ;;; Incrementally select text
@@ -459,18 +469,22 @@ Example usage:
 (use-package projectile
   :ensure t
   :config
-  (use-package flx-ido
-    :ensure t
-    :config
-    (flx-ido-mode 1)
-    ;; disable ido faces to see flx highlights.
-    (setq ido-enable-flex-matching t)
-    (setq ido-use-faces nil))
-
+  
   (use-package projectile-ripgrep
     :ensure t)
 
-  (projectile-mode))
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+  (projectile-mode +1))
+
+(use-package flx-ido
+  :ensure t
+  :config
+  (flx-ido-mode 1)
+  ;; disable ido faces to see flx highlights.
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-faces nil))
 
 (use-package which-key
   :ensure t
@@ -480,12 +494,83 @@ Example usage:
 (use-package powerline
   :ensure t
   :config
+  (setq powerline-default-separator 'wave)
   (powerline-default-theme))
 
 ;; (use-package spaceline
 ;;   :ensure t
 ;;   :config
 ;;   (spaceline-spacemacs-theme))
+
+(use-package diminish
+  :ensure t
+  :config
+  (diminish 'abbrev-mode)
+  (diminish 'auto-revert-mode)
+  (diminish 'god-local-mode)
+  (diminish 'wrap-region-mode)
+  (diminish 'which-key-mode)
+  (diminish 'yas-minor-mode)
+  (diminish 'company-mode)
+
+  ;; For the plugins that load when the buffer is created
+  (add-hook 'company-mode-hook (lambda () (diminish 'company-mode)))
+  (add-hook 'hungry-delete-mode-hook (lambda () (diminish 'hungry-delete-mode)))
+  (add-hook 'beacon-mode-hook (lambda () (diminish 'beacon-mode)))
+  )
+
+(use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode))
+
+(use-package beacon
+  :ensure t
+  :bind
+  ("C-M-;" . beacon-blink)
+  :config
+  (setq beacon-color "brown1"
+        beacon-blink-duration 0.2
+        beacon-blink-when-buffer-changes 1
+        beacon-blink-when-focused 1
+        beacon-blink-when-window-scrolls -1
+        beacon-blink-when-point-moves-vertically 1
+        )
+
+  ;; TODO clean this up a bit by adding all the commands at once
+  (add-to-list 'beacon-dont-blink-commands 'scroll-up-command)
+  (add-to-list 'beacon-dont-blink-commands 'scroll-down-command)
+  (add-to-list 'beacon-dont-blink-commands 'backward-paragraph)
+  (add-to-list 'beacon-dont-blink-commands 'forward-paragraph)
+  (add-to-list 'beacon-dont-blink-commands 'mark-paragraph)
+  (add-to-list 'beacon-dont-blink-commands 'mwheel-scroll)
+  (add-to-list 'beacon-dont-blink-commands 'newline)
+  (add-to-list 'beacon-dont-blink-commands 'er/expand-region)
+  (add-to-list 'beacon-dont-blink-commands 'er/contract-region)
+  (add-to-list 'beacon-dont-blink-commands 'mark-defun)
+  (add-to-list 'beacon-dont-blink-commands 'forward-word)
+  (add-to-list 'beacon-dont-blink-commands 'backward-word)
+
+  ;; TODO: Get the mouse command to not trigger beacon
+  (add-to-list 'beacon-dont-blink-commands 'mouse-drag-region)
+  (add-to-list 'beacon-dont-blink-commands 'mouse-set-region)
+  (add-to-list 'beacon-dont-blink-commands 'mouse-set-point)
+
+  (add-to-list 'beacon-dont-blink-major-modes 'dired-mode)
+  (add-to-list 'beacon-dont-blink-major-modes 'magit-mode)
+  (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode)
+
+  (beacon-mode))
+
+(use-package engine-mode
+  :ensure t
+  :config
+  (engine-mode t)
+  (engine/set-keymap-prefix (kbd "C-z i"))
+
+  (defengine duckduckgo
+    "https://duckduckgo.com/?q=%s"
+    :keybinding "d"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
