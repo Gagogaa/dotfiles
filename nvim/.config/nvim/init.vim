@@ -88,10 +88,10 @@ set backspace=indent,eol,start
 set expandtab
 
 " Set tab size in spaces (this is for manual indenting)
-set tabstop=2
+set tabstop=4
 
 " The number of spaces inserted for a tab (used for auto indenting)
-set shiftwidth=2
+set shiftwidth=4
 
 " Turn on line numbers
 set number

@@ -24,8 +24,8 @@
  gc-cons-threshold 50000000             ; Speed up emacs by makeing it's garbage collector run less often
  initial-scratch-message ""             ; I know what scratch is for
  truncate-lines t                       ; Turn off line wrapping
- c-default-style "bsd"                ; Customize c mode for the indentation style that I like
- c-basic-offset 2                       ; Set c indentation width
+ c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
+ c-basic-offset 4                       ; Set c indentation width
  whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
  terminal-command "hyper"               ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
@@ -43,6 +43,7 @@
  abbrev-file-name (concat user-emacs-directory ".abbrev-file")
  save-abbrevs 'silent
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
+ inferior-lisp-program "clisp"
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -56,10 +57,11 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Fira Code 8")
+(set-default-font "Fira Code 9")
 ;; (set-default-font "InconsolataGo 7")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
+(set-fontset-font t 'unicode "Noto Color Emoji" nil 'prepend)
 
 ;;; Start emacs in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -323,25 +325,25 @@ Example usage:
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
 
-;;; Model editing (kinda like vim)
-(use-package god-mode
-  :ensure t
-  :bind
-  ("M-." . god-mode-all)
-  ("C-." . god-mode-all)
-  :init
-  (god-mode-all)
-  :config
+;; ;;; Model editing (kinda like vim)
+;; (use-package god-mode
+;;   :ensure t
+;;   :bind
+;;   ("M-." . god-mode-all)
+;;   ("C-." . god-mode-all)
+;;   :init
+;;   (god-mode-all)
+;;   :config
 
-  (defun update-cursor ()
-    "Change the look of the cursor depending on the state of god-mode"
-    (setq cursor-type
-          (if (or god-local-mode buffer-read-only)
-              'box
-            'bar)))
+;;   (defun update-cursor ()
+;;     "Change the look of the cursor depending on the state of god-mode"
+;;     (setq cursor-type
+;;           (if (or god-local-mode buffer-read-only)
+;;               'box
+;;             'bar)))
 
-  (add-hook 'god-mode-enabled-hook 'update-cursor)
-  (add-hook 'god-mode-disabled-hook 'update-cursor))
+;;   (add-hook 'god-mode-enabled-hook 'update-cursor)
+;;   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
 ;;; Snippets... no more hand writing boilerplate code
 (use-package yasnippet
@@ -488,20 +490,3 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(package-selected-packages
-   (quote
-    (color-theme-sanityinc-tomorrow jinja2-mode py-autopep8 powerline which-key projectile-ripgrep cedit flx-ido projectile magit zenburn-theme elpy paredit clj-mode cider wrap-region vimish-fold use-package multiple-cursors multifiles meghanada lsp-rust js2-mode god-mode expand-region darktooth-theme color-theme-sanityinc-solarized ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
