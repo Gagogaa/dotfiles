@@ -44,6 +44,7 @@
  save-abbrevs 'silent
  inhibit-startup-echo-area-message t    ; No startup message
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
+ inferior-lisp-program "clisp"
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -61,6 +62,7 @@
 ;; (set-default-font "InconsolataGo 7")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
+(set-fontset-font t 'unicode "Noto Color Emoji" nil 'prepend)
 
 ;;; Start emacs in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
