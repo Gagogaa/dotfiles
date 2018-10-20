@@ -24,8 +24,8 @@
  gc-cons-threshold 50000000             ; Speed up emacs by makeing it's garbage collector run less often
  initial-scratch-message ""             ; I know what scratch is for
  truncate-lines t                       ; Turn off line wrapping
- c-default-style "bsd"                ; Customize c mode for the indentation style that I like
- c-basic-offset 2                       ; Set c indentation width
+ c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
+ c-basic-offset 4                       ; Set c indentation width
  whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
  terminal-command "hyper"               ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
@@ -57,7 +57,7 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Fira Code 8")
+(set-default-font "Fira Code 9")
 ;; (set-default-font "InconsolataGo 7")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
@@ -104,8 +104,8 @@
 (electric-pair-mode)
 
 ;; Save open files and layout for the next time emacs open
-(unless (file-exists-p desktop-base-lock-name)
-  (desktop-save-mode t))
+;; (unless (file-exists-p desktop-base-lock-name)
+;;   (desktop-save-mode t))
 
 ;;; Replace the annoying "yes or no" prompts with just "y or n"
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -333,32 +333,32 @@ Example usage:
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
 
-;;; Model editing (kinda like vim)
-(use-package god-mode
-  :ensure t
-  :bind
-  ("M-." . god-mode-all)
-  ("C-." . god-mode-all)
-  :init
-  (god-mode-all)
-  :config
+;; ;;; Model editing (kinda like vim)
+;; (use-package god-mode
+;;   :ensure t
+;;   :bind
+;;   ("M-." . god-mode-all)
+;;   ("C-." . god-mode-all)
+;;   :init
+;;   (god-mode-all)
+;;   :config
 
-  (defun update-cursor ()
-    "Change the look of the cursor depending on the state of god-mode"
-    (setq cursor-type
-          (if (or god-local-mode buffer-read-only)
-              'box
-            'bar)))
+;;   (defun update-cursor ()
+;;     "Change the look of the cursor depending on the state of god-mode"
+;;     (setq cursor-type
+;;           (if (or god-local-mode buffer-read-only)
+;;               'box
+;;             'bar)))
 
-  (add-hook 'god-mode-enabled-hook 'update-cursor)
-  (add-hook 'god-mode-disabled-hook 'update-cursor))
+;;   (add-hook 'god-mode-enabled-hook 'update-cursor)
+;;   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
-;;; Snippets... no more hand writing boilerplate code
-(use-package yasnippet
-  :ensure t
-  :config
-  ;; To add snippets due so under .emacs.d/snippets/my-mode/
-  (yas-global-mode 1))
+;; ;;; Snippets... no more hand writing boilerplate code
+;; (use-package yasnippet
+;;   :ensure t
+;;   :config
+;;   ;; To add snippets due so under .emacs.d/snippets/my-mode/
+;;   (yas-global-mode 1))
 
 ;;; Easily wrap selected regions
 (use-package wrap-region
@@ -381,10 +381,10 @@ Example usage:
      ("begin\n" "end\n" "b" opascal-mode)
      )))
 
-;;; A really awesome plugin for editing multiple files at the same time
-(use-package multifiles
-  :ensure t
-  :bind ("C-!" . mf/mirror-region-in-multifile))
+;; ;;; A really awesome plugin for editing multiple files at the same time
+;; (use-package multifiles
+;;   :ensure t
+;;   :bind ("C-!" . mf/mirror-region-in-multifile))
 
 ;;; Jump to text
 (use-package ace-jump-mode
@@ -401,22 +401,22 @@ Example usage:
   ;; TODO configure this so the popup only happens when I trigger it
   (global-company-mode))
 
-;;; Vim like code folding
-(use-package vimish-fold
-  :ensure t
-  :bind
-  ("M-[" . vimish-fold-refold)
-  ("M-]" . vimish-fold-unfold)
+;; ;;; Vim like code folding
+;; (use-package vimish-fold
+;;   :ensure t
+;;   :bind
+;;   ("M-[" . vimish-fold-refold)
+;;   ("M-]" . vimish-fold-unfold)
 
-  ("C-c v f" . vimish-fold)
-  ("C-c v u" . vimish-fold-unfold)
-  ("C-c v U" . vimish-fold-unfold-all)
-  ("C-c v d" . vimish-fold-delete)
-  ("C-c v D" . vimish-fold-delete-all)
-  ("C-c v r" . vimish-fold-refold)
-  ("C-c v R" . vimish-fold-refold-all)
-  ("C-c v t" . vimish-fold-toggle)
-  ("C-c v T" . vimish-fold-toggle-all))
+;;   ("C-c v f" . vimish-fold)
+;;   ("C-c v u" . vimish-fold-unfold)
+;;   ("C-c v U" . vimish-fold-unfold-all)
+;;   ("C-c v d" . vimish-fold-delete)
+;;   ("C-c v D" . vimish-fold-delete-all)
+;;   ("C-c v r" . vimish-fold-refold)
+;;   ("C-c v R" . vimish-fold-refold-all)
+;;   ("C-c v t" . vimish-fold-toggle)
+;;   ("C-c v T" . vimish-fold-toggle-all))
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
@@ -467,7 +467,7 @@ Example usage:
 (use-package projectile
   :ensure t
   :config
-  
+
   (use-package projectile-ripgrep
     :ensure t)
 
@@ -560,15 +560,15 @@ Example usage:
 
   (beacon-mode))
 
-(use-package engine-mode
-  :ensure t
-  :config
-  (engine-mode t)
-  (engine/set-keymap-prefix (kbd "C-z i"))
+;; (use-package engine-mode
+;;   :ensure t
+;;   :config
+;;   (engine-mode t)
+;;   (engine/set-keymap-prefix (kbd "C-z i"))
 
-  (defengine duckduckgo
-    "https://duckduckgo.com/?q=%s"
-    :keybinding "d"))
+;;   (defengine duckduckgo
+;;     "https://duckduckgo.com/?q=%s"
+;;     :keybinding "d"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;

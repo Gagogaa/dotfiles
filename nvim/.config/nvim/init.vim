@@ -5,13 +5,56 @@
 "██╗╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
 "╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 
+" Plugins {{{
+set rtp+=~/.config/nvim/bundle/Vundle.vim
+call vundle#begin('~/.config/nvim/bundle')
+
+" Plugin manager
+Plugin 'VundleVim/Vundle.vim'
+
+" Ctrlp fuzzy finder
+Plugin 'ctrlpvim/ctrlp.vim'
+:nnoremap <leader>p :CtrlP<RETURN>
+:nnoremap <leader>b :CtrlPBuffer<RETURN>
+:nnoremap <C-P> :CtrlP<RETURN>
+
+" Comment things out
+Plugin 'tpope/vim-commentary'
+
+" Display git changes in the gutter
+" Plugin 'airblade/vim-gitgutter'
+
+" Easy Motion
+Plugin 'easymotion/vim-easymotion'
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase =  1
+:nmap <leader>t <Plug>(easymotion-s)
+
+" NertTree file explorer
+Plugin 'scrooloose/nerdtree'
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+:nmap <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+" Git extension for NerdTree
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+" IDE like auto complete
+" Plugin 'valloric/youcompleteme'
+
+call vundle#end()
+" }}}
+
+
 " Settings {{{
 " Use vim, not vi api
 set nocompatible
 
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
-
-filetype plugin on
+filetype plugin indent on
 
 set path+=**
 
@@ -22,22 +65,6 @@ set wildmenu
 " g^ list ambiguous tags
 " ^t jump back up the tag stack
 command! MakeTags !ctags -R --extra=+f .
-
-"if !filereadable(expand('~/.vim/dein/repos/github.com/Shougo/dein.vim.git'))
-
-" !mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
-" !git clone https://github.com/Shougo/dein.vim.git
-"   \ ~/.vim/dein/repos/github.com/Shougo/dein.vim
-
-" call dein#begin(expand('~/.vim/dein'))
-" call dein#add('Shougo/dein.vim')
-" call dein#add('kien/ctrlp.vim')
-" call dein#add('easymotion/vim-easymotion')
-" call dein#add('Shougo/denite.nvim')
-" call dein#add('Shougo/neocomplete.vim')
-" call dein#end()
-" call dein#install()
-"endif
 
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
@@ -157,6 +184,7 @@ let g:netrw_liststyle=3
 "set colorcolumn=80
 " }}}
 
+
 " Keybindings {{{
 " <leader> is <space>
 :let mapleader = " "
@@ -165,13 +193,13 @@ let g:netrw_liststyle=3
 :inoremap jk <ESC>
 
 " Auto insert matching charaters
-:ino " ""<left>
-:ino ' ''<left>
-:ino ( ()<left>
-:ino [ []<left>
-:ino { {}<left>
-:ino {<CR> {<CR>}<ESC>O
-:ino {;<CR> {<CR>};<ESC>O
+" :ino " ""<left>
+" :ino ' ''<left>
+" :ino ( ()<left>
+" :ino [ []<left>
+" :ino { {}<left>
+" :ino {<CR> {<CR>}<ESC>O
+" :ino {;<CR> {<CR>};<ESC>O
 
 :nnoremap <leader>sv :source $MYVIMRC <RETURN>
 :nnoremap <leader>ev :vsplit $MYVIMRC <RETURN>
@@ -183,20 +211,13 @@ let g:netrw_liststyle=3
 :nnoremap <leader>q :q <RETURN>
 :nnoremap <leader>Q :q! <RETURN>
 
-:nnoremap <leader>p :CtrlP<RETURN>
-:nnoremap <leader>b :CtrlPBuffer<RETURN>
-:nnoremap <C-P> :CtrlP<RETURN>
-:nnoremap <leader>di :call dein#install()<RETURN>
-:nnoremap <leader>t <Plug>(easymotion-prefix)
+" :nnoremap <leader>a 0
+" :nnoremap <leader>f $
 
-:nnoremap <leader>a 0
-:nnoremap <leader>f $
-
-
-:nnoremap <leader>j <C-W><C-J>
-:nnoremap <leader>k <C-W><C-K>
-:nnoremap <leader>l <C-W><C-L>
-:nnoremap <leader>h <C-W><C-H>
+" :nnoremap <leader>j <C-W><C-J>
+" :nnoremap <leader>k <C-W><C-K>
+" :nnoremap <leader>l <C-W><C-L>
+" :nnoremap <leader>h <C-W><C-H>
 
 :nnoremap <C-J> <C-W><C-J>
 :nnoremap <C-K> <C-W><C-K>
@@ -204,7 +225,7 @@ let g:netrw_liststyle=3
 :nnoremap <C-H> <C-W><C-H>
 " }}}
 
-" I have no idea what these do so I left them here after using the provim config
+
 " Commands {{{
 " jump to last cursor
 autocmd BufReadPost *
@@ -293,6 +314,4 @@ fun! SetDiffColors()
   highlight DiffText   cterm=bold ctermfg=white ctermbg=DarkRed
 endfun
 autocmd FilterWritePre * call SetDiffColors()
-
-
 " }}}
