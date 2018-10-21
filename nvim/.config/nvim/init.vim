@@ -10,27 +10,38 @@ set rtp+=~/.config/nvim/bundle/Vundle.vim
 call vundle#begin('~/.config/nvim/bundle')
 
 " Plugin manager
+
 Plugin 'VundleVim/Vundle.vim'
 
+
 " Ctrlp fuzzy finder
+
 Plugin 'ctrlpvim/ctrlp.vim'
 :nnoremap <leader>p :CtrlP<RETURN>
 :nnoremap <leader>b :CtrlPBuffer<RETURN>
 :nnoremap <C-P> :CtrlP<RETURN>
 
+
 " Comment things out
+
 Plugin 'tpope/vim-commentary'
 
+
 " Display git changes in the gutter
+
 " Plugin 'airblade/vim-gitgutter'
 
+
 " Easy Motion
-Plugin 'easymotion/vim-easymotion'
-let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_smartcase =  1
-:nmap <leader>t <Plug>(easymotion-s)
+
+" Plugin 'easymotion/vim-easymotion'
+" let g:EasyMotion_do_mapping = 0
+" let g:EasyMotion_smartcase =  1
+" :nmap <leader>t <Plug>(easymotion-s)
+
 
 " NertTree file explorer
+
 Plugin 'scrooloose/nerdtree'
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
@@ -41,10 +52,35 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
 " Git extension for NerdTree
+
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
+
 " IDE like auto complete
+
 " Plugin 'valloric/youcompleteme'
+
+
+" Surround things
+
+Plugin 'tpope/vim-surround'
+
+
+" Align code
+" TODO: Read through the documentation for this on
+" :help tabular
+
+Plugin 'godlygeek/tabular'
+
+
+" Use <tab> for completions
+
+Plugin 'ervandew/supertab'
+
+
+" Git stuff
+
+Plugin 'tpope/vim-fugitive'
 
 call vundle#end()
 " }}}
@@ -192,15 +228,6 @@ let g:netrw_liststyle=3
 
 :inoremap jk <ESC>
 
-" Auto insert matching charaters
-" :ino " ""<left>
-" :ino ' ''<left>
-" :ino ( ()<left>
-" :ino [ []<left>
-" :ino { {}<left>
-" :ino {<CR> {<CR>}<ESC>O
-" :ino {;<CR> {<CR>};<ESC>O
-
 :nnoremap <leader>sv :source $MYVIMRC <RETURN>
 :nnoremap <leader>ev :vsplit $MYVIMRC <RETURN>
 :nnoremap <leader>\|  :vsplit <RETURN>
@@ -210,14 +237,7 @@ let g:netrw_liststyle=3
 :nnoremap <leader>w :w <RETURN>
 :nnoremap <leader>q :q <RETURN>
 :nnoremap <leader>Q :q! <RETURN>
-
-" :nnoremap <leader>a 0
-" :nnoremap <leader>f $
-
-" :nnoremap <leader>j <C-W><C-J>
-" :nnoremap <leader>k <C-W><C-K>
-" :nnoremap <leader>l <C-W><C-L>
-" :nnoremap <leader>h <C-W><C-H>
+:nnoremap <leader>i :vsplit <RETURN> :terminal <RETURN> i
 
 :nnoremap <C-J> <C-W><C-J>
 :nnoremap <C-K> <C-W><C-K>
