@@ -20,6 +20,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 :nnoremap <leader>p :CtrlP<RETURN>
 :nnoremap <leader>b :CtrlPBuffer<RETURN>
 :nnoremap <C-P> :CtrlP<RETURN>
+:nnoremap <C-B> :CtrlPBuffer<RETURN>
 
 
 " Comment things out
@@ -29,7 +30,7 @@ Plugin 'tpope/vim-commentary'
 
 " Display git changes in the gutter
 
-" Plugin 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
 
 
 " Easy Motion
@@ -43,13 +44,19 @@ Plugin 'tpope/vim-commentary'
 " NertTree file explorer
 
 Plugin 'scrooloose/nerdtree'
+nmap <leader>n :NERDTreeToggle<CR>
+
+" If vim opened a dir open NerdTree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
-:nmap <C-n> :NERDTreeToggle<CR>
+" If NerdTree is the only buffer open close vim
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Change the look of the arrows
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+
 
 " Git extension for NerdTree
 
@@ -77,10 +84,24 @@ Plugin 'godlygeek/tabular'
 
 Plugin 'ervandew/supertab'
 
-
 " Git stuff
 
 Plugin 'tpope/vim-fugitive'
+
+
+" Wild fire incremental selection
+
+Plugin 'gcmt/wildfire.vim'
+
+map , <Plug>(wildfire-fuel)
+vmap <C-,> <Plug>(wildfire-water)
+
+
+" Bulk file rename in vim
+
+Plugin 'qpkorr/vim-renamer'
+
+:nnoremap <leader>rr :Renamer<CR>
 
 call vundle#end()
 " }}}
@@ -107,8 +128,6 @@ syntax on
 
 " No backup files
 set nobackup
-
-" No write backup
 set nowritebackup
 
 " No swap file
@@ -196,11 +215,8 @@ set shortmess+=I
 set splitbelow
 set splitright
 
-" Highlight the current line
-" set cursorline
-
 " Ensure Vim doesn't beep at you every time you make a mistype
-"set visualbell
+" set visualbell
 
 " Visual autocomplete for command menu (e.g. :e ~/path/to/file)
 set wildmenu
@@ -243,6 +259,9 @@ let g:netrw_liststyle=3
 :nnoremap <C-K> <C-W><C-K>
 :nnoremap <C-L> <C-W><C-L>
 :nnoremap <C-H> <C-W><C-H>
+
+" Terminal Keybindings
+:tnoremap jk <C-\><C-N>
 " }}}
 
 
@@ -273,12 +292,13 @@ autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'm
 
 " Highlight words to avoid in tech writing
 " http://css-tricks.com/words-avoid-educational-writing/
-highlight TechWordsToAvoid ctermbg=red ctermfg=white
-match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy/
-autocmd BufWinEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-autocmd InsertEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-autocmd InsertLeave * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-autocmd BufWinLeave * call clearmatches()
+
+" highlight TechWordsToAvoid ctermbg=red ctermfg=white
+" match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy/
+" autocmd BufWinEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+" autocmd InsertEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+" autocmd InsertLeave * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+" autocmd BufWinLeave * call clearmatches()
 
 " Create a 'scratch buffer' which is a temporary buffer Vim wont ask to save
 " http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
