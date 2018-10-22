@@ -202,6 +202,10 @@ let g:netrw_liststyle=3
 :nnoremap <C-K> <C-W><C-K>
 :nnoremap <C-L> <C-W><C-L>
 :nnoremap <C-H> <C-W><C-H>
+
+" Terminal Keybindings
+:tnoremap <Esc> <C-\><C-n>
+:tnoremap jk <C-\><C-n>
 " }}}
 
 " I have no idea what these do so I left them here after using the provim config

@@ -27,7 +27,7 @@
  c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
  c-basic-offset 4                       ; Set c indentation width
  whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
- terminal-command "hyper"               ; Default terminal emulator
+ terminal-command "gnome-terminal"      ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
  ;; Move emacs backup files to a different directory instead of the current directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -106,8 +106,8 @@
 (electric-pair-mode)
 
 ;; Save open files and layout for the next time emacs open
-(unless (file-exists-p desktop-base-lock-name)
-  (desktop-save-mode t))
+;; (unless (file-exists-p desktop-base-lock-name)
+;;   (desktop-save-mode t))
 
 ;;; Replace the annoying "yes or no" prompts with just "y or n"
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -228,6 +228,7 @@ Example usage:
             ("M-p" . (lambda () (interactive) (previous-line 10)))
             ("C-}" . next-buffer)
             ("C-{" . previous-buffer)
+            ("C-M-o" . ff-find-other-file)
 
             ("M-t" . (lambda () (interactive) (jump-to-register 'r)))
 
@@ -469,7 +470,7 @@ Example usage:
 (use-package projectile
   :ensure t
   :config
-  
+
   (use-package projectile-ripgrep
     :ensure t)
 
