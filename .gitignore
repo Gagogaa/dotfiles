@@ -2,3 +2,6 @@
 *~
 # Emacs save files
 *#*
+# Installed vim packages
+nvim/.config/nvim/bundle/*
+nvim/.config/nvim/.netrwhist

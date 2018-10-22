@@ -356,12 +356,12 @@ Example usage:
 ;;   (add-hook 'god-mode-enabled-hook 'update-cursor)
 ;;   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
-;;; Snippets... no more hand writing boilerplate code
-(use-package yasnippet
-  :ensure t
-  :config
-  ;; To add snippets due so under .emacs.d/snippets/my-mode/
-  (yas-global-mode 1))
+;; ;;; Snippets... no more hand writing boilerplate code
+;; (use-package yasnippet
+;;   :ensure t
+;;   :config
+;;   ;; To add snippets due so under .emacs.d/snippets/my-mode/
+;;   (yas-global-mode 1))
 
 ;;; Easily wrap selected regions
 (use-package wrap-region
@@ -384,10 +384,10 @@ Example usage:
      ("begin\n" "end\n" "b" opascal-mode)
      )))
 
-;;; A really awesome plugin for editing multiple files at the same time
-(use-package multifiles
-  :ensure t
-  :bind ("C-!" . mf/mirror-region-in-multifile))
+;; ;;; A really awesome plugin for editing multiple files at the same time
+;; (use-package multifiles
+;;   :ensure t
+;;   :bind ("C-!" . mf/mirror-region-in-multifile))
 
 ;;; Jump to text
 (use-package ace-jump-mode
@@ -404,22 +404,22 @@ Example usage:
   ;; TODO configure this so the popup only happens when I trigger it
   (global-company-mode))
 
-;;; Vim like code folding
-(use-package vimish-fold
-  :ensure t
-  :bind
-  ("M-[" . vimish-fold-refold)
-  ("M-]" . vimish-fold-unfold)
+;; ;;; Vim like code folding
+;; (use-package vimish-fold
+;;   :ensure t
+;;   :bind
+;;   ("M-[" . vimish-fold-refold)
+;;   ("M-]" . vimish-fold-unfold)
 
-  ("C-c v f" . vimish-fold)
-  ("C-c v u" . vimish-fold-unfold)
-  ("C-c v U" . vimish-fold-unfold-all)
-  ("C-c v d" . vimish-fold-delete)
-  ("C-c v D" . vimish-fold-delete-all)
-  ("C-c v r" . vimish-fold-refold)
-  ("C-c v R" . vimish-fold-refold-all)
-  ("C-c v t" . vimish-fold-toggle)
-  ("C-c v T" . vimish-fold-toggle-all))
+;;   ("C-c v f" . vimish-fold)
+;;   ("C-c v u" . vimish-fold-unfold)
+;;   ("C-c v U" . vimish-fold-unfold-all)
+;;   ("C-c v d" . vimish-fold-delete)
+;;   ("C-c v D" . vimish-fold-delete-all)
+;;   ("C-c v r" . vimish-fold-refold)
+;;   ("C-c v R" . vimish-fold-refold-all)
+;;   ("C-c v t" . vimish-fold-toggle)
+;;   ("C-c v T" . vimish-fold-toggle-all))
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
@@ -563,15 +563,15 @@ Example usage:
 
   (beacon-mode))
 
-(use-package engine-mode
-  :ensure t
-  :config
-  (engine-mode t)
-  (engine/set-keymap-prefix (kbd "C-z i"))
+;; (use-package engine-mode
+;;   :ensure t
+;;   :config
+;;   (engine-mode t)
+;;   (engine/set-keymap-prefix (kbd "C-z i"))
 
-  (defengine duckduckgo
-    "https://duckduckgo.com/?q=%s"
-    :keybinding "d"))
+;;   (defengine duckduckgo
+;;     "https://duckduckgo.com/?q=%s"
+;;     :keybinding "d"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
