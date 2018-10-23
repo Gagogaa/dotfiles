@@ -96,6 +96,9 @@ set shiftwidth=2
 " Turn on line numbers
 set number
 
+" Turn on all mouse functions
+set mouse=a
+
 " Keep some space above and below the cursor at all times
 set scrolloff=5
 
@@ -148,8 +151,24 @@ set lazyredraw
 " highlight a matching [{()}] when cursor is placed on start/end character
 set showmatch
 
+" Use tabs instead of splits when possible
+set switchbuf=usetab,newtab
+
 " Set built-in file system explorer to use layout similar to the NERDTree plugin
 let g:netrw_liststyle=3
+
+" Kill netrw buffers because they will not let you close vim even with q!
+function! QuitNetrw()
+  for i in range(1, bufnr($))
+    if buflisted(i)
+      if getbufvar(i, '&filetype') == "netrw"
+        silent exe 'bwipeout ' . i
+      endif
+    endif
+  endfor
+endfunction
+
+autocmd VimLeavePre *  call QuitNetrw()
 
 " Always highlight column 80 so it's easier to see where
 " cutoff appears on longer screens
@@ -202,6 +221,10 @@ let g:netrw_liststyle=3
 :nnoremap <C-K> <C-W><C-K>
 :nnoremap <C-L> <C-W><C-L>
 :nnoremap <C-H> <C-W><C-H>
+
+" Terminal mode map
+:tnoremap <Esc> <C-\><C-n>
+:tnoremap jk <C-\><C-n>
 " }}}
 
 " I have no idea what these do so I left them here after using the provim config
@@ -229,6 +252,8 @@ autocmd FileType sh,cucumber,ruby,yaml,zsh,vim setlocal shiftwidth=2 tabstop=2 e
 " specify syntax highlighting for specific files
 autocmd Bufread,BufNewFile *.spv set filetype=php
 autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
+autocmd Bufread,BufNewFile *.pas set filetype=delphi
+autocmd Bufread,BufNewFile *.dpr set filetype=delphi
 
 " Highlight words to avoid in tech writing
 " http://css-tricks.com/words-avoid-educational-writing/
@@ -293,6 +318,5 @@ fun! SetDiffColors()
   highlight DiffText   cterm=bold ctermfg=white ctermbg=DarkRed
 endfun
 autocmd FilterWritePre * call SetDiffColors()
-
 
 " }}}

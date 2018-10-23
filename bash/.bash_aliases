@@ -16,6 +16,7 @@ alias q='exit'
 alias open='xdg-open $1 2>>/dev/null'
 alias o='xdg-open $1 2>>/dev/null'
 alias senv='source bin/activate'
+alias m='make'
 
 alias grep='grep --color=auto'
 alias info='info --vi-keys'

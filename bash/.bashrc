@@ -30,4 +30,4 @@ export TRASH=~/.local/share/Trash/files
 [ -f /etc/bashrc ]       && . /etc/bashrc # Source global definitions
 
 # Load tmux on login and close the terminal when it exits
-[ -z $TMUX ] && tmux attach-session
+# [ -z $TMUX ] && tmux attach-session

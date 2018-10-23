@@ -25,9 +25,9 @@
  initial-scratch-message ""             ; I know what scratch is for
  truncate-lines t                       ; Turn off line wrapping
  c-default-style "bsd"                ; Customize c mode for the indentation style that I like
- c-basic-offset 2                       ; Set c indentation width
+ c-basic-offset 4                       ; Set c indentation width
  whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
- terminal-command "hyper"               ; Default terminal emulator
+ terminal-command "gnome-terminal"               ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
  ;; Move emacs backup files to a different directory instead of the current directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -57,7 +57,7 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Fira Code 8")
+(set-default-font "Ubuntu Mono 9")
 ;; (set-default-font "InconsolataGo 7")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
@@ -104,8 +104,8 @@
 (electric-pair-mode)
 
 ;; Save open files and layout for the next time emacs open
-(unless (file-exists-p desktop-base-lock-name)
-  (desktop-save-mode t))
+;; (unless (file-exists-p desktop-base-lock-name)
+;;   (desktop-save-mode t))
 
 ;;; Replace the annoying "yes or no" prompts with just "y or n"
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -226,6 +226,7 @@ Example usage:
             ("M-p" . (lambda () (interactive) (previous-line 10)))
             ("C-}" . next-buffer)
             ("C-{" . previous-buffer)
+            ("C-M-o" . ff-find-other-file)
 
             ("M-t" . (lambda () (interactive) (jump-to-register 'r)))
 
@@ -334,24 +335,24 @@ Example usage:
   ("C-S-H" . er/contract-region))
 
 ;;; Model editing (kinda like vim)
-(use-package god-mode
-  :ensure t
-  :bind
-  ("M-." . god-mode-all)
-  ("C-." . god-mode-all)
-  :init
-  (god-mode-all)
-  :config
+;; (use-package god-mode
+;;   :ensure t
+;;   :bind
+;;   ("M-." . god-mode-all)
+;;   ("C-." . god-mode-all)
+;;   :init
+;;   (god-mode-all)
+;;   :config
 
-  (defun update-cursor ()
-    "Change the look of the cursor depending on the state of god-mode"
-    (setq cursor-type
-          (if (or god-local-mode buffer-read-only)
-              'box
-            'bar)))
+;;   (defun update-cursor ()
+;;     "Change the look of the cursor depending on the state of god-mode"
+;;     (setq cursor-type
+;;           (if (or god-local-mode buffer-read-only)
+;;               'box
+;;             'bar)))
 
-  (add-hook 'god-mode-enabled-hook 'update-cursor)
-  (add-hook 'god-mode-disabled-hook 'update-cursor))
+;;   (add-hook 'god-mode-enabled-hook 'update-cursor)
+;;   (add-hook 'god-mode-disabled-hook 'update-cursor))
 
 ;;; Snippets... no more hand writing boilerplate code
 (use-package yasnippet
@@ -467,7 +468,7 @@ Example usage:
 (use-package projectile
   :ensure t
   :config
-  
+
   (use-package projectile-ripgrep
     :ensure t)
 
