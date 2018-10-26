@@ -14,4 +14,7 @@ export JAVA_HOME="/usr/lib/jvm/jdk-10.0.1/"
 export PATH="$PATH:$HOME/.cargo/bin"
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
+# For HIGH DPI displays on kde applications
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
 eval "$(rustup completions bash)"

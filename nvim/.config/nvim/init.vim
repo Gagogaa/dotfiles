@@ -5,13 +5,113 @@
 "██╗╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
 "╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 
+" Plugins {{{
+set rtp+=~/.config/nvim/bundle/Vundle.vim
+call vundle#begin('~/.config/nvim/bundle')
+
+" Plugin manager
+
+Plugin 'VundleVim/Vundle.vim'
+
+
+" Ctrlp fuzzy finder
+
+Plugin 'ctrlpvim/ctrlp.vim'
+:nnoremap <leader>p :CtrlP<RETURN>
+:nnoremap <leader>b :CtrlPBuffer<RETURN>
+:nnoremap <C-P> :CtrlP<RETURN>
+:nnoremap <C-B> :CtrlPBuffer<RETURN>
+
+
+" Comment things out
+
+Plugin 'tpope/vim-commentary'
+
+
+" Display git changes in the gutter
+
+Plugin 'airblade/vim-gitgutter'
+
+
+" Easy Motion
+
+" Plugin 'easymotion/vim-easymotion'
+" let g:EasyMotion_do_mapping = 0
+" let g:EasyMotion_smartcase =  1
+" :nmap <leader>t <Plug>(easymotion-s)
+
+
+" NertTree file explorer
+
+Plugin 'scrooloose/nerdtree'
+nmap <leader>n :NERDTreeToggle<CR>
+
+" If vim opened a dir open NerdTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+" If NerdTree is the only buffer open close vim
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Change the look of the arrows
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+
+" Git extension for NerdTree
+
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+
+" IDE like auto complete
+
+" Plugin 'valloric/youcompleteme'
+
+
+" Surround things
+
+Plugin 'tpope/vim-surround'
+
+
+" Align code
+" TODO: Read through the documentation for this on
+" :help tabular
+
+Plugin 'godlygeek/tabular'
+
+
+" Use <tab> for completions
+
+Plugin 'ervandew/supertab'
+
+" Git stuff
+
+Plugin 'tpope/vim-fugitive'
+
+
+" Wild fire incremental selection
+
+Plugin 'gcmt/wildfire.vim'
+
+map , <Plug>(wildfire-fuel)
+vmap <C-,> <Plug>(wildfire-water)
+
+
+" Bulk file rename in vim
+
+Plugin 'qpkorr/vim-renamer'
+
+:nnoremap <leader>rr :Renamer<CR>
+
+call vundle#end()
+" }}}
+
+
 " Settings {{{
 " Use vim, not vi api
 set nocompatible
 
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
-
-filetype plugin on
+filetype plugin indent on
 
 set path+=**
 
@@ -23,29 +123,11 @@ set wildmenu
 " ^t jump back up the tag stack
 command! MakeTags !ctags -R --extra=+f .
 
-"if !filereadable(expand('~/.vim/dein/repos/github.com/Shougo/dein.vim.git'))
-
-" !mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
-" !git clone https://github.com/Shougo/dein.vim.git
-"   \ ~/.vim/dein/repos/github.com/Shougo/dein.vim
-
-" call dein#begin(expand('~/.vim/dein'))
-" call dein#add('Shougo/dein.vim')
-" call dein#add('kien/ctrlp.vim')
-" call dein#add('easymotion/vim-easymotion')
-" call dein#add('Shougo/denite.nvim')
-" call dein#add('Shougo/neocomplete.vim')
-" call dein#end()
-" call dein#install()
-"endif
-
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
 
 " No backup files
 set nobackup
-
-" No write backup
 set nowritebackup
 
 " No swap file
@@ -88,10 +170,10 @@ set backspace=indent,eol,start
 set expandtab
 
 " Set tab size in spaces (this is for manual indenting)
-set tabstop=2
+set tabstop=4
 
 " The number of spaces inserted for a tab (used for auto indenting)
-set shiftwidth=2
+set shiftwidth=4
 
 " Turn on line numbers
 set number
@@ -136,11 +218,8 @@ set shortmess+=I
 set splitbelow
 set splitright
 
-" Highlight the current line
-" set cursorline
-
 " Ensure Vim doesn't beep at you every time you make a mistype
-"set visualbell
+" set visualbell
 
 " Visual autocomplete for command menu (e.g. :e ~/path/to/file)
 set wildmenu
@@ -176,21 +255,13 @@ autocmd VimLeavePre *  call QuitNetrw()
 "set colorcolumn=80
 " }}}
 
+
 " Keybindings {{{
 " <leader> is <space>
 :let mapleader = " "
 :let maplocalleader ='\\'
 
 :inoremap jk <ESC>
-
-" Auto insert matching charaters
-:ino " ""<left>
-:ino ' ''<left>
-:ino ( ()<left>
-:ino [ []<left>
-:ino { {}<left>
-:ino {<CR> {<CR>}<ESC>O
-:ino {;<CR> {<CR>};<ESC>O
 
 :nnoremap <leader>sv :source $MYVIMRC <RETURN>
 :nnoremap <leader>ev :vsplit $MYVIMRC <RETURN>
@@ -201,33 +272,19 @@ autocmd VimLeavePre *  call QuitNetrw()
 :nnoremap <leader>w :w <RETURN>
 :nnoremap <leader>q :q <RETURN>
 :nnoremap <leader>Q :q! <RETURN>
-
-:nnoremap <leader>p :CtrlP<RETURN>
-:nnoremap <leader>b :CtrlPBuffer<RETURN>
-:nnoremap <C-P> :CtrlP<RETURN>
-:nnoremap <leader>di :call dein#install()<RETURN>
-:nnoremap <leader>t <Plug>(easymotion-prefix)
-
-:nnoremap <leader>a 0
-:nnoremap <leader>f $
-
-
-:nnoremap <leader>j <C-W><C-J>
-:nnoremap <leader>k <C-W><C-K>
-:nnoremap <leader>l <C-W><C-L>
-:nnoremap <leader>h <C-W><C-H>
+:nnoremap <leader>i :vsplit <RETURN> :terminal <RETURN> i
 
 :nnoremap <C-J> <C-W><C-J>
 :nnoremap <C-K> <C-W><C-K>
 :nnoremap <C-L> <C-W><C-L>
 :nnoremap <C-H> <C-W><C-H>
 
-" Terminal mode map
+" Terminal Keybindings
 :tnoremap <Esc> <C-\><C-n>
 :tnoremap jk <C-\><C-n>
 " }}}
 
-" I have no idea what these do so I left them here after using the provim config
+
 " Commands {{{
 " jump to last cursor
 autocmd BufReadPost *
@@ -257,12 +314,13 @@ autocmd Bufread,BufNewFile *.dpr set filetype=delphi
 
 " Highlight words to avoid in tech writing
 " http://css-tricks.com/words-avoid-educational-writing/
-highlight TechWordsToAvoid ctermbg=red ctermfg=white
-match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy/
-autocmd BufWinEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-autocmd InsertEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-autocmd InsertLeave * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-autocmd BufWinLeave * call clearmatches()
+
+" highlight TechWordsToAvoid ctermbg=red ctermfg=white
+" match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy/
+" autocmd BufWinEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+" autocmd InsertEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+" autocmd InsertLeave * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
+" autocmd BufWinLeave * call clearmatches()
 
 " Create a 'scratch buffer' which is a temporary buffer Vim wont ask to save
 " http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
@@ -318,5 +376,4 @@ fun! SetDiffColors()
   highlight DiffText   cterm=bold ctermfg=white ctermbg=DarkRed
 endfun
 autocmd FilterWritePre * call SetDiffColors()
-
 " }}}
