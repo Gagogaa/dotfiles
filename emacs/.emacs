@@ -58,7 +58,7 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Fira Code 9")
+(set-default-font "Ubuntu Mono 9")
 ;; (set-default-font "InconsolataGo 7")
 ;;; Set a better korean font
 (set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
@@ -224,6 +224,7 @@ Example usage:
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
+            ("C-M-o" . ff-find-other-file)
 
             ("M-t" . (lambda () (interactive) (jump-to-register 'r)))
 
@@ -471,17 +472,3 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (helm wrap-region which-key vimish-fold use-package rust-mode py-autopep8 projectile-ripgrep powerline paredit multiple-cursors multifiles moe-theme magit jinja2-mode hungry-delete flycheck flx-ido expand-region engine-mode elpy diminish cedit beacon ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
