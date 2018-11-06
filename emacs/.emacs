@@ -27,7 +27,7 @@
  c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
  c-basic-offset 4                       ; Set c indentation width
  whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
- terminal-command "hyper"               ; Default terminal emulator
+ terminal-command "gnome-terminal"      ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
  ;; Move emacs backup files to a different directory instead of the current directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -224,10 +224,6 @@ Example usage:
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
-            ("M-n" . (lambda () (interactive) (next-line 10)))
-            ("M-p" . (lambda () (interactive) (previous-line 10)))
-            ("C-}" . next-buffer)
-            ("C-{" . previous-buffer)
 
             ("M-t" . (lambda () (interactive) (jump-to-register 'r)))
 
@@ -277,6 +273,7 @@ Example usage:
             ("h" . eshell)
             ("l" . view-lossage)
             ("b" . list-abbrevs)
+            ("f" . find-file-at-point)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -335,33 +332,6 @@ Example usage:
   ("C-h" . er/expand-region)
   ("C-S-H" . er/contract-region))
 
-;; ;;; Model editing (kinda like vim)
-;; (use-package god-mode
-;;   :ensure t
-;;   :bind
-;;   ("M-." . god-mode-all)
-;;   ("C-." . god-mode-all)
-;;   :init
-;;   (god-mode-all)
-;;   :config
-
-;;   (defun update-cursor ()
-;;     "Change the look of the cursor depending on the state of god-mode"
-;;     (setq cursor-type
-;;           (if (or god-local-mode buffer-read-only)
-;;               'box
-;;             'bar)))
-
-;;   (add-hook 'god-mode-enabled-hook 'update-cursor)
-;;   (add-hook 'god-mode-disabled-hook 'update-cursor))
-
-;; ;;; Snippets... no more hand writing boilerplate code
-;; (use-package yasnippet
-;;   :ensure t
-;;   :config
-;;   ;; To add snippets due so under .emacs.d/snippets/my-mode/
-;;   (yas-global-mode 1))
-
 ;;; Easily wrap selected regions
 (use-package wrap-region
   :ensure t
@@ -380,13 +350,8 @@ Example usage:
      ("**" "**" "b"   markdown-mode)  ; bolden
      ("*" "*"   "i"   markdown-mode)  ; italics
      ("`" "`"   "c"   markdown-mode)  ; code
-     ("begin\n" "end\n" "b" opascal-mode)
+     ("begin\n" "\nend\n" "b" opascal-mode)
      )))
-
-;; ;;; A really awesome plugin for editing multiple files at the same time
-;; (use-package multifiles
-;;   :ensure t
-;;   :bind ("C-!" . mf/mirror-region-in-multifile))
 
 ;;; Jump to text
 (use-package ace-jump-mode
@@ -400,40 +365,17 @@ Example usage:
   :bind
   ("C-," . company-complete)
   :config
-  ;; TODO configure this so the popup only happens when I trigger it
   (global-company-mode))
-
-;; ;;; Vim like code folding
-;; (use-package vimish-fold
-;;   :ensure t
-;;   :bind
-;;   ("M-[" . vimish-fold-refold)
-;;   ("M-]" . vimish-fold-unfold)
-
-;;   ("C-c v f" . vimish-fold)
-;;   ("C-c v u" . vimish-fold-unfold)
-;;   ("C-c v U" . vimish-fold-unfold-all)
-;;   ("C-c v d" . vimish-fold-delete)
-;;   ("C-c v D" . vimish-fold-delete-all)
-;;   ("C-c v r" . vimish-fold-refold)
-;;   ("C-c v R" . vimish-fold-refold-all)
-;;   ("C-c v t" . vimish-fold-toggle)
-;;   ("C-c v T" . vimish-fold-toggle-all))
 
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
   :ensure t
   :bind
-  ("C-z m m"       . mc/edit-lines)
+  ("C-z m"         . mc/mark-all-like-this)
   ("C->"           . mc/mark-next-like-this)
-  ("C-<"           . mc/mark-previous-like-this)
-  ("C-c C-<"       . mc/mark-all-like-this)
-  ("C-S-<mouse-1>" . mc/add-cursor-on-click))
+  ("C-<"           . mc/mark-previous-like-this))
 
 (use-package rust-mode
-  :ensure t)
-
-(use-package cedit
   :ensure t)
 
 (use-package paredit
@@ -497,11 +439,6 @@ Example usage:
   (setq powerline-default-separator 'wave)
   (powerline-default-theme))
 
-;; (use-package spaceline
-;;   :ensure t
-;;   :config
-;;   (spaceline-spacemacs-theme))
-
 (use-package diminish
   :ensure t
   :config
@@ -524,54 +461,27 @@ Example usage:
   :config
   (global-hungry-delete-mode))
 
-(use-package beacon
+(use-package helm
   :ensure t
   :bind
-  ("C-M-;" . beacon-blink)
+  ("M-x" . helm-M-x)
   :config
-  (setq beacon-color "brown1"
-        beacon-blink-duration 0.2
-        beacon-blink-when-buffer-changes 1
-        beacon-blink-when-focused 1
-        beacon-blink-when-window-scrolls -1
-        beacon-blink-when-point-moves-vertically 1
-        )
-
-  ;; TODO clean this up a bit by adding all the commands at once
-  (add-to-list 'beacon-dont-blink-commands 'scroll-up-command)
-  (add-to-list 'beacon-dont-blink-commands 'scroll-down-command)
-  (add-to-list 'beacon-dont-blink-commands 'backward-paragraph)
-  (add-to-list 'beacon-dont-blink-commands 'forward-paragraph)
-  (add-to-list 'beacon-dont-blink-commands 'mark-paragraph)
-  (add-to-list 'beacon-dont-blink-commands 'mwheel-scroll)
-  (add-to-list 'beacon-dont-blink-commands 'newline)
-  (add-to-list 'beacon-dont-blink-commands 'er/expand-region)
-  (add-to-list 'beacon-dont-blink-commands 'er/contract-region)
-  (add-to-list 'beacon-dont-blink-commands 'mark-defun)
-  (add-to-list 'beacon-dont-blink-commands 'forward-word)
-  (add-to-list 'beacon-dont-blink-commands 'backward-word)
-
-  ;; TODO: Get the mouse command to not trigger beacon
-  (add-to-list 'beacon-dont-blink-commands 'mouse-drag-region)
-  (add-to-list 'beacon-dont-blink-commands 'mouse-set-region)
-  (add-to-list 'beacon-dont-blink-commands 'mouse-set-point)
-
-  (add-to-list 'beacon-dont-blink-major-modes 'dired-mode)
-  (add-to-list 'beacon-dont-blink-major-modes 'magit-mode)
-  (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode)
-
-  (beacon-mode))
-
-;; (use-package engine-mode
-;;   :ensure t
-;;   :config
-;;   (engine-mode t)
-;;   (engine/set-keymap-prefix (kbd "C-z i"))
-
-;;   (defengine duckduckgo
-;;     "https://duckduckgo.com/?q=%s"
-;;     :keybinding "d"))
+  (helm-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (helm wrap-region which-key vimish-fold use-package rust-mode py-autopep8 projectile-ripgrep powerline paredit multiple-cursors multifiles moe-theme magit jinja2-mode hungry-delete flycheck flx-ido expand-region engine-mode elpy diminish cedit beacon ace-jump-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -7,8 +7,7 @@ source ~/.bashrc
 export PATH=$PATH:~/.bin
 
 # For java development
-export PATH="/usr/lib/jvm/jdk-10.0.1/bin/:$PATH"
-export JAVA_HOME="/usr/lib/jvm/jdk-10.0.1/"
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk/"
 
 # For rust development
 export PATH="$PATH:$HOME/.cargo/bin"

@@ -190,7 +190,7 @@ set list listchars=tab:\ \ ,trail:·
 set timeout timeoutlen=1000 ttimeoutlen=100
 
 " Always show status bar
-set laststatus=2
+" set laststatus=2
 
 " Set the status line to something useful
 set statusline=%f\ %=L:%l/%L\ %c\ (%p%%)
