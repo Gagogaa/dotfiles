@@ -7,8 +7,13 @@
 ;;;; d8b 888        888   "   888  d8888888888 Y88b  d88P Y88b  d88P
 ;;;; Y8P 8888888888 888       888 d88P     888  "Y8888P"   "Y8888P"
 
-;;;; Cool emacs sources
-;; http://ergoemacs.org/emacs/emacs.html
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Awesome Emacs Blogs and Resources ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq Awesome-Emacs-Sources
+      '("http://ergoemacs.org/emacs/emacs.html"
+        "http://sachachua.com/blog/"
+        "https://www.masteringemacs.org/"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Built-In Customizations ;;;;
@@ -17,7 +22,7 @@
 ;;; Change a buch of the default settings
 (setq-default
  indent-tabs-mode nil                   ; Insert spaces not tabs
- tab-width 4                            ; Set tab size to 2 spaces
+ tab-width 4                            ; Set tab size to 4 spaces
  ring-bell-function 'ignore             ; Turn off the aweful bell
  delete-by-moving-to-trash t            ; Move files to trash instead of deleting them
  vc-follow-symlinks t                   ; Auto follow sym-links
@@ -26,16 +31,11 @@
  truncate-lines t                       ; Turn off line wrapping
  c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
  c-basic-offset 4                       ; Set c indentation width
- whitespace-style '(tabs tab-mark)      ; Highlight only tabs in whitespace mode
  terminal-command "gnome-terminal"      ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
  ;; Move emacs backup files to a different directory instead of the current directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
  auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
- ;; For use later when using save-desktop-mode
- desktop-dirname user-emacs-directory
- desktop-base-file-name ".emacs.desktop"
- desktop-base-lock-name (concat desktop-dirname desktop-base-file-name ".lock")
  ;; Just in case I need to enable debugging
  ;; debug-on-error t
  python-shell-interpreter "python3"
@@ -86,9 +86,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'pascal-mode-hook 'opascal-mode)
-;; (defalias 'pasal-mode 'opascal-mode)
 (add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2)))
-;; (setq opascal-indent-level 2)
 
 ;;; Remove whitespace from line ends when saving files
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -104,10 +102,6 @@
 
 ;;; Insert matching symbols (inserts a closing "]" when entering "[")
 (electric-pair-mode)
-
-;; Save open files and layout for the next time emacs open
-;; (unless (file-exists-p desktop-base-lock-name)
-;;   (desktop-save-mode t))
 
 ;;; Replace the annoying "yes or no" prompts with just "y or n"
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -450,6 +444,7 @@ Example usage:
   (diminish 'which-key-mode)
   (diminish 'yas-minor-mode)
   (diminish 'company-mode)
+  (diminish 'helm-mode)
 
   ;; For the plugins that load when the buffer is created
   (add-hook 'company-mode-hook (lambda () (diminish 'company-mode)))
