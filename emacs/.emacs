@@ -10,6 +10,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Awesome Emacs Blogs and Resources ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq Awesome-Emacs-Sources
       '("http://ergoemacs.org/emacs/emacs.html"
         "http://sachachua.com/blog/"
@@ -59,10 +60,6 @@
 
 ;;; Setup fonts
 (set-default-font "Ubuntu Mono 9")
-;; (set-default-font "InconsolataGo 7")
-;;; Set a better korean font
-(set-fontset-font t 'unicode "Baekmuk Dotum" nil 'prepend)
-(set-fontset-font t 'unicode "Noto Color Emoji" nil 'prepend)
 
 ;;; Start emacs in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -78,13 +75,11 @@
 ;;; Stop blinking the cursor
 (blink-cursor-mode -1)
 
-;;; Show battery status in the menu bar
-;; (display-battery-mode t)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
 ;;;;;;;;;;;;;;;;;;;;
 
+;;; Change to object pascal mode when working with pascal files
 (add-hook 'pascal-mode-hook 'opascal-mode)
 (add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2)))
 
@@ -191,6 +186,7 @@ Example usage:
 (add-hook 'eshell-mode-hook
           '(lambda()
              (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -219,38 +215,6 @@ Example usage:
             ("C-x C-k" . kill-this-buffer)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
             ("C-M-o" . ff-find-other-file)
-
-            ("M-t" . (lambda () (interactive) (jump-to-register 'r)))
-
-            ("M-1" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '1)))
-            ("C-M-1" . (lambda () (interactive) (point-to-register '1)))
-
-            ("M-2" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '2)))
-            ("C-M-2" . (lambda () (interactive) (point-to-register '2)))
-
-            ("M-3" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '3)))
-            ("C-M-3" . (lambda () (interactive) (point-to-register '3)))
-
-            ("M-4" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '4)))
-            ("C-M-4" . (lambda () (interactive) (point-to-register '4)))
-
-            ("M-5" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '5)))
-            ("C-M-5" . (lambda () (interactive) (point-to-register '5)))
-
-            ("M-6" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '6)))
-            ("C-M-6" . (lambda () (interactive) (point-to-register '6)))
-
-            ("M-7" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '7)))
-            ("C-M-7" . (lambda () (interactive) (point-to-register '7)))
-
-            ("M-8" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '8)))
-            ("C-M-8" . (lambda () (interactive) (point-to-register '8)))
-
-            ("M-9" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '9)))
-            ("C-M-9" . (lambda () (interactive) (point-to-register '9)))
-
-            ("M-0" . (lambda () (interactive) (point-to-register 'r) (jump-to-register '0)))
-            ("C-M-0" . (lambda () (interactive) (point-to-register '0)))
             ))
 
 ;;; Make my own keymap
@@ -318,6 +282,7 @@ Example usage:
   ;;   :ensure t
   ;;   :config
   ;;   (load-theme 'zenburn t))
+
   )
 
 ;;; Incrementally select text
@@ -366,9 +331,9 @@ Example usage:
 (use-package multiple-cursors
   :ensure t
   :bind
-  ("C-z m"         . mc/mark-all-like-this)
-  ("C->"           . mc/mark-next-like-this)
-  ("C-<"           . mc/mark-previous-like-this))
+  ("C-z m" . mc/mark-all-like-this)
+  ("C->"   . mc/mark-next-like-this)
+  ("C-<"   . mc/mark-previous-like-this))
 
 (use-package rust-mode
   :ensure t)
@@ -450,6 +415,7 @@ Example usage:
   (add-hook 'company-mode-hook (lambda () (diminish 'company-mode)))
   (add-hook 'hungry-delete-mode-hook (lambda () (diminish 'hungry-delete-mode)))
   (add-hook 'beacon-mode-hook (lambda () (diminish 'beacon-mode)))
+  (add-hook 'helm-mode-hook (lambda () (diminish 'helm-mode)))
   )
 
 (use-package hungry-delete
