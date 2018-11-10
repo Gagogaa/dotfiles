@@ -44,7 +44,7 @@
  save-abbrevs 'silent
  inhibit-startup-echo-area-message t    ; No startup message
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
- inferior-lisp-program "clisp"
+ inferior-lisp-program "sbcl"
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
