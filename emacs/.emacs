@@ -59,7 +59,7 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Ubuntu Mono 9")
+(set-default-font "Monospace")
 
 ;;; Start emacs in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -429,6 +429,9 @@ Example usage:
   ("M-x" . helm-M-x)
   :config
   (helm-mode 1))
+
+(use-package meson-mode
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
