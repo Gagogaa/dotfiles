@@ -10,26 +10,23 @@ set rtp+=~/.config/nvim/bundle/Vundle.vim
 call vundle#begin('~/.config/nvim/bundle')
 
 " Plugin manager
-
 Plugin 'VundleVim/Vundle.vim'
 
 
 " Ctrlp fuzzy finder
-
 Plugin 'ctrlpvim/ctrlp.vim'
-:nnoremap <leader>p :CtrlP<RETURN>
-:nnoremap <leader>b :CtrlPBuffer<RETURN>
-:nnoremap <C-P> :CtrlP<RETURN>
-:nnoremap <C-B> :CtrlPBuffer<RETURN>
-
+" :nnoremap <leader>p :CtrlP<RETURN>
+" :nnoremap <leader>b :CtrlPBuffer<RETURN>
+" :nnoremap <C-P> :CtrlP<RETURN>
+" :nnoremap <C-B> :CtrlPBuffer<RETURN>
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_switch_buffer = 'et'
 
 " Comment things out
-
 Plugin 'tpope/vim-commentary'
 
 
 " Display git changes in the gutter
-
 Plugin 'airblade/vim-gitgutter'
 
 
@@ -42,9 +39,7 @@ Plugin 'airblade/vim-gitgutter'
 
 
 " NertTree file explorer
-
 Plugin 'scrooloose/nerdtree'
-nmap <leader>n :NERDTreeToggle<CR>
 
 " If vim opened a dir open NerdTree
 autocmd StdinReadPre * let s:std_in=1
@@ -59,38 +54,31 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 
 
 " Git extension for NerdTree
-
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 
 " IDE like auto complete
-
 " Plugin 'valloric/youcompleteme'
 
 
 " Surround things
-
 Plugin 'tpope/vim-surround'
 
 
 " Align code
 " TODO: Read through the documentation for this on
 " :help tabular
-
 Plugin 'godlygeek/tabular'
 
 
 " Use <tab> for completions
-
 Plugin 'ervandew/supertab'
 
 " Git stuff
-
 Plugin 'tpope/vim-fugitive'
 
 
 " Wild fire incremental selection
-
 Plugin 'gcmt/wildfire.vim'
 
 map , <Plug>(wildfire-fuel)
@@ -98,14 +86,24 @@ vmap <C-,> <Plug>(wildfire-water)
 
 
 " Bulk file rename in vim
-
 Plugin 'qpkorr/vim-renamer'
 
 :nnoremap <leader>rr :Renamer<CR>
 
+
+" A color scheme for vim that uses the default terminal colors
+Plugin 'noahfrederick/vim-noctu'
+
+
+" Delphi plugin
+Plugin 'rkennedy/vim-delphi'
+
+" Vim org mode
+Plugin 'jceb/vim-orgmode'
+
+
 call vundle#end()
 " }}}
-
 
 " Settings {{{
 " Use vim, not vi api
@@ -118,6 +116,7 @@ set path+=**
 set wildmenu
 
 " Generates a nice tags file for jummping around
+" TODO: See if I can replace this with etags!
 " ^] jump to tag
 " g^ list ambiguous tags
 " ^t jump back up the tag stack
@@ -253,8 +252,10 @@ autocmd VimLeavePre *  call QuitNetrw()
 " cutoff appears on longer screens
 "autocmd BufWinEnter * highlight ColorColumn ctermbg=darkred
 "set colorcolumn=80
-" }}}
 
+" Set the colot scheme
+:colorscheme noctu
+" }}}
 
 " Keybindings {{{
 " <leader> is <space>
@@ -262,17 +263,20 @@ autocmd VimLeavePre *  call QuitNetrw()
 :let maplocalleader ='\\'
 
 :inoremap jk <ESC>
+:vnoremap jk <ESC>
+:tnoremap jk <C-\><C-n>
 
 :nnoremap <leader>sv :source $MYVIMRC <RETURN>
 :nnoremap <leader>ev :vsplit $MYVIMRC <RETURN>
-:nnoremap <leader>\|  :vsplit <RETURN>
-:nnoremap <leader>-  :split <RETURN>
+:nnoremap <leader>\| :vsplit <RETURN>
+:nnoremap <leader>- :split <RETURN>
 :nnoremap <F1> @d
 :nnoremap <F2> qd
 :nnoremap <leader>w :w <RETURN>
 :nnoremap <leader>q :q <RETURN>
 :nnoremap <leader>Q :q! <RETURN>
 :nnoremap <leader>i :vsplit <RETURN> :terminal <RETURN> i
+:nnoremap <leader>K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 :nnoremap <C-J> <C-W><C-J>
 :nnoremap <C-K> <C-W><C-K>
@@ -281,9 +285,11 @@ autocmd VimLeavePre *  call QuitNetrw()
 
 " Terminal Keybindings
 :tnoremap <Esc> <C-\><C-n>
-:tnoremap jk <C-\><C-n>
-" }}}
 
+" Plugin Bindings
+:nmap <leader>n :NERDTreeToggle<CR>
+:nnoremap <leader>p :CtrlPMixed<RETURN>
+" }}}
 
 " Commands {{{
 " jump to last cursor
@@ -376,4 +382,14 @@ fun! SetDiffColors()
   highlight DiffText   cterm=bold ctermfg=white ctermbg=DarkRed
 endfun
 autocmd FilterWritePre * call SetDiffColors()
+
+" Replace grep if ripgrep is installed
+if executable("rg")
+  set grepprg=rg\ --vimgrep\ --no-heading\ --color=never
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+
+  " Ctrlp related things
+  let g:ctrlp_user_command = 'rg --files %s --color=never --glob ""'
+  let g:ctrlp_use_caching = 0
+endif
 " }}}

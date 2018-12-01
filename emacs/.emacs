@@ -46,6 +46,7 @@
  inhibit-startup-echo-area-message t    ; No startup message
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  inferior-lisp-program "sbcl"
+ next-line-add-newlines t               ; Add newlines when moveing to the end of file
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -187,6 +188,28 @@ Example usage:
           '(lambda()
              (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
 
+;;; TODO take a look into these functions to see if I want to keep them or not
+(defun push-mark-no-activate ()
+  "Pushes `point' to `mark-ring' and does not activate the region
+   Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
+  (interactive)
+  (push-mark (point) t nil)
+  (message "Pushed mark to ring"))
+
+(defun jump-to-mark ()
+  "Jumps to the local mark, respecting the `mark-ring' order.
+  This is the same as using \\[set-mark-command] with the prefix argument."
+  (interactive)
+  (set-mark-command 1))
+
+(defun exchange-point-and-mark-no-activate ()
+  "Identical to \\[exchange-point-and-mark] but will not activate the region."
+  (interactive)
+  (exchange-point-and-mark)
+  (deactivate-mark nil))
+
+;; (define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -215,6 +238,7 @@ Example usage:
             ("C-x C-k" . kill-this-buffer)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
             ("C-M-o" . ff-find-other-file)
+            ("C-`" . push-mark-no-activate)
             ))
 
 ;;; Make my own keymap
@@ -432,6 +456,13 @@ Example usage:
 
 (use-package meson-mode
   :ensure t)
+
+;;; Note that this uses M-n and M-p to move back and fourth through code
+;;; and M-' to replace (C-u M-' to replace within a function)
+(use-package smartscan
+  :ensure t
+  :config
+  (global-smartscan-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
