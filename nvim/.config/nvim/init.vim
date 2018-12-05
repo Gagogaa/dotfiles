@@ -40,9 +40,13 @@
 " NertTree file explorer
     Plugin 'scrooloose/nerdtree'
 
-
 " If NerdTree is the only buffer open close vim
-    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    autocmd bufenter *
+        \ if (winnr("$") == 1
+        \ && exists("b:NERDTree")
+        \ && b:NERDTree.isTabTree())
+        \ | q
+        \ | endif
 
 " Change the look of the arrows
     let g:NERDTreeDirArrowExpandable = '▸'
@@ -70,14 +74,9 @@
 " Use <tab> for completions
     Plugin 'ervandew/supertab'
 
+
 " Git stuff
     Plugin 'tpope/vim-fugitive'
-
-
-" Wild fire incremental selection
-    Plugin 'gcmt/wildfire.vim'
-    map , <Plug>(wildfire-fuel)
-    vmap <C-,> <Plug>(wildfire-water)
 
 
 " Bulk file rename in vim
@@ -92,8 +91,10 @@
 " Delphi plugin
     Plugin 'rkennedy/vim-delphi'
 
+
 " Vim org mode
     Plugin 'jceb/vim-orgmode'
+
 
 " Focus writing mode for vim
     Plugin 'junegunn/goyo.vim'
@@ -109,8 +110,6 @@ call vundle#end()
     filetype plugin indent on
 
     set path+=**
-
-    set wildmenu
 
 " Generates a nice tags file for jummping around
 " TODO: See if I can replace this with etags!
@@ -131,10 +130,6 @@ call vundle#end()
 
 " Command history
     set history=100
-
-" Always show cursor
-" TODO: find out what this does
-    " set ruler
 
 " Show incomplete commands
     set showcmd
@@ -235,11 +230,11 @@ call vundle#end()
 " Kill netrw buffers because they will not let you close vim even with q!
     function! QuitNetrw()
         for i in range(1, bufnr($))
-          if buflisted(i)
-            if getbufvar(i, '&filetype') == "netrw"
-              silent exe 'bwipeout ' . i
+            if buflisted(i)
+                if getbufvar(i, '&filetype') == "netrw"
+                    silent exe 'bwipeout ' . i
+                endif
             endif
-          endif
         endfor
     endfunction
 
@@ -300,11 +295,11 @@ call vundle#end()
         \ endif
 
     fun! StripTrailingWhitespace()
-      " don't strip on these filetypes
-      if &ft =~ 'markdown'
-        return
-      endif
-      %s/\s\+$//e
+        " don't strip on these filetypes
+        if &ft =~ 'markdown'
+            return
+        endif
+        %s/\s\+$//e
     endfun
     autocmd BufWritePre * call StripTrailingWhitespace()
 
@@ -336,10 +331,10 @@ call vundle#end()
         echo a:cmdline
         let expanded_cmdline = a:cmdline
         for part in split(a:cmdline, ' ')
-        if part[0] =~ '\v[%#<]'
-            let expanded_part = fnameescape(expand(part))
-            let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
-        endif
+            if part[0] =~ '\v[%#<]'
+                let expanded_part = fnameescape(expand(part))
+                let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+            endif
         endfor
         botright new
         setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
@@ -354,35 +349,6 @@ call vundle#end()
 " Close all folds when opening a new buffer
     autocmd BufRead * setlocal foldmethod=marker
     autocmd BufRead * normal zM
-
-" Rainbow parenthesis always on!
-"if exists(':RainbowParenthesesToggle')
-"  autocmd VimEnter * RainbowParenthesesToggle
-"  autocmd Syntax * RainbowParenthesesLoadRound
-"  autocmd Syntax * RainbowParenthesesLoadSquare
-"  autocmd Syntax * RainbowParenthesesLoadBraces
-"endif
-
-" Reset spelling colours when reading a new buffer
-" This works around an issue where the colorscheme is changed by .local.vimrc
-    fun! SetSpellingColors()
-        highlight SpellBad cterm=bold ctermfg=white ctermbg=red
-        highlight SpellCap cterm=bold ctermfg=red ctermbg=white
-    endfun
-    autocmd BufWinEnter * call SetSpellingColors()
-    autocmd BufNewFile * call SetSpellingColors()
-    autocmd BufRead * call SetSpellingColors()
-    autocmd InsertEnter * call SetSpellingColors()
-    autocmd InsertLeave * call SetSpellingColors()
-
-" Change colourscheme when diffing
-    fun! SetDiffColors()
-        highlight DiffAdd    cterm=bold ctermfg=white ctermbg=DarkGreen
-        highlight DiffDelete cterm=bold ctermfg=white ctermbg=DarkGrey
-        highlight DiffChange cterm=bold ctermfg=white ctermbg=DarkBlue
-        highlight DiffText   cterm=bold ctermfg=white ctermbg=DarkRed
-    endfun
-    autocmd FilterWritePre * call SetDiffColors()
 
 " Replace grep if ripgrep is installed
     if executable("rg")
