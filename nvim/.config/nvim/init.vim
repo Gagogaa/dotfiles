@@ -81,7 +81,6 @@
 
 " Bulk file rename in vim
     Plugin 'qpkorr/vim-renamer'
-    :nnoremap <leader>rr :Renamer<RETURN>
 
 
 " A color scheme for vim that uses the default terminal colors
@@ -285,13 +284,14 @@ call vundle#end()
 " Plugin Bindings
     nmap <leader>n :NERDTreeToggle<RETURN>
     nmap <leader>f :Goyo<RETURN>
+    nmap <leader>rr :Renamer<RETURN>
 " }}}
 
 " Commands {{{
 " jump to last cursor
     autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal g`\"" |
+        \     exe "normal g`\"" |
         \ endif
 
     fun! StripTrailingWhitespace()
@@ -314,17 +314,7 @@ call vundle#end()
     autocmd Bufread,BufNewFile *.pas set filetype=delphi
     autocmd Bufread,BufNewFile *.dpr set filetype=delphi
 
-" Highlight words to avoid in tech writing
-" http://css-tricks.com/words-avoid-educational-writing/
-" TODO: only enable these for prose
-    " highlight TechWordsToAvoid ctermbg=red ctermfg=white
-    " match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however\|so,\|easy/
-    " autocmd BufWinEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-    " autocmd InsertEnter * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-    " autocmd InsertLeave * match TechWordsToAvoid /\cobviously\|basically\|simply\|of\scourse\|clearly\|just\|everyone\sknows\|however,\|so,\|easy/
-    " autocmd BufWinLeave * call clearmatches()
-
-" Create a 'scratch buffer' which is a temporary buffer Vim wont ask to save
+" Run shell commands and save the results to a buffer
 " http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
     command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
     function! s:RunShellCommand(cmdline)
@@ -338,9 +328,6 @@ call vundle#end()
         endfor
         botright new
         setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-        call setline(1, 'You entered:    ' . a:cmdline)
-        call setline(2, 'Expanded Form:  ' .expanded_cmdline)
-        call setline(3,substitute(getline(2),'.','=','g'))
         execute '$read !'. expanded_cmdline
         setlocal nomodifiable
         1
