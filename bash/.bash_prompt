@@ -1,2 +1,36 @@
 # Simple bash prompt
-export PS1='┌{\[$(tput setaf 36)\]\w\[$(tput sgr0)\]}\n└> '
+
+
+COLOR_RESET='tput sgr0'
+COLOR_RED='tput setaf 1'
+COLOR_GREEN='tput setaf 2'
+COLOR_YELLOW='tput setaf 3'
+COLOR_CYAN='tput setaf 6'
+
+function git_color {
+    local git_status="$(git status 2> /dev/null)"
+
+    if [[ ! $git_status =~ "working directory clean" ]]; then
+        echo -e $COLOR_RED
+    elif [[ $git_status =~ "Your branch is ahead of" ]]; then
+        echo -e $COLOR_YELLOW
+    elif [[ $git_status =~ "nothing to commit" ]]; then
+        echo -e $COLOR_GREEN
+    else
+        echo -e $COLOR_RESET
+    fi
+}
+
+
+function git_branch {
+    local git_status="$(git status 2> /dev/null)"
+    local on_branch="On branch ([^${IFS}]*)"
+
+    if [[ $git_status =~ $on_branch ]]; then
+        local branch=${BASH_REMATCH[1]}
+        echo " on ($($(git_color))$branch$($COLOR_RESET))"
+    fi
+}
+
+export PS1='┌{\[$($COLOR_CYAN)\]\w\[$($COLOR_RESET)\]}$(git_branch)\n'
+export PS1+='└> '
