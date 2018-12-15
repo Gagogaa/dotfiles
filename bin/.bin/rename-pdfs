@@ -11,6 +11,10 @@ for path in argv[1:]:
 
     for f in pdf_files:
         pdf = PyPDF2.PdfFileReader(f)
-        title = path + '/' + pdf.documentInfo['/Title'] + '.pdf'
-        print(f'Renaming [{f}] to [{title}]')
-        rename(f, title)
+
+        if '/Title' in pdf.documentInfo:
+            title = path + '/' + pdf.documentInfo['/Title'] + '.pdf'
+            print(f'Renaming [{f}] to [{title}]')
+            rename(f, title)
+        else:
+            print(f'Cannot rename {f} has no PDF title')
