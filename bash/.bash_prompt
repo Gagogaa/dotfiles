@@ -33,7 +33,7 @@ function git_branch {
 
     if [[ $git_status =~ $on_branch ]]; then
         local branch=${BASH_REMATCH[1]}
-        echo " on ($($(git_color))$branch$($COLOR_RESET))"
+        echo " on $($(git_color))$branch$($COLOR_RESET)"
     fi
 }
 
