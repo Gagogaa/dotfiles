@@ -1,5 +1,4 @@
-# Simple bash prompt
-
+# Bash prompt that shows git prompt with colorized output
 
 COLOR_RESET='tput sgr0'
 COLOR_RED='tput setaf 1'
@@ -7,6 +6,7 @@ COLOR_GREEN='tput setaf 2'
 COLOR_YELLOW='tput setaf 3'
 COLOR_BLUE='tput setaf 4'
 COLOR_CYAN='tput setaf 6'
+
 
 function git_color {
     local git_status="$(git status 2> /dev/null)"
@@ -36,6 +36,7 @@ function git_branch {
         echo " on ($($(git_color))$branch$($COLOR_RESET))"
     fi
 }
+
 
 export PS1='┌{\[$($COLOR_CYAN)\]\w\[$($COLOR_RESET)\]}$(git_branch)\n'
 export PS1+='└> '
