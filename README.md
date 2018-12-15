@@ -1,5 +1,7 @@
-# **WIP** dotfiles
-A version of my dotfiles made to accommodate GNU stow for sync on a per application basis
+# dotfiles
+
+Requires GNU stow to link in dotfiles
+
 ```bash
-stow -S <folder> -t $HOME
+./install.sh <folder>
 ```
