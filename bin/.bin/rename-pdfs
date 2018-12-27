@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
-'''Renames PDF files to match their embeded title'''
+'''
+Renames PDF files to match their embeded title
+
+This script has some problems so don't rely on it too much.
+
+This requires PyPDF2 to be installed.
+If you have python3 with pip installed PyPDF2 can be added like so.
+
+python3 -m pip install --user PyPDF2
+'''
 
 import PyPDF2
 from os import listdir, rename
