@@ -22,7 +22,7 @@ The `windows` directory contains configuration files that are used by Windows ap
 ## nvim
 My neovim configuration needs a few more steps to configure it properly.
 We need to install `Vundle` so we can use it to manage all the other packages.
-Vundle's installation instructions can be found at its [github page][https://github.com/VundleVim/Vundle.vim].
+Vundle's installation instructions can be found at its [github page]( https://github.com/VundleVim/Vundle.vim ).
 After installing Vundle starting vim will still throw errors.
 Ignore them and run `:VundleInstall` to install the managed packages.
 
