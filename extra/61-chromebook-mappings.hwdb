@@ -1,0 +1,26 @@
+# This file maps lenovo's Enguarde 1.0 chromebook functions keys
+# to the correct key codes.
+# E.g. Pressing the volume up button on the keyboard sends the
+# 'volume up' key code instead of the 'f10' key code.
+#
+# For other chromebooks or weird keyboards checkout this guide:
+# https://github.com/hakimel/reveal.js/wiki/Linux-udev-keys-binding
+#
+# To install place this file in '/etc/udev/hwdb.d/' like so:
+# sudo cp 61-chromebook-mappings.hwdb /etc/udev/hwdb.d/
+#
+# Then reload udev:
+# sudo udevadm hwdb --update
+# sudo udevadm trigger
+
+evdev:input:b0011v0001p0001*
+ KEYBOARD_KEY_3b=back
+ KEYBOARD_KEY_3c=forward
+ KEYBOARD_KEY_3d=f5
+ KEYBOARD_KEY_3e=f11
+ KEYBOARD_KEY_3f=leftmeta
+ KEYBOARD_KEY_40=brightnessdown
+ KEYBOARD_KEY_41=brightnessup
+ KEYBOARD_KEY_42=mute
+ KEYBOARD_KEY_43=volumedown
+ KEYBOARD_KEY_44=volumeup
