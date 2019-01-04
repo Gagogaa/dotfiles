@@ -99,6 +99,29 @@
     Plugin 'junegunn/goyo.vim'
 
 
+" Smooth scrolling
+    Plugin 'terryma/vim-smooth-scroll'
+
+    noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 2)<RETURN>
+    noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 2)<RETURN>
+    noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 5, 4)<RETURN>
+    noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 5, 4)<RETURN>
+
+
+" Quick highlight the line the cursor is on when searching in vim
+    Plugin 'inside/vim-search-pulse'
+
+    let g:vim_search_pulse_duration = 200
+
+
+" Show Hex colors in vim #ff8080
+    Plugin 'lilydjwg/colorizer'
+
+
+" Much better python syntax highlighting
+    Plugin 'numirias/semshi'
+
+
 call vundle#end()
 " }}}
 
@@ -259,6 +282,7 @@ call vundle#end()
 
 " This one is because I'm lazy. It easy to close windows.
     nmap <leader>q :q <RETURN>
+    nmap <leader>Q :q! <RETURN>
 
 " Quick edit and reload of .vimrc
     nmap <leader>sv :source $MYVIMRC <RETURN>
@@ -306,7 +330,7 @@ call vundle#end()
 " file formats
     autocmd Filetype gitcommit setlocal spell textwidth=72
     autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
-    autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi setlocal shiftwidth=2 tabstop=2 expandtab
+    autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi,md setlocal shiftwidth=2 tabstop=2 expandtab
 
 " specify syntax highlighting for specific files
     autocmd Bufread,BufNewFile *.spv set filetype=php
