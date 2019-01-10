@@ -27,7 +27,7 @@
 
 
 " Display git changes in the gutter
-    Plugin 'airblade/vim-gitgutter'
+    " Plugin 'airblade/vim-gitgutter'
 
 
 " Easy Motion
@@ -38,23 +38,23 @@
 
 
 " NertTree file explorer
-    Plugin 'scrooloose/nerdtree'
+    " Plugin 'scrooloose/nerdtree'
 
 " If NerdTree is the only buffer open close vim
-    autocmd bufenter *
-        \ if (winnr("$") == 1
-        \ && exists("b:NERDTree")
-        \ && b:NERDTree.isTabTree())
-        \ | q
-        \ | endif
+    " autocmd bufenter *
+    "     \ if (winnr("$") == 1
+    "     \ && exists("b:NERDTree")
+    "     \ && b:NERDTree.isTabTree())
+    "     \ | q
+    "     \ | endif
 
 " Change the look of the arrows
-    let g:NERDTreeDirArrowExpandable = '▸'
-    let g:NERDTreeDirArrowCollapsible = '▾'
+    " let g:NERDTreeDirArrowExpandable = '▸'
+    " let g:NERDTreeDirArrowCollapsible = '▾'
 
 
 " Git extension for NerdTree
-    Plugin 'Xuyuanp/nerdtree-git-plugin'
+    " Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 
 " IDE like auto complete
@@ -72,7 +72,8 @@
 
 
 " Use <tab> for completions
-    Plugin 'ervandew/supertab'
+" NOTE: <c-n> in insert mode works too
+    " Plugin 'ervandew/supertab'
 
 
 " Git stuff
@@ -92,7 +93,7 @@
 
 
 " Vim org mode
-    Plugin 'jceb/vim-orgmode'
+    " Plugin 'jceb/vim-orgmode'
 
 
 " Focus writing mode for vim
@@ -100,7 +101,11 @@
 
 
 " Smooth scrolling
-    Plugin 'terryma/vim-smooth-scroll'
+    " Plugin 'terryma/vim-smooth-scroll'
+
+" This fork of vim-smooth-scroll has a fix for when you hit the bottom of a
+" file the editor does't lock itself.
+    Plugin 'lucasicf/vim-smooth-scroll'
 
     noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 2)<RETURN>
     noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 2)<RETURN>
@@ -115,7 +120,7 @@
 
 
 " Show Hex colors in vim #ff8080
-    Plugin 'lilydjwg/colorizer'
+    " Plugin 'lilydjwg/colorizer'
 
 
 " Much better python syntax highlighting
@@ -314,7 +319,7 @@ call vundle#end()
     tnoremap <Esc> <C-\><C-n>
 
 " Plugin Bindings
-    nmap <leader>n :NERDTreeToggle<RETURN>
+    " nmap <leader>n :NERDTreeToggle<RETURN>
     nmap <leader>f :Goyo<RETURN>
     nmap <leader>rr :Renamer<RETURN>
     nmap <leader>b :CtrlPBuffer<RETURN>
