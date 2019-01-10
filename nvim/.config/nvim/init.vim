@@ -109,9 +109,9 @@
 
 
 " Quick highlight the line the cursor is on when searching in vim
-    Plugin 'inside/vim-search-pulse'
+    " Plugin 'inside/vim-search-pulse'
 
-    let g:vim_search_pulse_duration = 200
+    " let g:vim_search_pulse_duration = 200
 
 
 " Show Hex colors in vim #ff8080
@@ -119,7 +119,15 @@
 
 
 " Much better python syntax highlighting
-    Plugin 'numirias/semshi'
+    " Plugin 'numirias/semshi'
+
+
+" Better markdown plugin
+    Plugin 'plasticboy/vim-markdown'
+
+
+" Add scratch buffers to vim
+    Plugin 'vim-scripts/scratch.vim'
 
 
 call vundle#end()
@@ -309,6 +317,7 @@ call vundle#end()
     nmap <leader>n :NERDTreeToggle<RETURN>
     nmap <leader>f :Goyo<RETURN>
     nmap <leader>rr :Renamer<RETURN>
+    nmap <leader>b :CtrlPBuffer<RETURN>
 " }}}
 
 " Commands {{{
