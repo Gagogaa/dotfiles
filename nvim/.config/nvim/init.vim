@@ -105,12 +105,12 @@
 
 " This fork of vim-smooth-scroll has a fix for when you hit the bottom of a
 " file the editor does't lock itself.
-    Plugin 'lucasicf/vim-smooth-scroll'
+    " Plugin 'lucasicf/vim-smooth-scroll'
 
-    noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 2)<RETURN>
-    noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 2)<RETURN>
-    noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 5, 4)<RETURN>
-    noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 5, 4)<RETURN>
+    " noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 2)<RETURN>
+    " noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 2)<RETURN>
+    " noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 5, 4)<RETURN>
+    " noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 5, 4)<RETURN>
 
 
 " Quick highlight the line the cursor is on when searching in vim
