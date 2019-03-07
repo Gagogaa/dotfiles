@@ -47,6 +47,7 @@
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  inferior-lisp-program "sbcl"
  next-line-add-newlines t               ; Add newlines when moveing to the end of file
+ browse-url-generic-program "xdg-open"
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,7 +61,7 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Monospace")
+(set-default-font "Monospace 7")
 
 ;;; Start emacs in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -109,7 +110,7 @@
 ;;; Use "interactive do" it makes menuing MUCH easier
 (require 'ido)
 (ido-mode t)
-(ido-everywhere t)
+;; (ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -457,12 +458,12 @@ Example usage:
 (use-package meson-mode
   :ensure t)
 
-;;; Note that this uses M-n and M-p to move back and fourth through code
-;;; and M-' to replace (C-u M-' to replace within a function)
-(use-package smartscan
-  :ensure t
-  :config
-  (global-smartscan-mode 1))
+;; ;;; Note that this uses M-n and M-p to move back and fourth through code
+;; ;;; and M-' to replace (C-u M-' to replace within a function)
+;; (use-package smartscan
+;;   :ensure t
+;;   :config
+;;   (global-smartscan-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
