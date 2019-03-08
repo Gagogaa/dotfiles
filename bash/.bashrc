@@ -28,6 +28,8 @@ export TRASH=~/.local/share/Trash/files
 [ -f ~/.bash_aliases ]   && source ~/.bash_aliases
 [ -f ~/.bash_functions ] && source ~/.bash_functions
 [ -f /etc/bashrc ]       && . /etc/bashrc # Source global definitions
+[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
+[ -f /etc/profile.d/autojump.bash ] && source /etc/profile.d/autojump.bash
 
 # Load tmux on login and close the terminal when it exits
 # [ -z $TMUX ] && tmux attach-session
