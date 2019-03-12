@@ -99,6 +99,10 @@
     Plugin 'junegunn/goyo.vim'
 
 
+" Meson syntax and more
+    Plugin 'igankevich/mesonic'
+
+
 call vundle#end()
 " }}}
 
@@ -199,7 +203,7 @@ call vundle#end()
 
 " Use system clipboard
 " http://stackoverflow.com/questions/8134647/copy-and-paste-in-vim-via-keyboard-between-different-mac-terminals
-    set clipboard+=unnamed
+    set clipboard+=unnamedplus
 
 " Don't show intro
     set shortmess+=I
