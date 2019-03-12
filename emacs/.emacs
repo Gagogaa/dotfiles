@@ -47,6 +47,7 @@
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  inferior-lisp-program "sbcl"
  next-line-add-newlines t               ; Add newlines when moveing to the end of file
+ browse-url-generic-program "xdg-open"
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,7 +61,7 @@
 (scroll-bar-mode -1)
 
 ;;; Setup fonts
-(set-default-font "Monospace")
+(set-default-font "Monospace 7")
 
 ;;; Start emacs in fullscreen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -109,7 +110,7 @@
 ;;; Use "interactive do" it makes menuing MUCH easier
 (require 'ido)
 (ido-mode t)
-(ido-everywhere t)
+;; (ido-everywhere t)
 (setq ido-use-filename-at-point 'guess)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -220,7 +221,7 @@ Example usage:
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
-            ("<f2>" . multi-occur-in-matching-buffers) ;; This is replaced by projectile!
+            ("<f2>" . projectile-ripgrep)
             ("<f3>" . calc)
             ;; Look into dired+
             ("<f4>" . (lambda () (interactive) (dired ".")))
@@ -236,6 +237,7 @@ Example usage:
             ("C-M-<backspace>" . (lambda () (interactive) (delete-window) (balance-windows)))
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
+            ("C-x C-f" . helm-find)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
             ("C-M-o" . ff-find-other-file)
             ("C-`" . push-mark-no-activate)
@@ -359,9 +361,6 @@ Example usage:
   ("C->"   . mc/mark-next-like-this)
   ("C-<"   . mc/mark-previous-like-this))
 
-(use-package rust-mode
-  :ensure t)
-
 (use-package paredit
   :ensure t)
 
@@ -404,13 +403,13 @@ Example usage:
 
   (projectile-mode +1))
 
-(use-package flx-ido
-  :ensure t
-  :config
-  (flx-ido-mode 1)
-  ;; disable ido faces to see flx highlights.
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-faces nil))
+;; (use-package flx-ido
+;;   :ensure t
+;;   :config
+;;   (flx-ido-mode 1)
+;;   ;; disable ido faces to see flx highlights.
+;;   (setq ido-enable-flex-matching t)
+;;   (setq ido-use-faces nil))
 
 (use-package which-key
   :ensure t
@@ -453,16 +452,6 @@ Example usage:
   ("M-x" . helm-M-x)
   :config
   (helm-mode 1))
-
-(use-package meson-mode
-  :ensure t)
-
-;;; Note that this uses M-n and M-p to move back and fourth through code
-;;; and M-' to replace (C-u M-' to replace within a function)
-(use-package smartscan
-  :ensure t
-  :config
-  (global-smartscan-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;

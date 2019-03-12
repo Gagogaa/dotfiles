@@ -20,6 +20,7 @@ alias m='make'
 
 alias grep='grep --color=auto'
 alias info='info --vi-keys'
+alias rg='rg --color=always'
 
 alias wg='wordgrinder'
 alias ccat='pygmentize -g'
