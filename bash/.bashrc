@@ -18,6 +18,7 @@ shopt -s autocd # So I can cd without typeing cd
 shopt -s cdable_vars # So I can cd into variables
 shopt -s cdspell # Try to fix small spelling errors
 shopt -s dirspell
+bind 'set completion-ignore-case on'
 
 export BROWSER=/usr/bin/firefox
 export EDITOR=/usr/bin/nvim
