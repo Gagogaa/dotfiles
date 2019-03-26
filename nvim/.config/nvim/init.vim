@@ -344,7 +344,7 @@ call vundle#end()
 " file formats
     autocmd Filetype gitcommit setlocal spell textwidth=72
     autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
-    autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi,md setlocal shiftwidth=2 tabstop=2 expandtab
+    autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi,md,html setlocal shiftwidth=2 tabstop=2 expandtab
 
 " specify syntax highlighting for specific files
     autocmd Bufread,BufNewFile *.spv set filetype=php
