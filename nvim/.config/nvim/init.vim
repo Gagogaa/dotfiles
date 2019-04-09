@@ -325,18 +325,23 @@ call vundle#end()
 " http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
     command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
     function! s:RunShellCommand(cmdline)
-        echo a:cmdline
-        let expanded_cmdline = a:cmdline
-        for part in split(a:cmdline, ' ')
-            if part[0] =~ '\v[%#<]'
-                let expanded_part = fnameescape(expand(part))
-                let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+        let isfirst = 1
+        let words = []
+        for word in split(a:cmdline)
+            if isfirst
+                let isfirst = 0  " don't change first word (shell command)
+            else
+                if word[0] =~ '\v[%#<]'
+                    let word = expand(word)
+                endif
+                let word = shellescape(word, 1)
             endif
+            call add(words, word)
         endfor
+        let expanded_cmdline = join(words)
         botright new
         setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-        execute '$read !'. expanded_cmdline
-        setlocal nomodifiable
+        silent execute '$read !'. expanded_cmdline
         1
     endfunction
 
