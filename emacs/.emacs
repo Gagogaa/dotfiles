@@ -63,9 +63,9 @@
 ;;; Setup fonts
 (set-default-font "Monospace 7")
 
-;;; Start emacs in fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(fullscreen . fullheight))
+;; ;;; Start emacs in fullscreen
+;; (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(fullscreen . fullheight))
 
 ;;; Show matching parentheses
 (setq show-paren-delay 0)
@@ -106,12 +106,6 @@
 (defalias 'list-buffers 'ibuffer)
 ;;; Only split windows right
 (defalias 'split-window-below 'split-window-right)
-
-;;; Use "interactive do" it makes menuing MUCH easier
-(require 'ido)
-(ido-mode t)
-;; (ido-everywhere t)
-(setq ido-use-filename-at-point 'guess)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
@@ -215,8 +209,6 @@ Example usage:
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-;; TODO Rename the current buffer and its visiting file if any.
-
 ;;; Change keys in the global map
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
@@ -237,7 +229,6 @@ Example usage:
             ("C-M-<backspace>" . (lambda () (interactive) (delete-window) (balance-windows)))
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
-            ("C-x C-f" . helm-find)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
             ("C-M-o" . ff-find-other-file)
             ("C-`" . push-mark-no-activate)
@@ -289,25 +280,25 @@ Example usage:
       :config
       (load-theme 'moe-dark t))
 
-  ;; (use-package color-theme-sanityinc-tomorrow
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'sanityinc-tomorrow-night t))
+    ;; (use-package color-theme-sanityinc-tomorrow
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'sanityinc-tomorrow-night t))
 
-  ;; (use-package dracula-theme
-  ;;     :ensure t
-  ;;     :config
-  ;;     (load-theme 'dracula t))
+    ;; (use-package dracula-theme
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'dracula t))
 
-  ;; (use-package color-theme-sanityinc-solarized
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'sanityinc-solarized-dark t))
+    ;; (use-package color-theme-sanityinc-solarized
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'sanityinc-solarized-dark t))
 
-  ;; (use-package zenburn-theme
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'zenburn t))
+    ;; (use-package zenburn-theme
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'zenburn t))
 
   )
 
@@ -403,14 +394,6 @@ Example usage:
 
   (projectile-mode +1))
 
-;; (use-package flx-ido
-;;   :ensure t
-;;   :config
-;;   (flx-ido-mode 1)
-;;   ;; disable ido faces to see flx highlights.
-;;   (setq ido-enable-flex-matching t)
-;;   (setq ido-use-faces nil))
-
 (use-package which-key
   :ensure t
   :config
@@ -450,6 +433,8 @@ Example usage:
   :ensure t
   :bind
   ("M-x" . helm-M-x)
+  ("C-x C-f" . helm-find-files)
+  ("C-x C-b" . helm-buffers-list)
   :config
   (helm-mode 1))
 
