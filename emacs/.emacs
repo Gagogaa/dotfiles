@@ -14,7 +14,8 @@
 (setq Awesome-Emacs-Sources
       '("http://ergoemacs.org/emacs/emacs.html"
         "http://sachachua.com/blog/"
-        "https://www.masteringemacs.org/"))
+        "https://www.masteringemacs.org/"
+        "https://www.emacswiki.org/"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Built-In Customizations ;;;;
@@ -23,32 +24,40 @@
 ;;; Change a buch of the default settings
 (setq-default
  indent-tabs-mode nil                   ; Insert spaces not tabs
+ c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
+ c-basic-offset 4                       ; Set c indentation width
  tab-width 4                            ; Set tab size to 4 spaces
  ring-bell-function 'ignore             ; Turn off the aweful bell
  delete-by-moving-to-trash t            ; Move files to trash instead of deleting them
  vc-follow-symlinks t                   ; Auto follow sym-links
  gc-cons-threshold 50000000             ; Speed up emacs by makeing it's garbage collector run less often
- initial-scratch-message ""             ; I know what scratch is for
+ initial-scratch-message ""             ; Remove the default message from the scratch buffer
  truncate-lines t                       ; Turn off line wrapping
- c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
- c-basic-offset 4                       ; Set c indentation width
  terminal-command "gnome-terminal"      ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
- ;; Move emacs backup files to a different directory instead of the current directory
+ python-shell-interpreter "python3"     ; Set the python interpreter to python3
+ inferior-lisp-program "sbcl"           ; Set the lisp interpreter to sbcl
+ inhibit-startup-echo-area-message t    ; Don't display a startup message
+ extended-command-suggest-shorter nil   ; Don't suggest shorter commands
+ next-line-add-newlines t               ; Add newlines when moveing to the end of file
+ browse-url-generic-program "xdg-open"  ; Use xdg-open to determine what program to open files with
+ font "Monospace 9"                     ; Set the font family and size
+ frame-title-format "Emacs"             ; Set the title of the emacs frame
+
+ ;; Enable and configure abbreviations checkout the emacs wiki for more info!
+ ;; https://www.emacswiki.org/emacs/AbbrevMode
+ abbrev-mode t
+ save-abbrevs 'silent
+ abbrev-file-name (concat user-emacs-directory ".abbrev-file")
+
+ ;; Move emacs backup and autosave files to the system temporary directory instead of the current working directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
  auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
- ;; Just in case I need to enable debugging
+
+ ;; Switch to enable debugging in case of configuration issues
  ;; debug-on-error t
- python-shell-interpreter "python3"
- abbrev-mode t
- abbrev-file-name (concat user-emacs-directory ".abbrev-file")
- save-abbrevs 'silent
- inhibit-startup-echo-area-message t    ; No startup message
- extended-command-suggest-shorter nil   ; Don't suggest shorter commands
- inferior-lisp-program "sbcl"
- next-line-add-newlines t               ; Add newlines when moveing to the end of file
- browse-url-generic-program "xdg-open"
  )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; UI-Settings ;;;;
@@ -60,12 +69,12 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
-;;; Setup fonts
-(set-default-font "Monospace 7")
+;;; Stop the blinking cursor
+(blink-cursor-mode -1)
 
-;;; Start emacs in fullscreen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-(add-to-list 'default-frame-alist '(fullscreen . fullheight))
+;;; Setup fonts
+(set-default-font font)          ; Set the default font for the first frame
+(set-face-attribute 'default nil :font font) ; Set the default front for future frames
 
 ;;; Show matching parentheses
 (setq show-paren-delay 0)
@@ -74,16 +83,13 @@
 ;;; Highlight the current line
 (global-hl-line-mode)
 
-;;; Stop blinking the cursor
-(blink-cursor-mode -1)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
 ;;;;;;;;;;;;;;;;;;;;
 
 ;;; Change to object pascal mode when working with pascal files
 (add-hook 'pascal-mode-hook 'opascal-mode)
-(add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2)))
+(add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2))) ; Set indentation level to two spaces
 
 ;;; Remove whitespace from line ends when saving files
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -92,13 +98,13 @@
 ;;; Save files when tabbing out of emacs
 (add-hook 'focus-out-hook '(lambda () (save-some-buffers t)))
 
-;;; Refresh buffer if file changes on disk
+;;; Refresh buffer if the corresponding file changes on disk
 (auto-revert-mode)
 
 ;;; Save the location in files between sessions
 (save-place-mode)
 
-;;; Insert matching symbols (inserts a closing "]" when entering "[")
+;;; Insert matching symbols so inserting "[" will automatically instert a closing "]"
 (electric-pair-mode)
 
 ;;; Replace the annoying "yes or no" prompts with just "y or n"
@@ -107,12 +113,6 @@
 (defalias 'list-buffers 'ibuffer)
 ;;; Only split windows right
 (defalias 'split-window-below 'split-window-right)
-
-;;; Use "interactive do" it makes menuing MUCH easier
-(require 'ido)
-(ido-mode t)
-;; (ido-everywhere t)
-(setq ido-use-filename-at-point 'guess)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
@@ -123,6 +123,7 @@
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package)))
+
 
 (defun transpose-windows ()
   "Swaps the current buffer with the next buffer."
@@ -136,6 +137,7 @@
     (other-window -1)
     (switch-to-buffer buffer2)
     (other-window 1)))
+
 
 (defun toggle-kbd-macro-recording ()
   "Toggles macro recording on and off with one command!;
@@ -151,6 +153,7 @@ Example:
   (if defining-kbd-macro
       (end-kbd-macro)
     (start-kbd-macro nil)))
+
 
 (defun set-keys (keymap pairs)
   "Binds a list of keys to a keymap
@@ -168,6 +171,7 @@ Example usage:
                 (cdr key-function-pair)))
           pairs))
 
+
 ;;; Open multiple marked files dired
 (eval-after-load "dired"
   '(progn
@@ -178,9 +182,9 @@ Example usage:
        (let* ((fn-list (dired-get-marked-files nil arg)))
          (mapc 'find-file fn-list)))))
 
-;;; Testing this one out for clearing eshell
+
 (defun eshell-clear-buffer ()
-  "Clear terminal"
+  "Clear eshell terminal"
   (interactive)
   (let ((inhibit-read-only t))
     (erase-buffer)
@@ -190,6 +194,7 @@ Example usage:
           '(lambda()
              (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
 
+
 ;;; TODO take a look into these functions to see if I want to keep them or not
 (defun push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
@@ -198,11 +203,13 @@ Example usage:
   (push-mark (point) t nil)
   (message "Pushed mark to ring"))
 
+
 (defun jump-to-mark ()
   "Jumps to the local mark, respecting the `mark-ring' order.
   This is the same as using \\[set-mark-command] with the prefix argument."
   (interactive)
   (set-mark-command 1))
+
 
 (defun exchange-point-and-mark-no-activate ()
   "Identical to \\[exchange-point-and-mark] but will not activate the region."
@@ -216,15 +223,13 @@ Example usage:
 ;;;; Keybindings ;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-;; TODO Rename the current buffer and its visiting file if any.
-
 ;;; Change keys in the global map
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
             ("<f2>" . projectile-ripgrep)
             ("<f3>" . calc)
-            ;; Look into dired+
+            ;; TODO Look into dired+
             ("<f4>" . (lambda () (interactive) (dired ".")))
             ("M-<f4>" . delete-frame)
             ("<f5>" . (lambda () (interactive) (shell-command terminal-command)))
@@ -238,20 +243,16 @@ Example usage:
             ("C-M-<backspace>" . (lambda () (interactive) (delete-window) (balance-windows)))
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
-            ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
             ("C-M-o" . ff-find-other-file)
             ("C-`" . push-mark-no-activate)
             ))
 
 ;;; Make my own keymap
 (setq ctl-z-map (make-sparse-keymap))
-
 (global-set-key (kbd "C-z") ctl-z-map)
-
 (set-keys ctl-z-map
           '(("k" . kill-emacs)
             ("s" . (lambda () (interactive) (switch-to-buffer "*scratch*")))
-            ("w" . save-buffer)
             ("e" . (lambda () (interactive) (find-file user-init-file)))
             ("p" . package-list-packages)
             ("a" . align-regexp)
@@ -284,39 +285,59 @@ Example usage:
 
 (if window-system
 
-    (use-package moe-theme
+    ;; (use-package moe-theme
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'moe-dark t))
+
+    (use-package color-theme-sanityinc-tomorrow
       :ensure t
       :config
-      (load-theme 'moe-dark t))
+      (load-theme 'sanityinc-tomorrow-night t))
 
-  ;; (use-package color-theme-sanityinc-tomorrow
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'sanityinc-tomorrow-night t))
+    ;; (use-package dracula-theme
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'dracula t))
 
-  ;; (use-package dracula-theme
-  ;;     :ensure t
-  ;;     :config
-  ;;     (load-theme 'dracula t))
+    ;; (use-package color-theme-sanityinc-solarized
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'sanityinc-solarized-dark t))
 
-  ;; (use-package color-theme-sanityinc-solarized
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'sanityinc-solarized-dark t))
-
-  ;; (use-package zenburn-theme
-  ;;   :ensure t
-  ;;   :config
-  ;;   (load-theme 'zenburn t))
+    ;; (use-package zenburn-theme
+    ;;   :ensure t
+    ;;   :config
+    ;;   (load-theme 'zenburn t))
 
   )
+
+;;; Model editing (kinda like vim)
+(use-package god-mode
+  :ensure t
+  :bind
+  ("M-." . god-mode-all)
+  ("C-." . god-mode-all)
+  :init
+  (god-mode-all)
+  :config
+
+  (defun update-cursor ()
+    "Change the look of the cursor depending on the state of god-mode"
+    (setq cursor-type
+          (if (or god-local-mode buffer-read-only)
+              'box
+            'bar)))
+
+  (add-hook 'god-mode-enabled-hook 'update-cursor)
+  (add-hook 'god-mode-disabled-hook 'update-cursor))
 
 ;;; Incrementally select text
 (use-package expand-region
   :ensure t
   :bind
-  ("C-h" . er/expand-region)
-  ("C-S-H" . er/contract-region))
+  ("C-;" . er/expand-region)
+  ("C-:" . er/contract-region))
 
 ;;; Easily wrap selected regions
 (use-package wrap-region
@@ -353,6 +374,7 @@ Example usage:
   :config
   (global-company-mode))
 
+;; TODO See if this package is worth looking into
 ;; https://github.com/magnars/multiple-cursors.el
 (use-package multiple-cursors
   :ensure t
@@ -364,6 +386,7 @@ Example usage:
 (use-package paredit
   :ensure t)
 
+;;; Enhanced python mode
 (use-package elpy
   :ensure t
   :config
@@ -383,14 +406,15 @@ Example usage:
     :ensure t)
 
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-
   (elpy-enable))
 
+;;; Amazing git integration for emacs
 (use-package magit
   :ensure t
   :bind
   ("<f10>" . magit))
 
+;;; Toolbox for operating on projects
 (use-package projectile
   :ensure t
   :config
@@ -400,28 +424,22 @@ Example usage:
 
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
   (projectile-mode +1))
 
-;; (use-package flx-ido
-;;   :ensure t
-;;   :config
-;;   (flx-ido-mode 1)
-;;   ;; disable ido faces to see flx highlights.
-;;   (setq ido-enable-flex-matching t)
-;;   (setq ido-use-faces nil))
-
+;;; Show available functions / keys at the bottom of the screen
 (use-package which-key
   :ensure t
   :config
   (which-key-mode))
 
+;;; Display a better status bar
 (use-package powerline
   :ensure t
   :config
   (setq powerline-default-separator 'wave)
   (powerline-default-theme))
 
+;;; Remove active modes from the status bar so it't not so cluttered
 (use-package diminish
   :ensure t
   :config
@@ -433,6 +451,8 @@ Example usage:
   (diminish 'yas-minor-mode)
   (diminish 'company-mode)
   (diminish 'helm-mode)
+  (diminish 'elpy-mode)
+  (diminish 'flycheck-mode)
 
   ;; For the plugins that load when the buffer is created
   (add-hook 'company-mode-hook (lambda () (diminish 'company-mode)))
@@ -441,18 +461,32 @@ Example usage:
   (add-hook 'helm-mode-hook (lambda () (diminish 'helm-mode)))
   )
 
+;;; Delete all whitespace with one command
 (use-package hungry-delete
   :ensure t
   :config
   (global-hungry-delete-mode))
 
+;;; Better completion engine
 (use-package helm
   :ensure t
   :bind
   ("M-x" . helm-M-x)
   ("C-x C-f" . helm-find-files)
+  ("C-x C-b" . helm-buffers-list)
   :config
   (helm-mode 1))
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (use-package yasnippet-snippets
+    :ensure t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;

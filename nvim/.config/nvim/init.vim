@@ -1,9 +1,9 @@
-"  ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
-"  ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
-"  ██║   ██║██║██╔████╔██║██████╔╝██║
-"  ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║
-"██╗╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
-"╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"   ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"   ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"   ██║   ██║██║██╔████╔██║██████╔╝██║
+"   ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║
+" ██╗╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+" ╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 
 " Plugins {{{
     set rtp+=~/.config/nvim/bundle/Vundle.vim
@@ -27,7 +27,10 @@
 
 
 " Display git changes in the gutter
-    " Plugin 'airblade/vim-gitgutter'
+" TODO See if I can edit the colors / symbols that are used
+" Also read the documentation on this because it seems to have way more
+" features than just displaying gutters.
+     Plugin 'airblade/vim-gitgutter'
 
 
 " Easy Motion
@@ -35,26 +38,6 @@
     " let g:EasyMotion_do_mapping = 0
     " let g:EasyMotion_smartcase =  1
     " :nmap <leader>t <Plug>(easymotion-s)
-
-
-" NertTree file explorer
-    " Plugin 'scrooloose/nerdtree'
-
-" If NerdTree is the only buffer open close vim
-    " autocmd bufenter *
-    "     \ if (winnr("$") == 1
-    "     \ && exists("b:NERDTree")
-    "     \ && b:NERDTree.isTabTree())
-    "     \ | q
-    "     \ | endif
-
-" Change the look of the arrows
-    " let g:NERDTreeDirArrowExpandable = '▸'
-    " let g:NERDTreeDirArrowCollapsible = '▾'
-
-
-" Git extension for NerdTree
-    " Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 
 " IDE like auto complete
@@ -92,10 +75,6 @@
     Plugin 'rkennedy/vim-delphi'
 
 
-" Vim org mode
-    " Plugin 'jceb/vim-orgmode'
-
-
 " Focus writing mode for vim
     Plugin 'junegunn/goyo.vim'
 
@@ -104,27 +83,10 @@
     Plugin 'igankevich/mesonic'
 
 
-" Smooth scrolling
-    " Plugin 'terryma/vim-smooth-scroll'
-
-" This fork of vim-smooth-scroll has a fix for when you hit the bottom of a
-" file the editor does't lock itself.
-    " Plugin 'lucasicf/vim-smooth-scroll'
-
-    " noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 2)<RETURN>
-    " noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 2)<RETURN>
-    " noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 5, 4)<RETURN>
-    " noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 5, 4)<RETURN>
-
-
 " Quick highlight the line the cursor is on when searching in vim
     " Plugin 'inside/vim-search-pulse'
 
     " let g:vim_search_pulse_duration = 200
-
-
-" Show Hex colors in vim #ff8080
-    " Plugin 'lilydjwg/colorizer'
 
 
 " Much better python syntax highlighting
@@ -216,7 +178,7 @@ call vundle#end()
 
 " Highlight tailing whitespace
 " See issue: https://github.com/Integralist/ProVim/issues/4
-    set list listchars=tab:\ \ ,trail:·
+    set list listchars=tab:>-,trail:·
 
 " Get rid of the delay when pressing O (for example)
 " http://stackoverflow.com/questions/2158516/vim-delay-before-o-opens-a-new-line
@@ -264,20 +226,23 @@ call vundle#end()
     set switchbuf=usetab,newtab
 
 " Set built-in file system explorer to use layout similar to the NERDTree plugin
-    let g:netrw_liststyle=3
+    let g:netrw_liststyle=3 " Use the Tree style layout
+    let g:netrw_banner=0 " Remove the banner
+    " let g:netrw_browse_split = 1 " Better split keybindings
 
 " Kill netrw buffers because they will not let you close vim even with q!
-    function! QuitNetrw()
-        for i in range(1, bufnr($))
-            if buflisted(i)
-                if getbufvar(i, '&filetype') == "netrw"
-                    silent exe 'bwipeout ' . i
-                endif
-            endif
-        endfor
-    endfunction
+" TODO this function does not work
+    " function! QuitNetrw()
+    "     for i in range(1, bufnr($))
+    "         if buflisted(i)
+    "             if getbufvar(i, '&filetype') == "netrw"
+    "                 silent exe 'bwipeout ' . i
+    "             endif
+    "         endif
+    "     endfor
+    " endfunction
 
-    autocmd VimLeavePre * call QuitNetrw()
+    " autocmd VimLeavePre * call QuitNetrw()
 
 " Always highlight column 80 so it's easier to see where
 " cutoff appears on longer screens
@@ -360,18 +325,23 @@ call vundle#end()
 " http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
     command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
     function! s:RunShellCommand(cmdline)
-        echo a:cmdline
-        let expanded_cmdline = a:cmdline
-        for part in split(a:cmdline, ' ')
-            if part[0] =~ '\v[%#<]'
-                let expanded_part = fnameescape(expand(part))
-                let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+        let isfirst = 1
+        let words = []
+        for word in split(a:cmdline)
+            if isfirst
+                let isfirst = 0  " don't change first word (shell command)
+            else
+                if word[0] =~ '\v[%#<]'
+                    let word = expand(word)
+                endif
+                let word = shellescape(word, 1)
             endif
+            call add(words, word)
         endfor
+        let expanded_cmdline = join(words)
         botright new
         setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-        execute '$read !'. expanded_cmdline
-        setlocal nomodifiable
+        silent execute '$read !'. expanded_cmdline
         1
     endfunction
 
