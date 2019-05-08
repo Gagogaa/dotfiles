@@ -41,7 +41,7 @@
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  next-line-add-newlines t               ; Add newlines when moveing to the end of file
  browse-url-generic-program "xdg-open"  ; Use xdg-open to determine what program to open files with
- font "Monospace 7"                     ; Set the font family and size
+ font "Monospace 9"                     ; Set the font family and size
  frame-title-format "Emacs"             ; Set the title of the emacs frame
 
  ;; Enable and configure abbreviations checkout the emacs wiki for more info!
@@ -57,6 +57,7 @@
  ;; Switch to enable debugging in case of configuration issues
  ;; debug-on-error t
  )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; UI-Settings ;;;;
@@ -474,6 +475,17 @@ Example usage:
   ("C-x C-b" . helm-buffers-list)
   :config
   (helm-mode 1))
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (use-package yasnippet-snippets
+    :ensure t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;
