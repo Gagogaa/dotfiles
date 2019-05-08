@@ -87,6 +87,7 @@
 
 ;;; Remove whitespace from line ends when saving files
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;;; Save files when tabbing out of emacs
 (add-hook 'focus-out-hook '(lambda () (save-some-buffers t)))
@@ -237,7 +238,6 @@ Example usage:
             ("C-M-<backspace>" . (lambda () (interactive) (delete-window) (balance-windows)))
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
-            ("C-x C-f" . helm-find)
             ("C-S-k" . (lambda () (interactive) (move-beginning-of-line nil) (kill-line 1)))
             ("C-M-o" . ff-find-other-file)
             ("C-`" . push-mark-no-activate)
@@ -450,6 +450,7 @@ Example usage:
   :ensure t
   :bind
   ("M-x" . helm-M-x)
+  ("C-x C-f" . helm-find-files)
   :config
   (helm-mode 1))
 
