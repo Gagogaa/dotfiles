@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+import sys
+import os.path as path
+import markdown as md
+
+
+def convert_file(md_file_name):
+    (html_file_name, _) = path.splitext(path.basename(md_file_name))
+    html_file_name += '.html'
+
+    with open(md_file_name, 'r') as md_file,\
+         open(html_file_name, 'w') as html_file:
+        html_file.write('<link rel="stylesheet" type="text/css" href="pygments.css">')
+        html_file.write(md.markdown(md_file.read(), extensions=['fenced_code', 'codehilite']))
+
+
+if __name__ == '__main__':
+    if not sys.argv[1]:
+        print('No file supplied')
+
+    if path.isfile(sys.argv[1]):
+        convert_file(sys.argv[1])
+    else:
+        print('Cannot open file {}' % sys.argv[1])
+
+
+
