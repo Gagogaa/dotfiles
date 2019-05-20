@@ -17,3 +17,5 @@ export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 eval "$(rustup completions bash)"
+
+export PATH="$HOME/.cargo/bin:$PATH"
