@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+
+import sys
+import xml.dom.minidom
+
+# Skip the first argument because its always the path to the program
+for arg in sys.argv[1:]:
+    print(xml.dom.minidom.parse(arg).toprettyxml())

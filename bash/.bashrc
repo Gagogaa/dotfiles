@@ -20,15 +20,15 @@ shopt -s cdspell # Try to fix small spelling errors
 shopt -s dirspell
 bind 'set completion-ignore-case on'
 
-export BROWSER=/usr/bin/firefox
-export EDITOR=/usr/bin/nvim
-export VISUAL=/usr/bin/nvim
-export TRASH=~/.local/share/Trash/files
+if (which rustup >> /dev/null); then
+  eval "$(rustup completions bash)"
+fi
 
 [ -f ~/.bash_prompt ]                             && source ~/.bash_prompt
 [ -f ~/.bash_aliases ]                            && source ~/.bash_aliases
 [ -f ~/.bash_functions ]                          && source ~/.bash_functions
-[ -f /etc/bashrc ]                                && source /etc/bashrc # Source global definitions
+[ -f ~/.cargo/env ]                               && source ~/.cargo/env
+[ -f /etc/bashrc ]                                && source /etc/bashrc
 [ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
 [ -f /etc/profile.d/autojump.bash ]               && source /etc/profile.d/autojump.bash
 

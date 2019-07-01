@@ -4,16 +4,23 @@ Renames PDF files to match their embeded title
 
 This script has some problems so don't rely on it too much.
 
-This requires PyPDF2 to be installed.
-If you have python3 with pip installed PyPDF2 can be added like so.
+This requires PyPDF2 to be installed;
+which can be installed like so:
 
 python3 -m pip install --user PyPDF2
 '''
 
-import PyPDF2
 from os import listdir, rename
 from os.path import isfile, join
 from sys import argv
+
+try:
+    import PyPDF2
+except ImportError:
+    print('''This command requires PyPDF2 library
+Please install it with this:
+python3 -m pip install --user PyPDF2''')
+
 
 for path in argv[1:]:
     pdf_files = [path + '/' + f for f in listdir(path) if isfile(join(path, f))]

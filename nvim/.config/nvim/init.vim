@@ -147,8 +147,9 @@ call vundle#end()
 " Make sure any searches /searchPhrase doesn't need the \c escape character
     set ignorecase
 
-" A buffer is marked as ‘hidden’ if it has unsaved changes, and it is not currently loaded in a window
-" if you try and quit Vim while there are hidden buffers, you will raise an error:
+" A buffer is marked as ‘hidden’ if it has unsaved changes, and it is not
+" currently loaded in a window if you try and quit Vim while there are hidden
+" buffers, you will raise an error:
 " E162: No write since last change for buffer “a.txt”
     set hidden
 
@@ -310,10 +311,13 @@ call vundle#end()
     endfun
     autocmd BufWritePre * call StripTrailingWhitespace()
 
+
 " file formats
     autocmd Filetype gitcommit setlocal spell textwidth=72
-    autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0 " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
+    " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
+    autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
     autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi,md,html setlocal shiftwidth=2 tabstop=2 expandtab
+
 
 " specify syntax highlighting for specific files
     autocmd Bufread,BufNewFile *.spv set filetype=php
@@ -321,8 +325,11 @@ call vundle#end()
     autocmd Bufread,BufNewFile *.pas set filetype=delphi
     autocmd Bufread,BufNewFile *.dpr set filetype=delphi
 
+
 " Run shell commands and save the results to a buffer
 " http://vim.wikia.com/wiki/Display_output_of_shell_commands_in_new_window
+" TODO remove this hack of a function for one that resembles the commands at
+" the bottom of the wiki
     command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
     function! s:RunShellCommand(cmdline)
         let isfirst = 1
@@ -345,9 +352,11 @@ call vundle#end()
         1
     endfunction
 
+
 " Close all folds when opening a new buffer
     autocmd BufRead * setlocal foldmethod=marker
     autocmd BufRead * normal zM
+
 
 " Replace grep if ripgrep is installed
     if executable("rg")

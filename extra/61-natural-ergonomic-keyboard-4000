@@ -1,7 +1,6 @@
 # Place this in '/etc/udev/hwdb.d/'
-# This maps the nub on the 
 # Microsoft Ergonomic Keyboard 4000
-# to PGup PGdn 
+# Maps the nub to PGup PGdn
 
 evdev:input:b0003v045Ep00DB*
  KEYBOARD_KEY_c022d=pageup
