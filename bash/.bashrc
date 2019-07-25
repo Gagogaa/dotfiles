@@ -20,7 +20,8 @@ shopt -s cdspell # Try to fix small spelling errors
 shopt -s dirspell
 bind 'set completion-ignore-case on'
 
-if (which rustup >> /dev/null); then
+if (which rustup >> /dev/null)
+then
   eval "$(rustup completions bash)"
 fi
 
