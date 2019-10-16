@@ -41,8 +41,9 @@
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  next-line-add-newlines t               ; Add newlines when moveing to the end of file
  browse-url-generic-program "xdg-open"  ; Use xdg-open to determine what program to open files with
- font "Monospace 9"                     ; Set the font family and size
+ font "Monospace 7"                     ; Set the font family and size
  frame-title-format "Emacs"             ; Set the title of the emacs frame
+ inhibit-startup-screen t               ; Stop the default emacs startup screen
 
  ;; Enable and configure abbreviations checkout the emacs wiki for more info!
  ;; https://www.emacswiki.org/emacs/AbbrevMode
@@ -73,7 +74,7 @@
 (blink-cursor-mode -1)
 
 ;;; Setup fonts
-(set-default-font font)          ; Set the default font for the first frame
+(set-default-font font)     ; Set the default font for the first frame
 (set-face-attribute 'default nil :font font) ; Set the default front for future frames
 
 ;;; Show matching parentheses
@@ -81,7 +82,14 @@
 (show-paren-mode t)
 
 ;;; Highlight the current line
-(global-hl-line-mode)
+;; (global-hl-line-mode)
+
+;;; Move cursor by camelCase
+(global-subword-mode 1)
+
+;;; Enable interactive do
+(ido-mode)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
@@ -112,7 +120,7 @@
 ;;; Switch out list-buffers with the newer ibuffer
 (defalias 'list-buffers 'ibuffer)
 ;;; Only split windows right
-(defalias 'split-window-below 'split-window-right)
+;; (defalias 'split-window-below 'split-window-right)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
@@ -260,6 +268,7 @@ Example usage:
             ("l" . view-lossage)
             ("b" . list-abbrevs)
             ("f" . find-file-at-point)
+            ("o" . other-frame)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -310,6 +319,11 @@ Example usage:
     ;;   :config
     ;;   (load-theme 'zenburn t))
 
+    ;; (load-theme 'tango-dark t)
+
+
+    ;; (use-package green-is-the-new-black-theme
+    ;;   :ensure t)
   )
 
 ;;; Model editing (kinda like vim)
@@ -374,39 +388,41 @@ Example usage:
   :config
   (global-company-mode))
 
-;; TODO See if this package is worth looking into
-;; https://github.com/magnars/multiple-cursors.el
-(use-package multiple-cursors
-  :ensure t
-  :bind
-  ("C-z m" . mc/mark-all-like-this)
-  ("C->"   . mc/mark-next-like-this)
-  ("C-<"   . mc/mark-previous-like-this))
+;; ;; TODO See if this package is worth looking into
+;; ;; https://github.com/magnars/multiple-cursors.el
+;; (use-package multiple-cursors
+;;   :ensure t
+;;   :bind
+;;   ("C-z m" . mc/mark-all-like-this)
+;;   ("C->"   . mc/mark-next-like-this)
+;;   ("C-<"   . mc/mark-previous-like-this))
 
-(use-package paredit
-  :ensure t)
+;; (use-package paredit
+;;   :ensure t
+;;   :config
+;;   (paredit-mode))
 
 ;;; Enhanced python mode
-(use-package elpy
-  :ensure t
-  :config
-  (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
+;; (use-package elpy
+;;   :ensure t
+;;   :config
+;;   (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
 
-  (use-package flycheck
-    :ensure t)
+;;   (use-package flycheck
+;;     :ensure t)
 
-  (when (require 'flycheck nil t)
-    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode))
+;;   (when (require 'flycheck nil t)
+;;     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;     (add-hook 'elpy-mode-hook 'flycheck-mode))
 
-  (use-package jinja2-mode
-    :ensure t)
+;;   (use-package jinja2-mode
+;;     :ensure t)
 
-  (use-package py-autopep8
-    :ensure t)
+;;   (use-package py-autopep8
+;;     :ensure t)
 
-  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-  (elpy-enable))
+;;   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+;;   (elpy-enable))
 
 ;;; Amazing git integration for emacs
 (use-package magit
@@ -467,15 +483,15 @@ Example usage:
   :config
   (global-hungry-delete-mode))
 
-;;; Better completion engine
-(use-package helm
-  :ensure t
-  :bind
-  ("M-x" . helm-M-x)
-  ("C-x C-f" . helm-find-files)
-  ("C-x C-b" . helm-buffers-list)
-  :config
-  (helm-mode 1))
+;; ;;; Better completion engine
+;; (use-package helm
+;;   :ensure t
+;;   :bind
+;;   ("M-x" . helm-M-x)
+;;   ("C-x C-f" . helm-find-files)
+;;   ("C-x C-b" . helm-buffers-list)
+;;   :config
+;;   (helm-mode 1))
 
 (use-package org-bullets
   :ensure t
@@ -487,6 +503,27 @@ Example usage:
   :config
   (use-package yasnippet-snippets
     :ensure t))
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package hl-todo
+  :ensure t
+  :config
+  (global-hl-todo-mode))
+
+;;; Load my startup file as the first buffer
+(find-file "~/.emacs.d/startup.org")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Abbrev Mode ;;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+(define-abbrev-table 'opascal-mode-abbrev-table '(
+                                                  ("todo" "TODO -oGregory" nil 0)))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;

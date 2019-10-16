@@ -101,7 +101,7 @@
     Plugin 'vim-scripts/scratch.vim'
 
 
-call vundle#end()
+    call vundle#end()
 " }}}
 
 " Settings {{{
@@ -169,7 +169,7 @@ call vundle#end()
     set shiftwidth=4
 
 " Turn on line numbers
-    set number
+    set number relativenumber
 
 " Turn on all mouse functions
     set mouse=a
@@ -316,13 +316,13 @@ call vundle#end()
     autocmd Filetype gitcommit setlocal spell textwidth=72
     " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
     autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
-    autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi,md,html setlocal shiftwidth=2 tabstop=2 expandtab
+    autocmd FileType sh,yaml,zsh,delphi,md,html setlocal shiftwidth=2 tabstop=2 expandtab
+    autocmd FileType delphi setlocal foldmethod=indent
 
 
 " specify syntax highlighting for specific files
-    autocmd Bufread,BufNewFile *.spv set filetype=php
     autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
-    autocmd Bufread,BufNewFile *.pas set filetype=delphi
+    autocmd Bufread,BufNewFile *.pas set filetype=delphi  " Use the new delphi syntax instead of the old pascal syntax
     autocmd Bufread,BufNewFile *.dpr set filetype=delphi
 
 
@@ -347,7 +347,7 @@ call vundle#end()
         endfor
         let expanded_cmdline = join(words)
         botright new
-        setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+        setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap
         silent execute '$read !'. expanded_cmdline
         1
     endfunction
@@ -367,4 +367,18 @@ call vundle#end()
         let g:ctrlp_user_command = 'rg --files %s --color=never --glob ""'
         let g:ctrlp_use_caching = 0
     endif
+
+
+" Visually select a block of code and press ~ to cycle between cases
+    function! TwiddleCase(str)
+        if a:str ==# toupper(a:str)
+            let result = tolower(a:str)
+        elseif a:str ==# tolower(a:str)
+            let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+        else
+            let result = toupper(a:str)
+        endif
+        return result
+    endfunction
+    vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 " }}}
