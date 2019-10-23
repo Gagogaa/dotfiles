@@ -18,8 +18,9 @@
     Plugin 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_working_path_mode = 'ra'
     let g:ctrlp_switch_buffer = 'et'
+    let g:ctrlp_root_markers = ['requirements.txt']
     let g:ctrlp_map = '<leader>p'
-    let g:ctrlp_cmd = 'CtrlPMixed'
+    let g:ctrlp_cmd = 'CtrlP'
 
 
 " Comment things out
@@ -34,10 +35,10 @@
 
 
 " Easy Motion
-    " Plugin 'easymotion/vim-easymotion'
-    " let g:EasyMotion_do_mapping = 0
-    " let g:EasyMotion_smartcase =  1
-    " :nmap <leader>t <Plug>(easymotion-s)
+    Plugin 'easymotion/vim-easymotion'
+    let g:EasyMotion_do_mapping = 0
+    let g:EasyMotion_smartcase =  1
+    :nmap <leader>t <Plug>(easymotion-s)
 
 
 " IDE like auto complete
@@ -84,9 +85,8 @@
 
 
 " Quick highlight the line the cursor is on when searching in vim
-    " Plugin 'inside/vim-search-pulse'
-
-    " let g:vim_search_pulse_duration = 200
+    Plugin 'inside/vim-search-pulse'
+    let g:vim_search_pulse_duration = 200
 
 
 " Much better python syntax highlighting
@@ -263,18 +263,18 @@
     imap jk <ESC>
     tmap jk <C-\><C-n>
 
-" This one is because I'm lazy. It easy to close windows.
-    nmap <leader>q :q <RETURN>
-    nmap <leader>Q :q! <RETURN>
-
-" Quick edit and reload of .vimrc
+" Quick edit and reload .vimrc
     nmap <leader>sv :source $MYVIMRC <RETURN>
     nmap <leader>ev :vsplit $MYVIMRC <RETURN>
 
 " More complex keybindings
+    " Open a terminal
     nnoremap <leader>i :vsplit <RETURN> :terminal <RETURN> i
-    nmap <leader>K :grep! "\b<C-R><C-W>\b"<RETURN>:cw<RETURN>
+    " Search for word under cursor in current project
+    nmap <leader>K :grep! "\b<C-R><C-W>\b"<RETURN>:cw<RETURN><RETURN>
+    " Set spelling in the current buffer
     nmap <leader>o :setlocal spell! spelllang=en_us<RETURN>
+    " Move the current buffer to a new tab
     nmap <leader>T <C-W>T
 
 " Movement and split keybindings
@@ -381,4 +381,14 @@
         return result
     endfunction
     vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
+
+
+" Add todo highlighting
+    augroup myTodo
+        autocmd!
+        autocmd Syntax *  syntax match myTodo /\v\_.<(TODO|FIXME|NOTE|FIX),*/hs=s+1 containedin=.*Comment
+    augroup END
+    highlight link myTodo Todo
+
+" Highlight
 " }}}
