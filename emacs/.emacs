@@ -33,6 +33,7 @@
  gc-cons-threshold 50000000             ; Speed up emacs by makeing it's garbage collector run less often
  initial-scratch-message ""             ; Remove the default message from the scratch buffer
  truncate-lines t                       ; Turn off line wrapping
+ ;; TODO do a platform check and change this accordingly
  terminal-command "gnome-terminal"      ; Default terminal emulator
  echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
  python-shell-interpreter "python3"     ; Set the python interpreter to python3
@@ -43,12 +44,6 @@
  browse-url-generic-program "xdg-open"  ; Use xdg-open to determine what program to open files with
  font "Monospace 9"                     ; Set the font family and size
  frame-title-format "Emacs"             ; Set the title of the emacs frame
-
- ;; Enable and configure abbreviations checkout the emacs wiki for more info!
- ;; https://www.emacswiki.org/emacs/AbbrevMode
- abbrev-mode t
- save-abbrevs 'silent
- abbrev-file-name (concat user-emacs-directory ".abbrev-file")
 
  ;; Move emacs backup and autosave files to the system temporary directory instead of the current working directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -83,10 +78,17 @@
 ;;; Highlight the current line
 (global-hl-line-mode)
 
+;;; Turn on ido mode for better completions
+(ido-mode)
+
+;;; Display line numbers
+(global-display-line-numbers-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
 ;;;;;;;;;;;;;;;;;;;;
 
+;; TODO get something to deal with mode specific configurations
 ;;; Change to object pascal mode when working with pascal files
 (add-hook 'pascal-mode-hook 'opascal-mode)
 (add-hook 'opascal-mode-hook '(lambda () (setq opascal-indent-level 2))) ; Set indentation level to two spaces
@@ -111,8 +113,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 ;;; Switch out list-buffers with the newer ibuffer
 (defalias 'list-buffers 'ibuffer)
-;;; Only split windows right
-(defalias 'split-window-below 'split-window-right)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
@@ -121,7 +121,6 @@
 (defun install-use-package ()
   "Install use-package package manager if its not installed."
   (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
     (package-install 'use-package)))
 
 
@@ -232,10 +231,9 @@ Example usage:
             ;; TODO Look into dired+
             ("<f4>" . (lambda () (interactive) (dired ".")))
             ("M-<f4>" . delete-frame)
+            ;; TODO stop the popup window thats happening on this
             ("<f5>" . (lambda () (interactive) (shell-command terminal-command)))
             ("<f7>" . run-python)
-            ("<f8>" . revert-buffer)
-            ("<f12>" . global-display-line-numbers-mode)
             ("M-o" . other-window)
             ("M-O" . (lambda () (interactive) (other-window -1)))
             ("C-|" . (lambda () (interactive) (split-window-right) (balance-windows)))
@@ -281,40 +279,38 @@ Example usage:
 (add-to-list 'package-archives
              '("gnu" . "https://elpa.gnu.org/packages/") t)
 
+(package-refresh-contents)
 (install-use-package)
 
+(use-package moe-theme
+  :ensure t)
+
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t)
+
+(use-package color-theme-sanityinc-solarized
+  :ensure t)
+
+(use-package zenburn-theme
+  :ensure t)
+
 (if window-system
+    (load-theme 'zenburn t))
 
-    ;; (use-package moe-theme
-    ;;   :ensure t
-    ;;   :config
-    ;;   (load-theme 'moe-dark t))
-
-    (use-package color-theme-sanityinc-tomorrow
-      :ensure t
-      :config
-      (load-theme 'sanityinc-tomorrow-night t))
-
-    ;; (use-package dracula-theme
-    ;;   :ensure t
-    ;;   :config
-    ;;   (load-theme 'dracula t))
-
-    ;; (use-package color-theme-sanityinc-solarized
-    ;;   :ensure t
-    ;;   :config
-    ;;   (load-theme 'sanityinc-solarized-dark t))
-
-    ;; (use-package zenburn-theme
-    ;;   :ensure t
-    ;;   :config
-    ;;   (load-theme 'zenburn t))
-
-  )
+(use-package abbrev
+  :diminish abbrev-mode
+  :config
+  ;; Enable and configure abbreviations checkout the emacs wiki for more info!
+  ;; https://www.emacswiki.org/emacs/AbbrevMode
+  (setq-default
+   abbrev-mode t
+   save-abbrevs 'silent
+   abbrev-file-name (concat user-emacs-directory ".abbrev-file")))
 
 ;;; Model editing (kinda like vim)
 (use-package god-mode
   :ensure t
+  :diminish god-local-mode
   :bind
   ("M-." . god-mode-all)
   ("C-." . god-mode-all)
@@ -342,6 +338,7 @@ Example usage:
 ;;; Easily wrap selected regions
 (use-package wrap-region
   :ensure t
+  :diminish wrap-region-mode
   :config
   (wrap-region-global-mode t)
   (wrap-region-add-wrappers
@@ -374,40 +371,6 @@ Example usage:
   :config
   (global-company-mode))
 
-;; TODO See if this package is worth looking into
-;; https://github.com/magnars/multiple-cursors.el
-(use-package multiple-cursors
-  :ensure t
-  :bind
-  ("C-z m" . mc/mark-all-like-this)
-  ("C->"   . mc/mark-next-like-this)
-  ("C-<"   . mc/mark-previous-like-this))
-
-(use-package paredit
-  :ensure t)
-
-;;; Enhanced python mode
-(use-package elpy
-  :ensure t
-  :config
-  (add-hook 'elpy-mode-hook (lambda () (highlight-indentation-mode -1)))
-
-  (use-package flycheck
-    :ensure t)
-
-  (when (require 'flycheck nil t)
-    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-  (use-package jinja2-mode
-    :ensure t)
-
-  (use-package py-autopep8
-    :ensure t)
-
-  (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-  (elpy-enable))
-
 ;;; Amazing git integration for emacs
 (use-package magit
   :ensure t
@@ -429,6 +392,7 @@ Example usage:
 ;;; Show available functions / keys at the bottom of the screen
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :config
   (which-key-mode))
 
@@ -443,47 +407,25 @@ Example usage:
 (use-package diminish
   :ensure t
   :config
-  (diminish 'abbrev-mode)
   (diminish 'auto-revert-mode)
-  (diminish 'god-local-mode)
-  (diminish 'wrap-region-mode)
-  (diminish 'which-key-mode)
-  (diminish 'yas-minor-mode)
-  (diminish 'company-mode)
-  (diminish 'helm-mode)
-  (diminish 'elpy-mode)
-  (diminish 'flycheck-mode)
-
-  ;; For the plugins that load when the buffer is created
-  (add-hook 'company-mode-hook (lambda () (diminish 'company-mode)))
-  (add-hook 'hungry-delete-mode-hook (lambda () (diminish 'hungry-delete-mode)))
-  (add-hook 'beacon-mode-hook (lambda () (diminish 'beacon-mode)))
-  (add-hook 'helm-mode-hook (lambda () (diminish 'helm-mode)))
-  )
+  (diminish 'eldoc-mode))
 
 ;;; Delete all whitespace with one command
 (use-package hungry-delete
   :ensure t
+  :diminish hungry-delete-mode
   :config
   (global-hungry-delete-mode))
-
-;;; Better completion engine
-(use-package helm
-  :ensure t
-  :bind
-  ("M-x" . helm-M-x)
-  ("C-x C-f" . helm-find-files)
-  ("C-x C-b" . helm-buffers-list)
-  :config
-  (helm-mode 1))
 
 (use-package org-bullets
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;; TODO configure this
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :config
   (use-package yasnippet-snippets
     :ensure t))

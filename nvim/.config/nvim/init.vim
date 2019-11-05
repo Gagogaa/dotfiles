@@ -189,7 +189,7 @@ call vundle#end()
 " set laststatus=2
 
 " Set the status line to something useful
-    set statusline=%f\ %=L:%l/%L\ %c\ (%p%%)
+    set statusline=%t\ %=%{FugitiveStatusline()}\ L:%4l/%-4L\ %3c\ (%p%%)
 
 " Hide the toolbar
     set guioptions-=T
@@ -205,7 +205,7 @@ call vundle#end()
     set clipboard+=unnamedplus
 
 " Don't show intro
-    set shortmess+=I
+    set shortmess+=Is
 
 " Better splits (new windows appear below and to the right)
     set splitbelow
@@ -317,7 +317,7 @@ call vundle#end()
     " http://vim.wikia.com/wiki/Word_wrap_without_line_breaks
     autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
     autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi,md,html setlocal shiftwidth=2 tabstop=2 expandtab
-
+    autocmd Filetype go setlocal noexpandtab tabstop=8 shiftwidth=8 listchars=tab:\ \ ,trail:·
 
 " specify syntax highlighting for specific files
     autocmd Bufread,BufNewFile *.spv set filetype=php

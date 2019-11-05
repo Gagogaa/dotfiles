@@ -7,7 +7,7 @@
 # https://github.com/hakimel/reveal.js/wiki/Linux-udev-keys-binding
 #
 # To install place this file in '/etc/udev/hwdb.d/' like so:
-# sudo cp 61-chromebook-mappings.hwdb /etc/udev/hwdb.d/
+# sudo cp 61-*.hwdb /etc/udev/hwdb.d/
 #
 # Then reload udev:
 # sudo udevadm hwdb --update
