@@ -17,6 +17,7 @@
         "https://www.masteringemacs.org/"
         "https://www.emacswiki.org/"))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Built-In Customizations ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -42,8 +43,9 @@
  extended-command-suggest-shorter nil   ; Don't suggest shorter commands
  next-line-add-newlines t               ; Add newlines when moveing to the end of file
  browse-url-generic-program "xdg-open"  ; Use xdg-open to determine what program to open files with
- font "Monospace 9"                     ; Set the font family and size
+ font "Monospace 7"                     ; Set the font family and size
  frame-title-format "Emacs"             ; Set the title of the emacs frame
+ inhibit-startup-screen t               ; Stop the default emacs startup screen
 
  ;; Move emacs backup and autosave files to the system temporary directory instead of the current working directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -68,7 +70,7 @@
 (blink-cursor-mode -1)
 
 ;;; Setup fonts
-(set-default-font font)          ; Set the default font for the first frame
+(set-default-font font)     ; Set the default font for the first frame
 (set-face-attribute 'default nil :font font) ; Set the default front for future frames
 
 ;;; Show matching parentheses
@@ -76,7 +78,14 @@
 (show-paren-mode t)
 
 ;;; Highlight the current line
-(global-hl-line-mode)
+;; (global-hl-line-mode)
+
+;;; Move cursor by camelCase
+(global-subword-mode 1)
+
+;;; Enable interactive do
+(ido-mode)
+
 
 ;;; Turn on ido mode for better completions
 (ido-mode)
@@ -114,6 +123,7 @@
 ;;; Switch out list-buffers with the newer ibuffer
 (defalias 'list-buffers 'ibuffer)
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Custom Functions ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -122,7 +132,6 @@
   "Install use-package package manager if its not installed."
   (unless (package-installed-p 'use-package)
     (package-install 'use-package)))
-
 
 (defun transpose-windows ()
   "Swaps the current buffer with the next buffer."
@@ -136,7 +145,6 @@
     (other-window -1)
     (switch-to-buffer buffer2)
     (other-window 1)))
-
 
 (defun toggle-kbd-macro-recording ()
   "Toggles macro recording on and off with one command!;
@@ -152,7 +160,6 @@ Example:
   (if defining-kbd-macro
       (end-kbd-macro)
     (start-kbd-macro nil)))
-
 
 (defun set-keys (keymap pairs)
   "Binds a list of keys to a keymap
@@ -170,7 +177,6 @@ Example usage:
                 (cdr key-function-pair)))
           pairs))
 
-
 ;;; Open multiple marked files dired
 (eval-after-load "dired"
   '(progn
@@ -180,7 +186,6 @@ Example usage:
        (interactive "P")
        (let* ((fn-list (dired-get-marked-files nil arg)))
          (mapc 'find-file fn-list)))))
-
 
 (defun eshell-clear-buffer ()
   "Clear eshell terminal"
@@ -193,7 +198,6 @@ Example usage:
           '(lambda()
              (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
 
-
 ;;; TODO take a look into these functions to see if I want to keep them or not
 (defun push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
@@ -202,13 +206,11 @@ Example usage:
   (push-mark (point) t nil)
   (message "Pushed mark to ring"))
 
-
 (defun jump-to-mark ()
   "Jumps to the local mark, respecting the `mark-ring' order.
   This is the same as using \\[set-mark-command] with the prefix argument."
   (interactive)
   (set-mark-command 1))
-
 
 (defun exchange-point-and-mark-no-activate ()
   "Identical to \\[exchange-point-and-mark] but will not activate the region."
@@ -217,6 +219,7 @@ Example usage:
   (deactivate-mark nil))
 
 ;; (define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Keybindings ;;;;
@@ -258,14 +261,12 @@ Example usage:
             ("l" . view-lossage)
             ("b" . list-abbrevs)
             ("f" . find-file-at-point)
+            ("o" . other-frame)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Downloaded Packages ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; auto-install from git url!
-;; (auto-install-from-url "https://raw.github.com/jamcha-aa/auto-org-md/master/auto-org-md.el")
 
 (package-initialize)
 
@@ -429,6 +430,26 @@ Example usage:
   :config
   (use-package yasnippet-snippets
     :ensure t))
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package hl-todo
+  :ensure t
+  :config
+  (global-hl-todo-mode))
+
+;;; Load my startup file as the first buffer
+(find-file "~/.emacs.d/startup.org")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Abbrev Mode ;;;;
+;;;;;;;;;;;;;;;;;;;;;
+
+(define-abbrev-table 'opascal-mode-abbrev-table '(
+                                                  ("todo" "TODO -oGregory" nil 0)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Auto Generated Code ;;;;

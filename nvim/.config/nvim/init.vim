@@ -18,8 +18,9 @@
     Plugin 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_working_path_mode = 'ra'
     let g:ctrlp_switch_buffer = 'et'
+    let g:ctrlp_root_markers = ['requirements.txt']
     let g:ctrlp_map = '<leader>p'
-    let g:ctrlp_cmd = 'CtrlPMixed'
+    let g:ctrlp_cmd = 'CtrlP'
 
 
 " Comment things out
@@ -34,10 +35,10 @@
 
 
 " Easy Motion
-    " Plugin 'easymotion/vim-easymotion'
-    " let g:EasyMotion_do_mapping = 0
-    " let g:EasyMotion_smartcase =  1
-    " :nmap <leader>t <Plug>(easymotion-s)
+    Plugin 'easymotion/vim-easymotion'
+    let g:EasyMotion_do_mapping = 0
+    let g:EasyMotion_smartcase =  1
+    :nmap <leader>t <Plug>(easymotion-s)
 
 
 " IDE like auto complete
@@ -84,9 +85,8 @@
 
 
 " Quick highlight the line the cursor is on when searching in vim
-    " Plugin 'inside/vim-search-pulse'
-
-    " let g:vim_search_pulse_duration = 200
+    Plugin 'inside/vim-search-pulse'
+    let g:vim_search_pulse_duration = 200
 
 
 " Much better python syntax highlighting
@@ -101,7 +101,7 @@
     Plugin 'vim-scripts/scratch.vim'
 
 
-call vundle#end()
+    call vundle#end()
 " }}}
 
 " Settings {{{
@@ -169,7 +169,7 @@ call vundle#end()
     set shiftwidth=4
 
 " Turn on line numbers
-    set number
+    set number relativenumber
 
 " Turn on all mouse functions
     set mouse=a
@@ -263,18 +263,18 @@ call vundle#end()
     imap jk <ESC>
     tmap jk <C-\><C-n>
 
-" This one is because I'm lazy. It easy to close windows.
-    nmap <leader>q :q <RETURN>
-    nmap <leader>Q :q! <RETURN>
-
-" Quick edit and reload of .vimrc
+" Quick edit and reload .vimrc
     nmap <leader>sv :source $MYVIMRC <RETURN>
     nmap <leader>ev :vsplit $MYVIMRC <RETURN>
 
 " More complex keybindings
+    " Open a terminal
     nnoremap <leader>i :vsplit <RETURN> :terminal <RETURN> i
-    nmap <leader>K :grep! "\b<C-R><C-W>\b"<RETURN>:cw<RETURN>
+    " Search for word under cursor in current project
+    nmap <leader>K :grep! "\b<C-R><C-W>\b"<RETURN>:cw<RETURN><RETURN>
+    " Set spelling in the current buffer
     nmap <leader>o :setlocal spell! spelllang=en_us<RETURN>
+    " Move the current buffer to a new tab
     nmap <leader>T <C-W>T
 
 " Movement and split keybindings
@@ -318,11 +318,12 @@ call vundle#end()
     autocmd Filetype markdown setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
     autocmd FileType sh,cucumber,ruby,yaml,zsh,delphi,md,html setlocal shiftwidth=2 tabstop=2 expandtab
     autocmd Filetype go setlocal noexpandtab tabstop=8 shiftwidth=8 listchars=tab:\ \ ,trail:·
+    autocmd FileType delphi setlocal foldmethod=indent
+
 
 " specify syntax highlighting for specific files
-    autocmd Bufread,BufNewFile *.spv set filetype=php
     autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
-    autocmd Bufread,BufNewFile *.pas set filetype=delphi
+    autocmd Bufread,BufNewFile *.pas set filetype=delphi  " Use the new delphi syntax instead of the old pascal syntax
     autocmd Bufread,BufNewFile *.dpr set filetype=delphi
 
 
@@ -347,7 +348,7 @@ call vundle#end()
         endfor
         let expanded_cmdline = join(words)
         botright new
-        setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+        setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap
         silent execute '$read !'. expanded_cmdline
         1
     endfunction
@@ -367,4 +368,28 @@ call vundle#end()
         let g:ctrlp_user_command = 'rg --files %s --color=never --glob ""'
         let g:ctrlp_use_caching = 0
     endif
+
+
+" Visually select a block of code and press ~ to cycle between cases
+    function! TwiddleCase(str)
+        if a:str ==# toupper(a:str)
+            let result = tolower(a:str)
+        elseif a:str ==# tolower(a:str)
+            let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+        else
+            let result = toupper(a:str)
+        endif
+        return result
+    endfunction
+    vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
+
+
+" Add todo highlighting
+    augroup myTodo
+        autocmd!
+        autocmd Syntax *  syntax match myTodo /\v\_.<(TODO|FIXME|NOTE|FIX),*/hs=s+1 containedin=.*Comment
+    augroup END
+    highlight link myTodo Todo
+
+" Highlight
 " }}}
