@@ -12,3 +12,4 @@ export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 # For rust development
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 eval "$(rustup completions bash)"
+. "$HOME/.cargo/env"

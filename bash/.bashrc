@@ -33,5 +33,11 @@ fi
 [ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
 [ -f /etc/profile.d/autojump.bash ]               && source /etc/profile.d/autojump.bash
 
+[ -d ~/.cargo/bin/ ]                              && export PATH=$PATH:~/.cargo/bin
+[ -d ~/.local/bin/ ]                              && export PATH=$PATH:~/.local/bin
+
 # Load tmux on login and close the terminal when it exits
 # [ -z $TMUX ] && tmux attach-session
+
+. "$HOME/.cargo/env"
+

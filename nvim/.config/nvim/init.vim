@@ -5,6 +5,48 @@
 " ██╗╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
 " ╚═╝ ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 
+
+" Keybindings {{{
+" <leader> is <space>
+    let mapleader = " "
+    let maplocalleader ='\\'
+
+" Use jk to exit modes (jk not used often in english)
+    imap jk <ESC>
+    tmap jk <C-\><C-n>
+
+" Quick edit and reload .vimrc
+    nmap <leader>sv :source $MYVIMRC <RETURN>
+    nmap <leader>ev :vsplit $MYVIMRC <RETURN>
+
+" More complex keybindings
+    " Open a terminal
+    nnoremap <leader>t :vsplit <RETURN> :terminal <RETURN> i
+    " Search for word under cursor in current project
+    nmap <leader>K :grep! "\b<C-R><C-W>\b"<RETURN>:cw<RETURN><RETURN>
+    " Set spelling in the current buffer
+    nmap <leader>o :setlocal spell! spelllang=en_us<RETURN>
+    " Move the current buffer to a new tab
+    nmap <leader>T <C-W>T
+
+" Movement and split keybindings
+    nmap <leader>\| :vsplit <RETURN>
+    nmap <leader>- :split <RETURN>
+    nmap <C-J> <C-W><C-J>
+    nmap <C-K> <C-W><C-K>
+    nmap <C-L> <C-W><C-L>
+    nmap <C-H> <C-W><C-H>
+
+" Terminal Keybindings
+    tnoremap <Esc> <C-\><C-n>
+
+" Remove Highlighting
+    nmap <leader>u :nohl <RETURN>
+
+" Plugin Bindings
+    nmap <leader>b :CtrlPBuffer<RETURN>
+" }}}
+
 " Plugins {{{
     set rtp+=~/.config/nvim/bundle/Vundle.vim
     call vundle#begin('~/.config/nvim/bundle')
@@ -15,44 +57,48 @@
 
 
 " Ctrlp fuzzy finder
-    Plugin 'ctrlpvim/ctrlp.vim'
-    let g:ctrlp_working_path_mode = 'ra'
-    let g:ctrlp_switch_buffer = 'et'
-    let g:ctrlp_root_markers = ['requirements.txt']
-    let g:ctrlp_map = '<leader>p'
-    let g:ctrlp_cmd = 'CtrlP'
+    " Plugin 'ctrlpvim/ctrlp.vim'
+    " let g:ctrlp_working_path_mode = 'ra'
+    " let g:ctrlp_switch_buffer = 'et'
+    " let g:ctrlp_root_markers = ['requirements.txt']
+    " let g:ctrlp_map = '<leader>p'
+    " let g:ctrlp_cmd = 'CtrlP'
 
 
 " Comment things out
-    Plugin 'tpope/vim-commentary'
+    " Plugin 'tpope/vim-commentary'
 
 
 " Display git changes in the gutter
 " TODO See if I can edit the colors / symbols that are used
 " Also read the documentation on this because it seems to have way more
 " features than just displaying gutters.
-     Plugin 'airblade/vim-gitgutter'
+     " Plugin 'airblade/vim-gitgutter'
 
 
 " Easy Motion
     Plugin 'easymotion/vim-easymotion'
     let g:EasyMotion_do_mapping = 0
     let g:EasyMotion_smartcase =  1
-    :nmap <leader>t <Plug>(easymotion-s)
+    :nmap <leader>i <Plug>(easymotion-overwin-f)
 
 
 " IDE like auto complete
     " Plugin 'valloric/youcompleteme'
 
 
+" Language plugin
+    Plugin 'sheerun/vim-polyglot'
+
+
 " Surround things
-    Plugin 'tpope/vim-surround'
+    " Plugin 'tpope/vim-surround'
 
 
 " Align code
 " TODO: Read through the documentation for this on
 " :help tabular
-    Plugin 'godlygeek/tabular'
+    " Plugin 'godlygeek/tabular'
 
 
 " Use <tab> for completions
@@ -61,44 +107,40 @@
 
 
 " Git stuff
-    Plugin 'tpope/vim-fugitive'
-
-
-" Bulk file rename in vim
-    Plugin 'qpkorr/vim-renamer'
+   " Plugin 'tpope/vim-fugitive'
 
 
 " A color scheme for vim that uses the default terminal colors
-    Plugin 'noahfrederick/vim-noctu'
+   " Plugin 'noahfrederick/vim-noctu'
 
 
 " Delphi plugin
-    Plugin 'rkennedy/vim-delphi'
-
-
-" Focus writing mode for vim
-    Plugin 'junegunn/goyo.vim'
+   " Plugin 'rkennedy/vim-delphi'
 
 
 " Meson syntax and more
-    Plugin 'igankevich/mesonic'
-
-
-" Quick highlight the line the cursor is on when searching in vim
-    Plugin 'inside/vim-search-pulse'
-    let g:vim_search_pulse_duration = 200
-
-
-" Much better python syntax highlighting
-    " Plugin 'numirias/semshi'
+   " Plugin 'igankevich/mesonic'
 
 
 " Better markdown plugin
-    Plugin 'plasticboy/vim-markdown'
+    " Plugin 'plasticboy/vim-markdown'
 
 
 " Add scratch buffers to vim
-    Plugin 'vim-scripts/scratch.vim'
+   " Plugin 'vim-scripts/scratch.vim'
+
+
+" Insert pairs when typeing
+    Plugin 'jiangmiao/auto-pairs'
+
+
+" Fuzzy search
+"    Plugin 'junegunn/fzf'
+
+
+" Vim snippets
+    Plugin 'mattn/emmet-vim'
+    let g:user_emmet_mode='a'
 
 
     call vundle#end()
@@ -189,7 +231,8 @@
 " set laststatus=2
 
 " Set the status line to something useful
-    set statusline=%t\ %=%{FugitiveStatusline()}\ L:%4l/%-4L\ %3c\ (%p%%)
+    " set statusline=%t\ %=%{FugitiveStatusline()}\ L:%4l/%-4L\ %3c\ (%p%%)
+    set statusline=%t\ L:%4l/%-4L\ %3c\ (%p%%)
 
 " Hide the toolbar
     set guioptions-=T
@@ -199,6 +242,7 @@
 
 " Autoload files that have changed outside of vim
     set autoread
+    au CursorHold * checktime
 
 " Use system clipboard
 " http://stackoverflow.com/questions/8134647/copy-and-paste-in-vim-via-keyboard-between-different-mac-terminals
@@ -251,48 +295,7 @@
     set colorcolumn=80
 
 " Set the colot scheme
-    colorscheme noctu
-" }}}
-
-" Keybindings {{{
-" <leader> is <space>
-    let mapleader = " "
-    let maplocalleader ='\\'
-
-" Use jk to exit modes (jk not used often in english)
-    imap jk <ESC>
-    tmap jk <C-\><C-n>
-
-" Quick edit and reload .vimrc
-    nmap <leader>sv :source $MYVIMRC <RETURN>
-    nmap <leader>ev :vsplit $MYVIMRC <RETURN>
-
-" More complex keybindings
-    " Open a terminal
-    nnoremap <leader>i :vsplit <RETURN> :terminal <RETURN> i
-    " Search for word under cursor in current project
-    nmap <leader>K :grep! "\b<C-R><C-W>\b"<RETURN>:cw<RETURN><RETURN>
-    " Set spelling in the current buffer
-    nmap <leader>o :setlocal spell! spelllang=en_us<RETURN>
-    " Move the current buffer to a new tab
-    nmap <leader>T <C-W>T
-
-" Movement and split keybindings
-    nmap <leader>\| :vsplit <RETURN>
-    nmap <leader>- :split <RETURN>
-    nmap <C-J> <C-W><C-J>
-    nmap <C-K> <C-W><C-K>
-    nmap <C-L> <C-W><C-L>
-    nmap <C-H> <C-W><C-H>
-
-" Terminal Keybindings
-    tnoremap <Esc> <C-\><C-n>
-
-" Plugin Bindings
-    " nmap <leader>n :NERDTreeToggle<RETURN>
-    nmap <leader>f :Goyo<RETURN>
-    nmap <leader>rr :Renamer<RETURN>
-    nmap <leader>b :CtrlPBuffer<RETURN>
+   " colorscheme noctu
 " }}}
 
 " Commands {{{
@@ -307,6 +310,8 @@
         if &ft =~ 'markdown'
             return
         endif
+        " TODO -oGregory See if I can set a mark before removing the
+        " whitespace then set our cursors back at the mark afterwards
         %s/\s\+$//e
     endfun
     autocmd BufWritePre * call StripTrailingWhitespace()
@@ -392,4 +397,12 @@
     highlight link myTodo Todo
 
 " Highlight
+" }}}
+
+" Startup {{{
+" }}}
+
+" Abbreviations {{{
+    iabbrev teh the
+    iabbrev -g -oGregory
 " }}}

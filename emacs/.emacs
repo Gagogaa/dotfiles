@@ -12,8 +12,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq Awesome-Emacs-Sources
-      '("http://ergoemacs.org/emacs/emacs.html"
-        "http://sachachua.com/blog/"
+      '("http://sachachua.com/blog/"
         "https://www.masteringemacs.org/"
         "https://www.emacswiki.org/"))
 
@@ -24,28 +23,30 @@
 
 ;;; Change a buch of the default settings
 (setq-default
- indent-tabs-mode nil                   ; Insert spaces not tabs
- c-default-style "bsd"                  ; Customize c mode for the indentation style that I like
- c-basic-offset 4                       ; Set c indentation width
- tab-width 4                            ; Set tab size to 4 spaces
- ring-bell-function 'ignore             ; Turn off the aweful bell
- delete-by-moving-to-trash t            ; Move files to trash instead of deleting them
- vc-follow-symlinks t                   ; Auto follow sym-links
- gc-cons-threshold 50000000             ; Speed up emacs by makeing it's garbage collector run less often
- initial-scratch-message ""             ; Remove the default message from the scratch buffer
- truncate-lines t                       ; Turn off line wrapping
+ indent-tabs-mode nil                    ; Insert spaces not tabs
+ c-default-style "bsd"                   ; Customize c mode for the indentation style that I like
+ c-basic-offset 4                        ; Set c indentation width
+ tab-width 4                             ; Set tab size to 4 spaces
+ ring-bell-function 'ignore              ; Turn off the awful bell
+ delete-by-moving-to-trash t             ; Move files to trash instead of deleting them
+ vc-follow-symlinks t                    ; Auto follow sym-links
+ gc-cons-threshold 50000000              ; Speed up Emacs by making it's garbage collector run less often
+ initial-scratch-message ""              ; Remove the default message from the scratch buffer
+ truncate-lines t                        ; Turn off line wrapping
  ;; TODO do a platform check and change this accordingly
- terminal-command "gnome-terminal"      ; Default terminal emulator
- echo-keystrokes 0                      ; Don't show keystrokes in the minibuffer
- python-shell-interpreter "python3"     ; Set the python interpreter to python3
- inferior-lisp-program "sbcl"           ; Set the lisp interpreter to sbcl
- inhibit-startup-echo-area-message t    ; Don't display a startup message
- extended-command-suggest-shorter nil   ; Don't suggest shorter commands
- next-line-add-newlines t               ; Add newlines when moveing to the end of file
- browse-url-generic-program "xdg-open"  ; Use xdg-open to determine what program to open files with
- font "Monospace 7"                     ; Set the font family and size
- frame-title-format "Emacs"             ; Set the title of the emacs frame
- inhibit-startup-screen t               ; Stop the default emacs startup screen
+ terminal-command "gnome-terminal"       ; Default terminal emulator
+ echo-keystrokes 0                       ; Don't show keystrokes in the minibuffer
+ python-shell-interpreter "python3"      ; Set the python interpreter to python3
+ inferior-lisp-program "chezscheme"      ; Set the lisp interpreter to sbcl
+ inhibit-startup-echo-area-message t     ; Don't display a startup message
+ extended-command-suggest-shorter nil    ; Don't suggest shorter commands
+ next-line-add-newlines t                ; Add newlines when moveing to the end of file
+ browse-url-generic-program "xdg-open"   ; Use xdg-open to determine what program to open files with
+ font "Agave 11"                     ; Set the font family and size
+ frame-title-format "Emacs 📝"           ; Set the title of the emacs frame
+ inhibit-startup-screen t                ; Stop the default emacs startup screen
+ diff-font-lock-prettify t               ; Better looking diffs
+ warning-minimum-level :emergency        ; Set the warning level to something less pedantic
 
  ;; Move emacs backup and autosave files to the system temporary directory instead of the current working directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -70,7 +71,7 @@
 (blink-cursor-mode -1)
 
 ;;; Setup fonts
-(set-default-font font)     ; Set the default font for the first frame
+;(set-default-font font)     ; Set the default font for the first frame
 (set-face-attribute 'default nil :font font) ; Set the default front for future frames
 
 ;;; Show matching parentheses
@@ -83,15 +84,14 @@
 ;;; Move cursor by camelCase
 (global-subword-mode 1)
 
-;;; Enable interactive do
-(ido-mode)
-
-
 ;;; Turn on ido mode for better completions
-(ido-mode)
+;; (ido-mode)
 
 ;;; Display line numbers
 (global-display-line-numbers-mode)
+
+;;; Enable pixel perfect mouse scrolling
+(pixel-scroll-precision-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Convenance ;;;;
@@ -226,6 +226,7 @@ Example usage:
 ;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Change keys in the global map
+;;; TODO In the lambda functions only the first function is called not the other functions...
 (set-keys global-map
           '(("<f1>" . call-last-kbd-macro)
             ("S-<f1>" . toggle-kbd-macro-recording)
@@ -268,20 +269,17 @@ Example usage:
 ;;;; Downloaded Packages ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(package-initialize)
 
 ;;; Add in additional package archives
 (add-to-list 'package-archives
-             '("marmalade" . "https://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
              '("gnu" . "https://elpa.gnu.org/packages/") t)
 
-(package-refresh-contents)
-(install-use-package)
+;; (package-refresh-contents)
+;; (install-use-package)
 
 (use-package moe-theme
   :ensure t)
@@ -296,7 +294,7 @@ Example usage:
   :ensure t)
 
 (if window-system
-    (load-theme 'zenburn t))
+    (load-theme 'sanityinc-solarized-dark t))
 
 (use-package abbrev
   :diminish abbrev-mode
@@ -337,26 +335,26 @@ Example usage:
   ("C-:" . er/contract-region))
 
 ;;; Easily wrap selected regions
-(use-package wrap-region
-  :ensure t
-  :diminish wrap-region-mode
-  :config
-  (wrap-region-global-mode t)
-  (wrap-region-add-wrappers
-   '(("(" ")")
-     ("[" "]")
-     ("{" "}")
-     ("<" ">")
-     ("'" "'")
-     ("\"" "\"")
-     ("‘" "’"   "q")
-     ("“" "”"   "Q")
-     ("_" "_"   "u"   markdown-mode)  ; underline
-     ("**" "**" "b"   markdown-mode)  ; bolden
-     ("*" "*"   "i"   markdown-mode)  ; italics
-     ("`" "`"   "c"   markdown-mode)  ; code
-     ("begin\n" "\nend\n" "b" opascal-mode)
-     )))
+;; (use-package wrap-region
+;;   :ensure t
+;;   :diminish wrap-region-mode
+;;   :config
+;;   (wrap-region-global-mode t)
+;;   (wrap-region-add-wrappers
+;;    '(("(" ")")
+;;      ("[" "]")
+;;      ("{" "}")
+;;      ("<" ">")
+;;      ("'" "'")
+;;      ("\"" "\"")
+;;      ("‘" "’"   "q")
+;;      ("“" "”"   "Q")
+;;      ("_" "_"   "u"   markdown-mode)  ; underline
+;;      ("**" "**" "b"   markdown-mode)  ; bolden
+;;      ("*" "*"   "i"   markdown-mode)  ; italics
+;;      ("`" "`"   "c"   markdown-mode)  ; code
+;;      ("begin\n" "\nend;\n" "b" opascal-mode)
+;;      )))
 
 ;;; Jump to text
 (use-package ace-jump-mode
@@ -397,12 +395,17 @@ Example usage:
   :config
   (which-key-mode))
 
-;;; Display a better status bar
-(use-package powerline
+;; ;;; Display a better status bar
+;; (use-package powerline
+;;   :ensure t
+;;   :config
+;;   (setq powerline-default-separator 'wave)
+;;   (powerline-default-theme))
+
+;;; Trying a modeline
+(use-package doom-modeline
   :ensure t
-  :config
-  (setq powerline-default-separator 'wave)
-  (powerline-default-theme))
+  :init (doom-modeline-mode 1))
 
 ;;; Remove active modes from the status bar so it't not so cluttered
 (use-package diminish
@@ -431,16 +434,53 @@ Example usage:
   (use-package yasnippet-snippets
     :ensure t))
 
-(use-package yaml-mode
-  :ensure t)
+;; (use-package yaml-mode
+;;   :ensure t)
 
 (use-package hl-todo
   :ensure t
   :config
   (global-hl-todo-mode))
 
+;; TODO Take a good look at helm mode. It seems to be a very powerfull tool
+;; (use-package helm
+;;   :ensure t
+;;   :bind
+;;   ("M-x" . helm-M-x)
+;;   ("C-x b" . helm-mini)
+;;   ("C-x C-f" . helm-find-files)
+;;   :diminish helm-mode
+;;   :config
+;;   (require 'helm-config)
+;;   (helm-mode 1)
+;;   (setq helm-buffers-fuzzy-matching t
+;;         helm-recentf-fuzzy-match    t))
+
+(use-package python
+  :ensure t)
+
+
+(use-package vertico
+  :ensure t
+  :config
+  (vertico-mode))
+
+;; (use-package pdf-tools
+;;   :config
+;;   (pdf-tools-install))
+
+;; (use-package unicode-fonts
+;;   :ensure t
+;;   :config
+;;   (unicode-fonts-setup))
+
+;; (use-package dumb-jump
+;;   :ensure t
+;;   :config
+;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
 ;;; Load my startup file as the first buffer
-(find-file "~/.emacs.d/startup.org")
+(find-file "~/Sync")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

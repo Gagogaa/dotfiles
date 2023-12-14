@@ -5,12 +5,16 @@ alias la='ls -AF --color=auto'
 alias lla='ls -lAFh --color=auto'
 
 alias e='$EDITOR'
+alias g='git'
 alias vim='nvim'
 alias vi='nvim'
 alias r='source ~/.profile'
 alias open='xdg-open $1 2>>/dev/null'
 alias less='less -R'
+alias sl='sl -e'
 
 alias grep='grep --color=auto'
 alias info='info --vi-keys'
 alias rg='rg --color=always'
+
+alias dr='docker'
