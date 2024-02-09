@@ -42,11 +42,12 @@
  extended-command-suggest-shorter nil    ; Don't suggest shorter commands
  next-line-add-newlines t                ; Add newlines when moveing to the end of file
  browse-url-generic-program "xdg-open"   ; Use xdg-open to determine what program to open files with
- font "Agave 11"                     ; Set the font family and size
+ font "Cascadia Code 10"                          ; Set the font family and size
  frame-title-format "Emacs 📝"           ; Set the title of the emacs frame
  inhibit-startup-screen t                ; Stop the default emacs startup screen
  diff-font-lock-prettify t               ; Better looking diffs
  warning-minimum-level :emergency        ; Set the warning level to something less pedantic
+ display-line-numbers-type 'relative     ; Display line numbers relative to the cursor
 
  ;; Move emacs backup and autosave files to the system temporary directory instead of the current working directory
  backup-directory-alist `((".*" . ,temporary-file-directory))
@@ -90,7 +91,7 @@
 ;;; Display line numbers
 (global-display-line-numbers-mode)
 
-;;; Enable pixel perfect mouse scrolling
+;;; Enable pixel perfect mouse scrolling. The effect is most noticeable when using a touch pad.
 (pixel-scroll-precision-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -240,8 +241,8 @@ Example usage:
             ("<f7>" . run-python)
             ("M-o" . other-window)
             ("M-O" . (lambda () (interactive) (other-window -1)))
-            ("C-|" . (lambda () (interactive) (split-window-right) (balance-windows)))
-            ("C--" . (lambda () (interactive) (split-window-below) (balance-windows)))
+            ("C-|" . (lambda () (interactive) (split-window-right) (balance-windows) (other-window 1)))
+            ("C--" . (lambda () (interactive) (split-window-below) (balance-windows) (other-window 1)))
             ("C-M-<backspace>" . (lambda () (interactive) (delete-window) (balance-windows)))
             ("C-x C-o" . transpose-windows)
             ("C-x C-k" . kill-this-buffer)
@@ -263,6 +264,9 @@ Example usage:
             ("b" . list-abbrevs)
             ("f" . find-file-at-point)
             ("o" . other-frame)
+            ("b" . list-bookmarks)
+            ("m" . bookmark-set)
+            ("r" . bookmark-delete)
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -294,7 +298,7 @@ Example usage:
   :ensure t)
 
 (if window-system
-    (load-theme 'sanityinc-solarized-dark t))
+    (load-theme 'zenburn t))
 
 (use-package abbrev
   :diminish abbrev-mode
@@ -335,26 +339,26 @@ Example usage:
   ("C-:" . er/contract-region))
 
 ;;; Easily wrap selected regions
-;; (use-package wrap-region
-;;   :ensure t
-;;   :diminish wrap-region-mode
-;;   :config
-;;   (wrap-region-global-mode t)
-;;   (wrap-region-add-wrappers
-;;    '(("(" ")")
-;;      ("[" "]")
-;;      ("{" "}")
-;;      ("<" ">")
-;;      ("'" "'")
-;;      ("\"" "\"")
-;;      ("‘" "’"   "q")
-;;      ("“" "”"   "Q")
-;;      ("_" "_"   "u"   markdown-mode)  ; underline
-;;      ("**" "**" "b"   markdown-mode)  ; bolden
-;;      ("*" "*"   "i"   markdown-mode)  ; italics
-;;      ("`" "`"   "c"   markdown-mode)  ; code
-;;      ("begin\n" "\nend;\n" "b" opascal-mode)
-;;      )))
+(use-package wrap-region
+  :ensure t
+  :diminish wrap-region-mode
+  :config
+  (wrap-region-global-mode t)
+  (wrap-region-add-wrappers
+   '(("(" ")")
+     ("[" "]")
+     ("{" "}")
+     ("<" ">")
+     ("'" "'")
+     ("\"" "\"")
+     ("‘" "’"   "q")
+     ("“" "”"   "Q")
+     ("_" "_"   "u"   markdown-mode)  ; underline
+     ("**" "**" "b"   markdown-mode)  ; bolden
+     ("*" "*"   "i"   markdown-mode)  ; italics
+     ("`" "`"   "c"   markdown-mode)  ; code
+     ("begin\n" "\nend;\n" "b" opascal-mode)
+     )))
 
 ;;; Jump to text
 (use-package ace-jump-mode
@@ -459,11 +463,24 @@ Example usage:
 (use-package python
   :ensure t)
 
+(use-package markdown-mode
+  :ensure t)
 
 (use-package vertico
   :ensure t
   :config
   (vertico-mode))
+
+
+(use-package orderless
+  :ensure t
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(substring orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
 
 ;; (use-package pdf-tools
 ;;   :config
@@ -480,7 +497,7 @@ Example usage:
 ;;   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 ;;; Load my startup file as the first buffer
-(find-file "~/Sync")
+(find-file "~/Startup.org")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
